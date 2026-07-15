@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: educenter-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: educenter
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - educenter-network
+
+  redis:
+    image: redis:alpine
+    container_name: educenter-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - educenter-network
+
+  maildev:
+    image: maildev/maildev
+    container_name: educenter-maildev
+    restart: always
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - educenter-network
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  educenter-network:
+    driver: bridge

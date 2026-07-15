@@ -1,0 +1,31 @@
+# Dependency directories
+node_modules/
+vendor/
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / Editor logs and configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System generated files
+.system_generated/
+.gemini/
+.agents/
+storage/app/public/
+public/storage
+bootstrap/cache/*.php
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*.php

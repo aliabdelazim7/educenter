@@ -1,0 +1,121 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { Login } from './pages/Login'
+import { Register } from './pages/Register'
+import { Dashboard } from './pages/Dashboard'
+import { Branches } from './pages/Branches'
+import { AcademicHub } from './pages/AcademicHub'
+import { AttendanceBoard } from './pages/AttendanceBoard'
+import { LedgerBoard } from './pages/LedgerBoard'
+import { POSRegister } from './pages/POSRegister'
+import { InventoryBoard } from './pages/InventoryBoard'
+import { Settings } from './pages/Settings'
+import { Unauthorized } from './pages/Unauthorized'
+import { Students } from './pages/Students'
+import { Teachers } from './pages/Teachers'
+
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public authentication routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+
+          {/* Protected tenant routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/branches"
+            element={
+              <ProtectedRoute requiredPermission="view branches">
+                <Branches />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/academic"
+            element={
+              <ProtectedRoute requiredPermission="view academic">
+                <AcademicHub />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/attendance/:sessionId"
+            element={
+              <ProtectedRoute requiredPermission="mark attendance">
+                <AttendanceBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/financials"
+            element={
+              <ProtectedRoute requiredPermission="view financial">
+                <LedgerBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pos"
+            element={
+              <ProtectedRoute requiredPermission="view pos">
+                <POSRegister />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/students"
+            element={
+              <ProtectedRoute requiredPermission="view students">
+                <Students />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teachers"
+            element={
+              <ProtectedRoute requiredPermission="view teachers">
+                <Teachers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/inventory"
+            element={
+              <ProtectedRoute requiredPermission="view inventory">
+                <InventoryBoard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute requiredPermission="manage settings">
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Root fallback redirects to dashboard */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          
+          {/* Catch-all redirect to dashboard */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  )
+}
+
+export default App
