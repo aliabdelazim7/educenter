@@ -102,9 +102,10 @@
     border-color: var(--color-border);
   }
   body {
-    background-color: #090d16;
-    color: #f1f5f9;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }

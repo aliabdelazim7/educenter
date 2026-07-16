@@ -180,15 +180,15 @@ export const Exams: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1 text-right">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">رصد درجات امتحانات الطلاب</h1>
-            <p className="text-sm text-slate-400">سجل اختبارات الطلاب الدورية وارصد درجاتهم لمتابعة مستوياتهم التعليمية.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">رصد درجات امتحانات الطلاب</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">سجل اختبارات الطلاب الدورية وارصد درجاتهم لمتابعة مستوياتهم التعليمية.</p>
           </div>
           <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
             ← لوحة التحكم
@@ -216,7 +216,7 @@ export const Exams: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl">
             {/* Create Exam Panel */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
               <h2 className="text-lg font-bold text-slate-350 flex items-center gap-2 text-right">
                 <CheckSquare className="h-5 w-5 text-violet-400" />
                 <span>إنشاء امتحان جديد</span>
@@ -225,12 +225,12 @@ export const Exams: React.FC = () => {
               <form onSubmit={handleCreateExam} className="space-y-4">
                 {/* Select Group */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">المجموعة المستهدفة</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">المجموعة المستهدفة</label>
                   <select
                     required
                     value={selectedGroup}
                     onChange={(e) => setSelectedGroup(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="">اختر المجموعة...</option>
                     {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -239,38 +239,38 @@ export const Exams: React.FC = () => {
 
                 {/* Exam Title */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">عنوان الامتحان / الاختبار</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">عنوان الامتحان / الاختبار</label>
                   <input
                     type="text"
                     required
                     placeholder="مثال: اختبار الجبر شهر أكتوبر"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   />
                 </div>
 
                 {/* Exam Date */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">تاريخ الامتحان</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">تاريخ الامتحان</label>
                   <input
                     type="date"
                     required
                     value={examDate}
                     onChange={(e) => setExamDate(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   />
                 </div>
 
                 {/* Max Score */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">الدرجة النهائية الكبرى</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">الدرجة النهائية الكبرى</label>
                   <input
                     type="number"
                     required
                     value={maxScore}
                     onChange={(e) => setMaxScore(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
                   />
                 </div>
 
@@ -296,15 +296,15 @@ export const Exams: React.FC = () => {
                 <h3 className="text-lg font-bold text-slate-350 text-right">نماذج الاختبارات المسجلة</h3>
                 
                 {exams.length === 0 ? (
-                  <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
                     <CheckSquare className="h-10 w-10 mx-auto mb-4 text-slate-650" />
                     <p className="text-sm font-semibold">لم يتم إنشاء أي اختبارات بعد.</p>
                   </div>
                 ) : (
-                  <div className="rounded-xl border border-slate-900 bg-slate-950/40 overflow-hidden">
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
                     <table className="w-full text-right border-collapse text-sm">
                       <thead>
-                        <tr className="border-b border-slate-900 bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
+                        <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
                           <th className="px-6 py-4">اسم الامتحان</th>
                           <th className="px-6 py-4">المجموعة المستهدفة</th>
                           <th className="px-6 py-4">الدرجة الكبرى</th>
@@ -316,13 +316,13 @@ export const Exams: React.FC = () => {
                           <tr
                             key={exam.id}
                             onClick={() => handleExamSelect(exam)}
-                            className={`hover:bg-slate-900/20 transition-all cursor-pointer ${
+                            className={`hover:bg-slate-50 dark:bg-slate-900/20 transition-all cursor-pointer ${
                               selectedExam?.id === exam.id ? 'bg-violet-600/10 border-r-2 border-violet-500' : ''
                             }`}
                           >
-                            <td className="px-6 py-4 font-bold text-slate-200">{exam.title}</td>
-                            <td className="px-6 py-4 text-slate-400">{exam.group?.name || 'عام'}</td>
-                            <td className="px-6 py-4 text-slate-300 font-bold">{exam.max_score} درجة</td>
+                            <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{exam.title}</td>
+                            <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{exam.group?.name || 'عام'}</td>
+                            <td className="px-6 py-4 text-slate-700 dark:text-slate-300 font-bold">{exam.max_score} درجة</td>
                             <td className="px-6 py-4 text-slate-500 font-mono">{exam.exam_date}</td>
                           </tr>
                         ))}
@@ -334,10 +334,10 @@ export const Exams: React.FC = () => {
 
               {/* Roster Grading List */}
               {selectedExam && (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
-                  <div className="flex justify-between items-center border-b border-slate-900 pb-3">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+                  <div className="flex justify-between items-center border-b border-slate-200 dark:border-slate-900 pb-3">
                     <div className="text-right">
-                      <h3 className="text-sm font-bold text-slate-200">رصد الدرجات: {selectedExam.title}</h3>
+                      <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">رصد الدرجات: {selectedExam.title}</h3>
                       <p className="text-xs text-slate-500 mt-0.5">درجة النهاية الكبرى: {selectedExam.max_score}</p>
                     </div>
                     <Users className="h-5 w-5 text-violet-400" />
@@ -354,7 +354,7 @@ export const Exams: React.FC = () => {
                       <div className="divide-y divide-slate-900 max-h-72 overflow-y-auto pr-1">
                         {roster.map((row) => (
                           <div key={row.studentId} className="flex justify-between items-center py-3 text-xs" dir="rtl">
-                            <span className="font-bold text-slate-300 flex-1 text-right">{row.name}</span>
+                            <span className="font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">{row.name}</span>
                             <div className="flex items-center gap-2 shrink-0">
                               <input
                                 type="number"
@@ -364,7 +364,7 @@ export const Exams: React.FC = () => {
                                 placeholder="رصد الدرجة..."
                                 value={row.score}
                                 onChange={(e) => handleScoreChange(row.studentId, e.target.value)}
-                                className="w-24 rounded bg-slate-900 border border-slate-800 px-3 py-1.5 text-right text-xs outline-none focus:border-violet-500 font-mono text-slate-200"
+                                className="w-24 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-right text-xs outline-none focus:border-violet-500 font-mono text-slate-800 dark:text-slate-200"
                               />
                               <span className="text-slate-500 text-[10px]">من {selectedExam.max_score}</span>
                             </div>

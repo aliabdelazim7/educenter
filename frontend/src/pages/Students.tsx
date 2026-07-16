@@ -186,15 +186,15 @@ export const Students: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1 text-right">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">شؤون الطلاب والمشتركين</h1>
-            <p className="text-sm text-slate-400">سجل الطلاب الجدد، تابع جداولهم الزمنية، وتجديد اشتراكاتهم بلمسة واحدة.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">شؤون الطلاب والمشتركين</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">سجل الطلاب الجدد، تابع جداولهم الزمنية، وتجديد اشتراكاتهم بلمسة واحدة.</p>
           </div>
           <div className="flex gap-4">
             <button
@@ -232,18 +232,18 @@ export const Students: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl">
             {/* Student Registry Table */}
             <div className="lg:col-span-2 space-y-4">
-              <h2 className="text-lg font-bold text-slate-300 text-right">قائمة الطلاب الحالية</h2>
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 text-right">قائمة الطلاب الحالية</h2>
               
               {students.length === 0 ? (
-                <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                  <Users className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                  <Users className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                   <p className="text-sm font-semibold">لا يوجد طلاب مسجلين بالسيستم حالياً.</p>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 overflow-hidden">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
                   <table className="w-full text-right border-collapse text-sm">
                     <thead>
-                      <tr className="border-b border-slate-900 bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
+                      <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
                         <th className="px-6 py-4">الاسم بالكامل</th>
                         <th className="px-6 py-4">البريد الإلكتروني</th>
                         <th className="px-6 py-4">الباركود</th>
@@ -255,12 +255,12 @@ export const Students: React.FC = () => {
                         <tr
                           key={student.id}
                           onClick={() => handleStudentSelect(student)}
-                          className={`hover:bg-slate-900/20 transition-all cursor-pointer ${
+                          className={`hover:bg-slate-50 dark:bg-slate-900/20 transition-all cursor-pointer ${
                             selectedStudent?.id === student.id ? 'bg-violet-600/10 border-r-2 border-violet-500' : ''
                           }`}
                         >
-                          <td className="px-6 py-4 font-bold text-slate-200">{student.user.name}</td>
-                          <td className="px-6 py-4 text-slate-400">{student.user.email}</td>
+                          <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{student.user.name}</td>
+                          <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{student.user.email}</td>
                           <td className="px-6 py-4 text-slate-500 font-mono">{student.barcode || 'لا يوجد'}</td>
                           <td className="px-6 py-4">
                             <span className="inline-flex items-center gap-1 text-violet-400 font-mono">
@@ -279,22 +279,22 @@ export const Students: React.FC = () => {
             {/* Sidebar Details, Timeline, & Quick Actions */}
             <div className="space-y-6">
               {selectedStudent ? (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
                   {/* Selected Profile Header */}
-                  <div className="border-b border-slate-900 pb-4 text-right">
-                    <h3 className="text-base font-bold text-slate-200">{selectedStudent.user.name}</h3>
+                  <div className="border-b border-slate-200 dark:border-slate-900 pb-4 text-right">
+                    <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">{selectedStudent.user.name}</h3>
                     <p className="text-xs text-slate-500">{selectedStudent.user.email}</p>
                   </div>
 
                   {/* Quick Action: Assign Group */}
                   <form onSubmit={handleEnrollGroup} className="space-y-3">
-                    <label className="text-xs font-bold text-slate-400 block text-right">تسكين الطالب في مجموعة دراسية</label>
+                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block text-right">تسكين الطالب في مجموعة دراسية</label>
                     <div className="flex gap-2">
                       <select
                         required
                         value={selectedGroup}
                         onChange={(e) => setSelectedGroup(e.target.value)}
-                        className="flex-1 rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-xs text-slate-350 outline-none focus:border-violet-500 text-right"
+                        className="flex-1 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-xs text-slate-350 outline-none focus:border-violet-500 text-right"
                       >
                         <option value="">اختر المجموعة...</option>
                         {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -311,7 +311,7 @@ export const Students: React.FC = () => {
                   </form>
 
                   {/* Quick Action: Renew Subscription */}
-                  <div className="space-y-2 border-t border-slate-900 pt-4">
+                  <div className="space-y-2 border-t border-slate-200 dark:border-slate-900 pt-4">
                     <button
                       onClick={handleQuickRenewal}
                       disabled={isRenewing}
@@ -327,26 +327,26 @@ export const Students: React.FC = () => {
                   </div>
 
                   {/* Timeline Feed */}
-                  <div className="border-t border-slate-900 pt-4 space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 text-right">الخط الزمني لحركات الطالب (Timeline)</h4>
+                  <div className="border-t border-slate-200 dark:border-slate-900 pt-4 space-y-4">
+                    <h4 className="text-xs font-bold text-slate-600 dark:text-slate-400 text-right">الخط الزمني لحركات الطالب (Timeline)</h4>
                     
                     {loadingTimeline ? (
                       <div className="flex justify-center py-6">
                         <Loader2 className="h-5 w-5 animate-spin text-violet-500" />
                       </div>
                     ) : timeline.length === 0 ? (
-                      <p className="text-xs text-slate-600 text-center py-6">لا توجد حركات مسجلة للطالب بعد.</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 text-center py-6">لا توجد حركات مسجلة للطالب بعد.</p>
                     ) : (
-                      <div className="space-y-4 relative before:absolute before:inset-0 before:right-2 before:w-[1px] before:bg-slate-900 pr-1">
+                      <div className="space-y-4 relative before:absolute before:inset-0 before:right-2 before:w-[1px] before:bg-slate-50 dark:bg-slate-900 pr-1">
                         {timeline.map((evt) => (
                           <div key={evt.id} className="relative pr-6 text-right">
                             {/* Timeline dot */}
-                            <div className="absolute right-0.5 top-1.5 h-2 w-2 rounded-full border border-violet-500 bg-slate-950"></div>
+                            <div className="absolute right-0.5 top-1.5 h-2 w-2 rounded-full border border-violet-500 bg-white dark:bg-slate-950"></div>
                             
                             <div className="space-y-0.5">
-                              <p className="text-xs font-bold text-slate-200">{evt.title}</p>
+                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200">{evt.title}</p>
                               {evt.description && <p className="text-[10px] text-slate-500 leading-relaxed">{evt.description}</p>}
-                              <p className="text-[9px] text-slate-600">{new Date(evt.created_at).toLocaleDateString('ar-EG')}</p>
+                              <p className="text-[9px] text-slate-600 dark:text-slate-300">{new Date(evt.created_at).toLocaleDateString('ar-EG')}</p>
                             </div>
                           </div>
                         ))}
@@ -355,7 +355,7 @@ export const Students: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 text-center text-slate-500">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 text-center text-slate-500">
                   <ArrowRight className="h-8 w-8 mx-auto mb-3 text-slate-650" />
                   <p className="text-xs font-semibold">اختر طالباً من الجدول لعرض خطه الزمني وإجراء المعاملات السريعة له.</p>
                 </div>
@@ -367,66 +367,66 @@ export const Students: React.FC = () => {
 
       {/* Registration Modal Dialog */}
       {showRegModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="rounded-xl border border-slate-900 bg-slate-950 p-6 max-w-md w-full space-y-6 text-right" dir="rtl">
-            <div className="border-b border-slate-900 pb-3">
-              <h3 className="text-base font-bold text-slate-100">تسجيل طالب جديد بالاستقبال</h3>
+        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950 p-6 max-w-md w-full space-y-6 text-right" dir="rtl">
+            <div className="border-b border-slate-200 dark:border-slate-900 pb-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">تسجيل طالب جديد بالاستقبال</h3>
               <p className="text-xs text-slate-500 mt-1">أدخل بيانات الطالب الأساسية لإنشاء ملف تعريفي وحساب خاص به.</p>
             </div>
 
             <form onSubmit={handleRegisterStudent} className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">الاسم بالكامل</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">الاسم بالكامل</label>
                 <input
                   type="text"
                   required
                   placeholder="مثال: أحمد محمد حسن"
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">البريد الإلكتروني</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">البريد الإلكتروني</label>
                 <input
                   type="email"
                   required
                   placeholder="ahmed@gmail.com"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-left font-mono"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-left font-mono"
                   dir="ltr"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">رقم الباركود (اختياري)</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">رقم الباركود (اختياري)</label>
                 <input
                   type="text"
                   placeholder="اكتب أو امسح الباركود"
                   value={regBarcode}
                   onChange={(e) => setRegBarcode(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right font-mono"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right font-mono"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">كود QR الدخول (اختياري)</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">كود QR الدخول (اختياري)</label>
                 <input
                   type="text"
                   placeholder="اكتب كود الـ QR"
                   value={regQrCode}
                   onChange={(e) => setRegQrCode(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right font-mono"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right font-mono"
                 />
               </div>
 
-              <div className="flex gap-3 justify-end pt-4 border-t border-slate-900">
+              <div className="flex gap-3 justify-end pt-4 border-t border-slate-200 dark:border-slate-900">
                 <button
                   type="button"
                   onClick={() => setShowRegModal(false)}
-                  className="rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-slate-400 hover:text-slate-200"
+                  className="rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:bg-slate-800 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200"
                 >
                   إلغاء
                 </button>

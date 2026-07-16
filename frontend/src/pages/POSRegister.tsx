@@ -144,15 +144,15 @@ export const POSRegister: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1 text-right">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">كاشير التحصيل السريع</h1>
-            <p className="text-sm text-slate-400">سدد اشتراكات الطلاب الشهرية وقم ببيع الكتب والمذكرات في خطوتين فقط.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">كاشير التحصيل السريع</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">سدد اشتراكات الطلاب الشهرية وقم ببيع الكتب والمذكرات في خطوتين فقط.</p>
           </div>
           <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
             ← لوحة التحكم
@@ -173,9 +173,9 @@ export const POSRegister: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-6xl">
             {/* Form Column */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-900 pb-3">
-                <h2 className="text-base font-bold text-slate-200 flex items-center gap-2">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
+                <h2 className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
                   <Coins className="h-5 w-5 text-violet-400" />
                   <span>تسجيل عملية تحصيل</span>
                 </h2>
@@ -188,7 +188,7 @@ export const POSRegister: React.FC = () => {
                       placeholder="امسح باركود الطالب..."
                       value={barcodeQuery}
                       onChange={(e) => setBarcodeQuery(e.target.value)}
-                      className="rounded bg-slate-900 border border-slate-800 px-3 py-1 text-xs text-slate-300 focus:border-violet-500 outline-none w-40 text-right pr-7"
+                      className="rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1 text-xs text-slate-700 dark:text-slate-300 focus:border-violet-500 outline-none w-40 text-right pr-7"
                     />
                     <Barcode className="absolute right-2 top-2 h-3.5 w-3.5 text-slate-500" />
                   </div>
@@ -198,12 +198,12 @@ export const POSRegister: React.FC = () => {
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
                 {/* Select Student */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">اسم الطالب</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">اسم الطالب</label>
                   <select
                     required
                     value={selectedStudent}
                     onChange={(e) => setSelectedStudent(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="">اختر الطالب...</option>
                     {students.map(s => <option key={s.id} value={s.id}>{s.user.name}</option>)}
@@ -212,12 +212,12 @@ export const POSRegister: React.FC = () => {
 
                 {/* Select Product/Subscription */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">البند المراد تحصيله (اشتراك شهري / كتاب / مذكرة)</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">البند المراد تحصيله (اشتراك شهري / كتاب / مذكرة)</label>
                   <select
                     required
                     value={selectedProduct}
                     onChange={(e) => handleProductChange(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="">اختر البند...</option>
                     {products.map(p => <option key={p.id} value={p.id}>{p.name} ({parseFloat(p.selling_price).toFixed(0)} جنيه)</option>)}
@@ -227,30 +227,30 @@ export const POSRegister: React.FC = () => {
                 {/* Price Display and custom edits */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5 text-right">
-                    <label className="text-xs font-semibold text-slate-400">المبلغ المدفوع (جنيه)</label>
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">المبلغ المدفوع (جنيه)</label>
                     <input
                       type="number"
                       required
                       value={payAmount}
                       onChange={(e) => setPayAmount(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
                     />
                   </div>
 
                   <div className="space-y-1.5 text-right">
-                    <label className="text-xs font-semibold text-slate-400">الخصم (إن وجد)</label>
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">الخصم (إن وجد)</label>
                     <input
                       type="number"
                       value={discount}
                       onChange={(e) => setDiscount(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
                     />
                   </div>
                 </div>
 
                 {/* Payment Method Selector */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400 block">طريقة التحصيل</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400 block">طريقة التحصيل</label>
                   <div className="grid grid-cols-3 gap-2">
                     {(['cash', 'card', 'bank_transfer'] as const).map((method) => (
                       <button
@@ -260,7 +260,7 @@ export const POSRegister: React.FC = () => {
                         className={`py-2 rounded text-xs font-semibold border transition-all cursor-pointer ${
                           paymentMethod === method
                             ? 'bg-violet-600/10 border-violet-500 text-violet-400'
-                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                            : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
                         }`}
                       >
                         {method === 'cash' ? 'نقدي (كاش)' : method === 'card' ? 'فيزا' : 'محفظة / تحويل'}
@@ -287,53 +287,53 @@ export const POSRegister: React.FC = () => {
             {/* Receipt Preview Column */}
             <div className="space-y-6">
               {receiptData ? (
-                <div className="rounded-xl border border-slate-900 bg-slate-950 p-6 space-y-6 shadow-2xl relative print:border-0 print:shadow-none print:p-0">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950 p-6 space-y-6 shadow-2xl relative print:border-0 print:shadow-none print:p-0">
                   <div className="absolute top-0 right-0 h-[200px] w-[200px] rounded-full bg-emerald-600/5 blur-[80px] pointer-events-none"></div>
 
                   {/* Receipt Header */}
-                  <div className="text-center space-y-1 border-b border-slate-900 pb-4">
+                  <div className="text-center space-y-1 border-b border-slate-200 dark:border-slate-900 pb-4">
                     <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto mb-2 print:hidden" />
-                    <h3 className="text-lg font-bold text-slate-50">إيصال سداد إلكتروني</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-slate-50">إيصال سداد إلكتروني</h3>
                     <p className="text-xs text-slate-500">رقم الفاتورة: {receiptData.invoiceNumber}</p>
                   </div>
 
                   {/* Receipt Meta */}
                   <div className="space-y-3 text-xs text-right">
-                    <div className="flex justify-between border-b border-slate-900/60 pb-2">
-                      <span className="text-slate-400">اسم الطالب</span>
-                      <span className="font-bold text-slate-200">{receiptData.studentName}</span>
+                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
+                      <span className="text-slate-600 dark:text-slate-400">اسم الطالب</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">{receiptData.studentName}</span>
                     </div>
 
-                    <div className="flex justify-between border-b border-slate-900/60 pb-2">
-                      <span className="text-slate-400">الصنف / البند</span>
-                      <span className="font-semibold text-slate-200">{receiptData.productName}</span>
+                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
+                      <span className="text-slate-600 dark:text-slate-400">الصنف / البند</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">{receiptData.productName}</span>
                     </div>
 
-                    <div className="flex justify-between border-b border-slate-900/60 pb-2">
-                      <span className="text-slate-400">طريقة التحصيل</span>
-                      <span className="font-semibold text-slate-200">{receiptData.paymentMethod}</span>
+                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
+                      <span className="text-slate-600 dark:text-slate-400">طريقة التحصيل</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">{receiptData.paymentMethod}</span>
                     </div>
 
-                    <div className="flex justify-between border-b border-slate-900/60 pb-2">
-                      <span className="text-slate-400">تاريخ المعاملة</span>
+                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
+                      <span className="text-slate-600 dark:text-slate-400">تاريخ المعاملة</span>
                       <span className="font-mono text-slate-350" dir="ltr">{receiptData.date}</span>
                     </div>
 
                     {receiptData.discount > 0 && (
-                      <div className="flex justify-between border-b border-slate-900/60 pb-2">
-                        <span className="text-slate-400">الخصم الممنوح</span>
+                      <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
+                        <span className="text-slate-600 dark:text-slate-400">الخصم الممنوح</span>
                         <span className="font-bold text-red-400">-{receiptData.discount} ج</span>
                       </div>
                     )}
 
-                    <div className="flex justify-between pt-2 text-sm font-black text-slate-100">
+                    <div className="flex justify-between pt-2 text-sm font-black text-slate-900 dark:text-slate-100">
                       <span>إجمالي المدفوع</span>
                       <span className="text-emerald-400">{receiptData.finalPrice.toLocaleString('ar-EG')} جنيه مصري</span>
                     </div>
                   </div>
 
                   {/* Footer Terms */}
-                  <p className="text-[10px] text-slate-500 text-center border-t border-slate-900 pt-3">
+                  <p className="text-[10px] text-slate-500 text-center border-t border-slate-200 dark:border-slate-900 pt-3">
                     شكراً لتعاملكم مع مركزنا التعليمي. يرجى الاحتفاظ بالإيصال.
                   </p>
 
@@ -347,7 +347,7 @@ export const POSRegister: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 border-dashed p-16 text-center text-slate-500">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-16 text-center text-slate-500">
                   <Printer className="h-10 w-10 mx-auto mb-4 text-slate-650" />
                   <p className="text-xs font-semibold">بمجرد إتمام عملية التحصيل، سيظهر إيصال السداد الفوري القابل للطباعة هنا.</p>
                 </div>

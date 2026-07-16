@@ -76,15 +76,15 @@ export const InventoryBoard: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative font-sans">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">المخزن وجرد الكتب والمستلزمات</h1>
-            <p className="text-sm text-slate-400">تابع كميات الكتب، والمستلزمات الدراسية، وسجل حركات التسوية والجرد الدوري.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">المخزن وجرد الكتب والمستلزمات</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">تابع كميات الكتب، والمستلزمات الدراسية، وسجل حركات التسوية والجرد الدوري.</p>
           </div>
           <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300">
             ← العودة للوحة التحكم
@@ -101,22 +101,22 @@ export const InventoryBoard: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-5xl">
           {/* Stock Table */}
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-lg font-bold text-slate-300">حالة المخزون الحالي</h2>
+            <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">حالة المخزون الحالي</h2>
 
             {loading ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
               </div>
             ) : products.length === 0 ? (
-              <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                <Package className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+              <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                <Package className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                 <p className="text-sm font-semibold">لا توجد مستلزمات مسجلة بالمخزن حالياً.</p>
               </div>
             ) : (
-              <div className="rounded-xl border border-slate-900 bg-slate-950/40 overflow-hidden">
+              <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
                 <table className="w-full text-right border-collapse text-sm" dir="rtl">
                   <thead>
-                    <tr className="border-b border-slate-900 bg-slate-900/30 text-xs font-bold uppercase text-slate-500 text-right">
+                    <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500 text-right">
                       <th className="px-5 py-3">بيانات الصنف</th>
                       <th className="px-5 py-3">سعر الشراء / البيع</th>
                       <th className="px-5 py-3 text-left">الكمية المتاحة</th>
@@ -126,12 +126,12 @@ export const InventoryBoard: React.FC = () => {
                     {products.map((p) => {
                       const isLowStock = p.stock <= p.low_stock_threshold
                       return (
-                        <tr key={p.id} className="hover:bg-slate-900/10 transition-all">
+                        <tr key={p.id} className="hover:bg-slate-50 dark:bg-slate-900/10 transition-all">
                           <td className="px-5 py-3">
-                            <p className="font-semibold text-slate-300">{p.name}</p>
+                            <p className="font-semibold text-slate-700 dark:text-slate-300">{p.name}</p>
                             <p className="text-[10px] text-slate-500">كود: {p.sku || 'لا يوجد'} • النوع: <span>{getProductTypeArabic(p.type)}</span></p>
                           </td>
-                          <td className="px-5 py-3 font-semibold text-slate-400" dir="ltr">
+                          <td className="px-5 py-3 font-semibold text-slate-600 dark:text-slate-400" dir="ltr">
                             {parseFloat(p.purchase_cost).toLocaleString('ar-EG')} / <span className="text-violet-400">{parseFloat(p.selling_price).toLocaleString('ar-EG')} ج</span>
                           </td>
                           <td className="px-5 py-3 text-left">
@@ -139,7 +139,7 @@ export const InventoryBoard: React.FC = () => {
                               {isLowStock && (
                                 <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
                               )}
-                              <span className={`font-bold ${p.stock === 0 ? 'text-red-400 font-extrabold' : isLowStock ? 'text-amber-400' : 'text-slate-200'}`}>
+                              <span className={`font-bold ${p.stock === 0 ? 'text-red-400 font-extrabold' : isLowStock ? 'text-amber-400' : 'text-slate-800 dark:text-slate-200'}`}>
                                 {p.stock.toLocaleString('ar-EG')} نسخة
                               </span>
                             </div>
@@ -154,18 +154,18 @@ export const InventoryBoard: React.FC = () => {
           </div>
 
           {/* Adjust Stock Form */}
-          <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
-            <h2 className="text-lg font-bold text-slate-300">تسجيل تسوية للمخزون</h2>
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+            <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">تسجيل تسوية للمخزون</h2>
 
             <form onSubmit={handleAdjustSubmit} className="space-y-4">
               <div className="space-y-1.5">
-                <label htmlFor="adjProduct" className="text-xs font-semibold uppercase tracking-wider text-slate-400">اختر الصنف</label>
+                <label htmlFor="adjProduct" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اختر الصنف</label>
                 <select
                   id="adjProduct"
                   required
                   value={selectedProduct}
                   onChange={(e) => setSelectedProduct(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                 >
                   <option value="">اختر الصنف من القائمة</option>
                   {products.map(p => <option key={p.id} value={p.id}>{p.name} ({p.stock} متوفر)</option>)}
@@ -173,7 +173,7 @@ export const InventoryBoard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="adjQty" className="text-xs font-semibold uppercase tracking-wider text-slate-400">كمية التعديل</label>
+                <label htmlFor="adjQty" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">كمية التعديل</label>
                 <input
                   id="adjQty"
                   type="number"
@@ -181,19 +181,19 @@ export const InventoryBoard: React.FC = () => {
                   placeholder="مثال: +10 أو -3"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                 />
                 <span className="text-[10px] text-slate-500 block leading-tight">اكتب رقماً موجباً للإضافة، ورقماً سالباً للسحب من المخزن.</span>
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="adjType" className="text-xs font-semibold uppercase tracking-wider text-slate-400">سبب التسوية</label>
+                <label htmlFor="adjType" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">سبب التسوية</label>
                 <select
                   id="adjType"
                   required
                   value={adjustType}
                   onChange={(e) => setAdjustType(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                 >
                   <option value="purchase">شراء وتوريد كميات (+)</option>
                   <option value="adjustment">جرد دوري وتعديل (+/-)</option>
@@ -203,14 +203,14 @@ export const InventoryBoard: React.FC = () => {
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="adjRemarks" className="text-xs font-semibold uppercase tracking-wider text-slate-400">ملاحظات وتفاصيل</label>
+                <label htmlFor="adjRemarks" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">ملاحظات وتفاصيل</label>
                 <input
                   id="adjRemarks"
                   type="text"
                   placeholder="مثال: فاتورة توريد رقم 8820"
                   value={remarks}
                   onChange={(e) => setRemarks(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
                 />
               </div>
 

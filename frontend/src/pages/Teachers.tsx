@@ -92,15 +92,15 @@ export const Teachers: React.FC = () => {
   const centerShare = totalRevenue - teacherShare
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1 text-right">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">إدارة المدرسين والرواتب والعمولات</h1>
-            <p className="text-sm text-slate-400">سجل المدرسين الجدد، اضبط نسب العمولات لكل مدرس، وراجع الإيرادات والأرباح تلقائياً.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">إدارة المدرسين والرواتب والعمولات</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">سجل المدرسين الجدد، اضبط نسب العمولات لكل مدرس، وراجع الإيرادات والأرباح تلقائياً.</p>
           </div>
           <div className="flex gap-4">
             <button
@@ -138,18 +138,18 @@ export const Teachers: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl">
             {/* Teachers Registry Table */}
             <div className="lg:col-span-2 space-y-4">
-              <h2 className="text-lg font-bold text-slate-300 text-right">قائمة المدرسين الحالية</h2>
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 text-right">قائمة المدرسين الحالية</h2>
               
               {teachers.length === 0 ? (
-                <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                  <Award className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                  <Award className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                   <p className="text-sm font-semibold">لا يوجد مدرسين مسجلين بالسيستم حالياً.</p>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 overflow-hidden">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
                   <table className="w-full text-right border-collapse text-sm">
                     <thead>
-                      <tr className="border-b border-slate-900 bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
+                      <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
                         <th className="px-6 py-4">اسم المدرس</th>
                         <th className="px-6 py-4">البريد الإلكتروني</th>
                         <th className="px-6 py-4">حالة الحساب</th>
@@ -161,19 +161,19 @@ export const Teachers: React.FC = () => {
                         <tr
                           key={teacher.id}
                           onClick={() => handleTeacherSelect(teacher)}
-                          className={`hover:bg-slate-900/20 transition-all cursor-pointer ${
+                          className={`hover:bg-slate-50 dark:bg-slate-900/20 transition-all cursor-pointer ${
                             selectedTeacher?.id === teacher.id ? 'bg-violet-600/10 border-r-2 border-violet-500' : ''
                           }`}
                         >
-                          <td className="px-6 py-4 font-bold text-slate-200">{teacher.user.name}</td>
-                          <td className="px-6 py-4 text-slate-400">{teacher.user.email}</td>
+                          <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{teacher.user.name}</td>
+                          <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{teacher.user.email}</td>
                           <td className="px-6 py-4">
                             <span className="inline-block text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded-full">
                               نشط
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="font-bold text-slate-300">%{parseFloat(teacher.commission_percentage).toFixed(0)}</span>
+                            <span className="font-bold text-slate-700 dark:text-slate-300">%{parseFloat(teacher.commission_percentage).toFixed(0)}</span>
                           </td>
                         </tr>
                       ))}
@@ -186,48 +186,48 @@ export const Teachers: React.FC = () => {
             {/* Visual Calculator Sidebar */}
             <div className="space-y-6">
               {selectedTeacher ? (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
                   {/* Selected Profile Header */}
-                  <div className="border-b border-slate-900 pb-4 text-right">
-                    <h3 className="text-base font-bold text-slate-200">{selectedTeacher.user.name}</h3>
+                  <div className="border-b border-slate-200 dark:border-slate-900 pb-4 text-right">
+                    <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">{selectedTeacher.user.name}</h3>
                     <p className="text-xs text-slate-500">نسبة العمولة المحددة: %{parseFloat(selectedTeacher.commission_percentage).toFixed(0)}</p>
                   </div>
 
                   {/* Calculator Input Fields */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 flex items-center gap-1.5 text-right">
+                    <h4 className="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5 text-right">
                       <Coins className="h-4 w-4 text-violet-400" />
                       <span>محاسبة مستحقات المدرس التلقائية</span>
                     </h4>
 
                     <div className="space-y-3">
                       <div className="space-y-1 text-right">
-                        <label className="text-[11px] text-slate-400">عدد الطلاب في المجموعة</label>
+                        <label className="text-[11px] text-slate-600 dark:text-slate-400">عدد الطلاب في المجموعة</label>
                         <input
                           type="number"
                           value={calcStudents}
                           onChange={(e) => setCalcStudents(e.target.value)}
-                          className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-xs text-slate-200 outline-none focus:border-violet-500 text-right"
+                          className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                         />
                       </div>
 
                       <div className="space-y-1 text-right">
-                        <label className="text-[11px] text-slate-400">سعر الاشتراك الشهري (جنيه)</label>
+                        <label className="text-[11px] text-slate-600 dark:text-slate-400">سعر الاشتراك الشهري (جنيه)</label>
                         <input
                           type="number"
                           value={calcPrice}
                           onChange={(e) => setCalcPrice(e.target.value)}
-                          className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-xs text-slate-200 outline-none focus:border-violet-500 text-right"
+                          className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Visual Split Outputs */}
-                  <div className="border-t border-slate-900 pt-4 space-y-4">
-                    <div className="flex justify-between items-center text-xs text-slate-400">
+                  <div className="border-t border-slate-200 dark:border-slate-900 pt-4 space-y-4">
+                    <div className="flex justify-between items-center text-xs text-slate-600 dark:text-slate-400">
                       <span>إجمالي الإيرادات المتوقعة</span>
-                      <span className="font-bold text-slate-100">{totalRevenue.toLocaleString('ar-EG')} جنيه</span>
+                      <span className="font-bold text-slate-900 dark:text-slate-100">{totalRevenue.toLocaleString('ar-EG')} جنيه</span>
                     </div>
 
                     <div className="space-y-2">
@@ -237,7 +237,7 @@ export const Teachers: React.FC = () => {
                       </div>
 
                       {/* Stacked Progress Bar */}
-                      <div className="h-3 w-full rounded-full bg-slate-900 overflow-hidden flex">
+                      <div className="h-3 w-full rounded-full bg-slate-50 dark:bg-slate-900 overflow-hidden flex">
                         <div
                           style={{ width: `${commPercentage}%` }}
                           className="h-full bg-violet-600 transition-all duration-300"
@@ -264,7 +264,7 @@ export const Teachers: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 text-center text-slate-500">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 text-center text-slate-500">
                   <TrendingUp className="h-8 w-8 mx-auto mb-3 text-slate-650" />
                   <p className="text-xs font-semibold">اختر مدرساً من الجدول لعرض وتصفح حاسبة الرواتب والعمولات الخاصة به.</p>
                 </div>
@@ -276,41 +276,41 @@ export const Teachers: React.FC = () => {
 
       {/* Registration Modal Dialog */}
       {showRegModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="rounded-xl border border-slate-900 bg-slate-950 p-6 max-w-md w-full space-y-6 text-right" dir="rtl">
-            <div className="border-b border-slate-900 pb-3">
-              <h3 className="text-base font-bold text-slate-100">تسجيل مدرس جديد بالمركز</h3>
+        <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950 p-6 max-w-md w-full space-y-6 text-right" dir="rtl">
+            <div className="border-b border-slate-200 dark:border-slate-900 pb-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">تسجيل مدرس جديد بالمركز</h3>
               <p className="text-xs text-slate-500 mt-1">أدخل بيانات المدرس لإنشاء حسابه وضبط عمولته التلقائية.</p>
             </div>
 
             <form onSubmit={handleRegisterTeacher} className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">اسم المدرس بالكامل</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">اسم المدرس بالكامل</label>
                 <input
                   type="text"
                   required
                   placeholder="مثال: مستر أحمد محمد"
                   value={regName}
                   onChange={(e) => setRegName(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">البريد الإلكتروني</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">البريد الإلكتروني</label>
                 <input
                   type="email"
                   required
                   placeholder="teacher@gmail.com"
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
-                  className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-left font-mono"
+                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-left font-mono"
                   dir="ltr"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">نسبة عمولة المدرس (%)</label>
+                <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">نسبة عمولة المدرس (%)</label>
                 <div className="relative">
                   <input
                     type="number"
@@ -320,17 +320,17 @@ export const Teachers: React.FC = () => {
                     placeholder="مثال: 40"
                     value={regComm}
                     onChange={(e) => setRegComm(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right pr-8"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-2 text-sm outline-none focus:border-violet-500 text-right pr-8"
                   />
                   <Percent className="absolute right-3 top-3 h-4 w-4 text-slate-500" />
                 </div>
               </div>
 
-              <div className="flex gap-3 justify-end pt-4 border-t border-slate-900">
+              <div className="flex gap-3 justify-end pt-4 border-t border-slate-200 dark:border-slate-900">
                 <button
                   type="button"
                   onClick={() => setShowRegModal(false)}
-                  className="rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-slate-400 hover:text-slate-200"
+                  className="rounded-lg bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:bg-slate-800 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200"
                 >
                   إلغاء
                 </button>

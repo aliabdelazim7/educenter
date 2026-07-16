@@ -137,15 +137,15 @@ export const Content: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1 text-right">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">إدارة المحتوى التعليمي والمذكرات</h1>
-            <p className="text-sm text-slate-400">انشر الواجبات، المذكرات، الشروحات، والاختبارات عبر روابط جوجل درايف مباشرة.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">إدارة المحتوى التعليمي والمذكرات</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">انشر الواجبات، المذكرات، الشروحات، والاختبارات عبر روابط جوجل درايف مباشرة.</p>
           </div>
           <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
             ← لوحة التحكم
@@ -173,7 +173,7 @@ export const Content: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl">
             {/* Add Content Form */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
               <h2 className="text-lg font-bold text-slate-350 flex items-center gap-2 text-right">
                 <BookOpen className="h-5 w-5 text-violet-400" />
                 <span>إضافة رابط محتوى جديد</span>
@@ -182,12 +182,12 @@ export const Content: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Select Group */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">المجموعة المستهدفة</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">المجموعة المستهدفة</label>
                   <select
                     required
                     value={selectedGroup}
                     onChange={(e) => setSelectedGroup(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="">اختر المجموعة...</option>
                     {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -196,25 +196,25 @@ export const Content: React.FC = () => {
 
                 {/* Content Title */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">عنوان المحتوى التعليمي</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">عنوان المحتوى التعليمي</label>
                   <input
                     type="text"
                     required
                     placeholder="مثال: مذكرة الجبر والتحليل - الباب الأول"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   />
                 </div>
 
                 {/* Content Type */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">تصنيف ونوع الملف</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">تصنيف ونوع الملف</label>
                   <select
                     required
                     value={contentType}
                     onChange={(e) => setContentType(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="homework">واجب منزلي</option>
                     <option value="book">كتاب / ملزمة</option>
@@ -226,17 +226,17 @@ export const Content: React.FC = () => {
 
                 {/* Google Drive Link */}
                 <div className="space-y-1.5 text-right">
-                  <label className="text-xs font-semibold text-slate-400">رابط Google Drive للملف</label>
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">رابط Google Drive للملف</label>
                   <input
                     type="url"
                     required
                     placeholder="https://drive.google.com/..."
                     value={driveLink}
                     onChange={(e) => setDriveLink(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2 text-sm text-slate-100 outline-none focus:border-violet-500 text-left font-mono"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500 text-left font-mono"
                     dir="ltr"
                   />
-                  <span className="text-[10px] text-slate-600 block text-right leading-tight">انسخ رابط المشاركة المباشر من جوجل درايف والصقه هنا.</span>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-300 block text-right leading-tight">انسخ رابط المشاركة المباشر من جوجل درايف والصقه هنا.</span>
                 </div>
 
                 <button
@@ -256,18 +256,18 @@ export const Content: React.FC = () => {
 
             {/* List Table */}
             <div className="lg:col-span-2 space-y-4">
-              <h2 className="text-lg font-bold text-slate-300 text-right">المحتوى المنشور حالياً</h2>
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 text-right">المحتوى المنشور حالياً</h2>
 
               {contents.length === 0 ? (
-                <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
                   <BookOpen className="h-10 w-10 mx-auto mb-4 text-slate-650" />
                   <p className="text-sm font-semibold">لم يتم نشر أي محتوى دراسي بعد.</p>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-900 bg-slate-950/40 overflow-hidden">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
                   <table className="w-full text-right border-collapse text-sm">
                     <thead>
-                      <tr className="border-b border-slate-900 bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
+                      <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
                         <th className="px-6 py-4">عنوان المادة الدراسية / الملف</th>
                         <th className="px-6 py-4">المجموعة</th>
                         <th className="px-6 py-4">النوع</th>
@@ -276,9 +276,9 @@ export const Content: React.FC = () => {
                     </thead>
                     <tbody className="divide-y divide-slate-900 text-xs">
                       {contents.map((item) => (
-                        <tr key={item.id} className="hover:bg-slate-900/10 transition-all">
-                          <td className="px-6 py-4 font-bold text-slate-200">{item.title}</td>
-                          <td className="px-6 py-4 text-slate-400">{item.group?.name || 'عام'}</td>
+                        <tr key={item.id} className="hover:bg-slate-50 dark:bg-slate-900/10 transition-all">
+                          <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{item.title}</td>
+                          <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{item.group?.name || 'عام'}</td>
                           <td className="px-6 py-4">
                             <span className="inline-flex items-center gap-1.5 text-violet-400">
                               {getContentIcon(item.content_type)}

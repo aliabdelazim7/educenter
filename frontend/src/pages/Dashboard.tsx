@@ -129,9 +129,9 @@ export const Dashboard: React.FC = () => {
   ]
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       {/* Sidebar Panel */}
-      <aside className="w-64 border-r border-slate-900 bg-slate-950/80 backdrop-blur-md flex flex-col justify-between p-6 shrink-0">
+      <aside className="w-64 border-r border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/80 backdrop-blur-md flex flex-col justify-between p-6 shrink-0">
         <div className="space-y-8">
           {/* Tenant Header */}
           <div className="flex items-center gap-3">
@@ -139,7 +139,7 @@ export const Dashboard: React.FC = () => {
               <School className="h-5 w-5 text-violet-400" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-sm font-bold text-slate-50 truncate leading-tight">{tenant?.name || 'Academy Hub'}</h2>
+              <h2 className="text-sm font-bold text-slate-900 dark:text-slate-50 truncate leading-tight">{tenant?.name || 'Academy Hub'}</h2>
               <p className="text-xs text-slate-500 truncate">{tenant?.subdomain}.educenter.com</p>
             </div>
           </div>
@@ -153,7 +153,7 @@ export const Dashboard: React.FC = () => {
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group ${
                   item.path === '/dashboard'
                     ? 'bg-violet-600/10 text-violet-400 border border-violet-500/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-900'
                 }`}
               >
                 <item.icon className="h-4 w-4 shrink-0 transition-transform group-hover:scale-110" />
@@ -164,13 +164,13 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Footer Profile and Logout */}
-        <div className="space-y-4 pt-4 border-t border-slate-900">
+        <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-900">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="h-9 w-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center font-bold text-violet-400">
+            <div className="h-9 w-9 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center font-bold text-violet-400">
               {user?.name.charAt(0)}
             </div>
             <div className="min-w-0">
-              <p className="text-xs font-bold text-slate-200 truncate leading-tight">{user?.name}</p>
+              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate leading-tight">{user?.name}</p>
               <p className="text-[10px] text-violet-400 font-semibold uppercase tracking-wider">{user?.roles[0] || 'Member'}</p>
             </div>
           </div>
@@ -186,16 +186,16 @@ export const Dashboard: React.FC = () => {
       </aside>
 
       {/* Main Workspace Area */}
-      <main className="flex-1 flex flex-col overflow-y-auto bg-slate-950 relative">
+      <main className="flex-1 flex flex-col overflow-y-auto bg-white dark:bg-slate-950 relative">
         {/* Glow Effects */}
         <div className="absolute top-0 right-0 h-[300px] w-[300px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
         
         {/* Top Navbar */}
-        <header className="h-16 border-b border-slate-900 flex items-center justify-between px-8 z-10 shrink-0">
+        <header className="h-16 border-b border-slate-200 dark:border-slate-900 flex items-center justify-between px-8 z-10 shrink-0">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <h1 className="text-lg font-bold text-slate-100">لوحة تحكم الأكاديمية</h1>
-              <span className="h-4 w-[1px] bg-slate-800"></span>
+              <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">لوحة تحكم الأكاديمية</h1>
+              <span className="h-4 w-[1px] bg-slate-100 dark:bg-slate-800"></span>
               <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/30 border border-emerald-500/20 px-2 py-0.5 rounded-full">
                 النظام شغال ومؤمن
               </span>
@@ -208,7 +208,7 @@ export const Dashboard: React.FC = () => {
               <select
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
-                className="rounded-lg bg-slate-900 border border-slate-850 text-xs font-semibold text-slate-350 px-3 py-1.5 outline-none focus:border-violet-500/50 transition-all cursor-pointer"
+                className="rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-850 text-xs font-semibold text-slate-350 px-3 py-1.5 outline-none focus:border-violet-500/50 transition-all cursor-pointer"
               >
                 <option value="">كل الفروع</option>
                 {branches.map((b) => (
@@ -218,7 +218,7 @@ export const Dashboard: React.FC = () => {
                 ))}
               </select>
             )}
-            <div className="text-xs text-slate-400">
+            <div className="text-xs text-slate-600 dark:text-slate-400">
               {new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
           </div>
@@ -228,8 +228,8 @@ export const Dashboard: React.FC = () => {
         <div className="flex-1 p-8 space-y-8 z-10">
           {/* Welcome Message */}
           <div className="space-y-1">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-50">أهلاً بيك يا {user?.name.split(' ')[0]} 👋</h2>
-            <p className="text-sm text-slate-400">دي نظرة سريعة على اللي بيحصل في فروع مركزك التعليمي النهاردة.</p>
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">أهلاً بيك يا {user?.name.split(' ')[0]} 👋</h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400">دي نظرة سريعة على اللي بيحصل في فروع مركزك التعليمي النهاردة.</p>
           </div>
 
           {/* Quick Operations Panel */}
@@ -242,7 +242,7 @@ export const Dashboard: React.FC = () => {
                 <BookOpen className="h-5 w-5" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-200">الجدول الدراسي والحصص</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">الجدول الدراسي والحصص</p>
                 <p className="text-[10px] text-slate-500 truncate">تسجيل الحضور والغياب اليومي</p>
               </div>
             </Link>
@@ -255,7 +255,7 @@ export const Dashboard: React.FC = () => {
                 <ShoppingCart className="h-5 w-5" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-200">كاشير البيع السريع (POS)</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">كاشير البيع السريع (POS)</p>
                 <p className="text-[10px] text-slate-500 truncate">بيع الكتب والمستلزمات فورياً</p>
               </div>
             </Link>
@@ -268,20 +268,20 @@ export const Dashboard: React.FC = () => {
                 <DollarSign className="h-5 w-5" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-200">الحسابات وحركة الخزنة</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">الحسابات وحركة الخزنة</p>
                 <p className="text-[10px] text-slate-500 truncate">متابعة الإيرادات والمصاريف الإدارية</p>
               </div>
             </Link>
 
             <Link
               to="/settings"
-              className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/40 p-4 hover:bg-slate-900 transition-all group"
+              className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 p-4 hover:bg-slate-50 dark:bg-slate-900 transition-all group"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-800 text-slate-400 group-hover:scale-110 transition-transform">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform">
                 <Settings className="h-5 w-5" />
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-bold text-slate-200">إعدادات النظام</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">إعدادات النظام</p>
                 <p className="text-[10px] text-slate-500 truncate">سجل حركات الإداريين والرقابة</p>
               </div>
             </Link>
@@ -292,20 +292,20 @@ export const Dashboard: React.FC = () => {
             {kpis.map((kpi, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-xl border border-slate-900 bg-slate-950/40 p-5 hover:border-slate-800 transition-all hover:translate-y-[-2px] duration-300"
+                className="group relative rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all hover:translate-y-[-2px] duration-300"
               >
                 {/* Subtle gradient glow on hover */}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-violet-600/0 to-indigo-600/0 group-hover:from-violet-600/2 group-hover:to-indigo-600/2 transition-all"></div>
                 
                 <div className="flex items-center justify-between relative z-10">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{kpi.title}</span>
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 border border-slate-800`}>
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800`}>
                     <kpi.icon className="h-4 w-4 text-violet-400" />
                   </div>
                 </div>
                 
                 <div className="mt-4 flex items-baseline gap-2 relative z-10">
-                  <span className="text-2xl font-black text-slate-50">{kpi.value}</span>
+                  <span className="text-2xl font-black text-slate-900 dark:text-slate-50">{kpi.value}</span>
                   <span className="text-xs font-bold text-emerald-400">{kpi.change}</span>
                 </div>
               </div>
@@ -315,13 +315,13 @@ export const Dashboard: React.FC = () => {
           {/* Visual Charts & Today's Schedule Row */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             {/* Custom SVG Line Chart */}
-            <div className="xl:col-span-2 rounded-xl border border-slate-900 bg-slate-950/40 p-6 flex flex-col justify-between">
+            <div className="xl:col-span-2 rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 flex flex-col justify-between">
               <div className="flex items-center justify-between mb-6">
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-300">أرباح ومبيعات المركز</h3>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">أرباح ومبيعات المركز</h3>
                   <p className="text-xs text-slate-500">معدل نمو الإيرادات الأسبوعية</p>
                 </div>
-                <div className="flex items-center gap-1 text-xs text-slate-400">
+                <div className="flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400">
                   <TrendingUp className="h-4 w-4 text-emerald-400" />
                   <span>زيادة بنسبة 8.2% عن الأسبوع اللي فات</span>
                 </div>
@@ -387,26 +387,26 @@ export const Dashboard: React.FC = () => {
             </div>
  
             {/* Upcoming Sessions Widget */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-slate-300">محاضرات وحصص اليوم</h3>
+                  <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">محاضرات وحصص اليوم</h3>
                   <p className="text-xs text-slate-500">جدول الحصص والمواعيد</p>
                 </div>
-                <button className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 transition-all cursor-pointer">
+                <button className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 transition-all cursor-pointer">
                   <Clock className="h-4 w-4" />
                 </button>
               </div>
 
               <div className="space-y-4">
                 {sessions.map((session, idx) => (
-                  <div key={idx} className="flex gap-4 p-3 rounded-lg bg-slate-900/40 border border-slate-900 hover:border-slate-800 transition-all">
-                    <div className="text-center font-bold text-violet-400 border-r border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
+                  <div key={idx} className="flex gap-4 p-3 rounded-lg bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-900 hover:border-slate-200 dark:border-slate-800 transition-all">
+                    <div className="text-center font-bold text-violet-400 border-r border-slate-200 dark:border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
                       <span className="text-xs tracking-tight">{session.time.split(' ')[0]}</span>
                       <span className="text-[10px] text-slate-500 uppercase">{session.time.split(' ')[1]}</span>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-slate-200 truncate">{session.group}</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{session.group}</p>
                       <p className="text-xs text-slate-500 truncate">{session.subject} • {session.teacher}</p>
                     </div>
                   </div>
@@ -418,10 +418,10 @@ export const Dashboard: React.FC = () => {
           {/* Recent Payments and Subscriptions Expiring Soon Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Recent Payments Widget */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <Activity className="h-4 w-4 text-emerald-400" />
-                <h3 className="text-sm font-bold text-slate-300 flex-1 text-right">آخر عمليات التحصيل (المدفوعات)</h3>
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">آخر عمليات التحصيل (المدفوعات)</h3>
               </div>
 
               <div className="space-y-4">
@@ -431,9 +431,9 @@ export const Dashboard: React.FC = () => {
                   { student: 'محمود علي السقا', amount: 400, date: 'أمس', method: 'نقدي (كاش)' },
                   { student: 'ياسمين مصطفى فريد', amount: 500, date: 'أمس', method: 'تحويل محفظة' }
                 ].map((pay: any, idx: number) => (
-                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
+                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
                     <div className="space-y-1">
-                      <p className="font-bold text-slate-200">{pay.student}</p>
+                      <p className="font-bold text-slate-800 dark:text-slate-200">{pay.student}</p>
                       <p className="text-[10px] text-slate-500">طريقة التحصيل: {pay.method} • {pay.date}</p>
                     </div>
                     <span className="text-xs font-black text-emerald-400" dir="ltr">+{pay.amount} ج</span>
@@ -443,10 +443,10 @@ export const Dashboard: React.FC = () => {
             </div>
 
             {/* Subscriptions Expiring Soon Widget */}
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4 text-amber-400" />
-                <h3 className="text-sm font-bold text-slate-300 flex-1 text-right">اشتراكات تنتهي قريباً (تجديد)</h3>
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">اشتراكات تنتهي قريباً (تجديد)</h3>
               </div>
 
               <div className="space-y-4">
@@ -456,9 +456,9 @@ export const Dashboard: React.FC = () => {
                   { name: 'كريم هاني الجزار', teacher: 'مستر محمود (فيزياء)', daysLeft: 5 },
                   { name: 'رانيا وائل زاهر', teacher: 'مستر محمد (لغة عربية)', daysLeft: 6 }
                 ].map((sub, idx) => (
-                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
+                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
                     <div className="space-y-1">
-                      <p className="font-bold text-slate-200">{sub.name}</p>
+                      <p className="font-bold text-slate-800 dark:text-slate-200">{sub.name}</p>
                       <p className="text-[10px] text-slate-500">{sub.teacher}</p>
                     </div>
                     <span className="text-[10px] font-bold text-amber-400 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded-full">

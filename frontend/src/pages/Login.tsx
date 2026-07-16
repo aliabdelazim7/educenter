@@ -38,9 +38,9 @@ export const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-screen bg-slate-950 text-slate-100 font-sans">
+    <div className="flex min-h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans">
       {/* Left panel - Decorative marketing panel */}
-      <div className="relative hidden w-1/2 overflow-hidden bg-gradient-to-tr from-violet-950 via-slate-950 to-indigo-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
+      <div className="relative hidden w-1/2 overflow-hidden bg-gradient-to-tr from-violet-950 via-slate-100 dark:via-slate-950 to-indigo-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
         {/* Glow circles */}
         <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-violet-600/10 blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] h-[60%] w-[60%] rounded-full bg-indigo-600/10 blur-[120px]"></div>
@@ -53,13 +53,13 @@ export const Login: React.FC = () => {
         </div>
 
         <div className="relative z-10 my-auto max-w-lg space-y-6">
-          <h1 className="text-4xl font-extrabold tracking-tight leading-tight text-slate-50">
+          <h1 className="text-4xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-slate-50">
             أقوى نظام سحابي متكامل لإدارة مركزك التعليمي.
           </h1>
-          <p className="text-lg text-slate-400">
+          <p className="text-lg text-slate-600 dark:text-slate-400">
             دلوقتي تقدر تدير الفروع، والطلاب، والمدرسين، والجدول الدراسي، والحسابات، والمخزن في منصة واحدة آمنة بالكامل.
           </p>
-          <div className="flex gap-6 pt-4 border-t border-slate-800">
+          <div className="flex gap-6 pt-4 border-t border-slate-200 dark:border-slate-800">
             <div>
               <p className="text-2xl font-bold text-violet-400">99.9%</p>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">جاهزية تشغيل مستمرة</p>
@@ -86,10 +86,10 @@ export const Login: React.FC = () => {
           <div className="space-y-2">
             <div className="flex lg:hidden items-center gap-2 mb-6">
               <School className="h-6 w-6 text-violet-500" />
-              <span className="text-lg font-bold tracking-tight text-slate-100">إديوسنتر</span>
+              <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">إديوسنتر</span>
             </div>
-            <h2 className="text-3xl font-bold tracking-tight text-slate-50">تسجيل الدخول</h2>
-            <p className="text-sm text-slate-400">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">تسجيل الدخول</h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               أهلاً بك من جديد، سجل دخولك لإدارة حساب مركزك التعليمي
             </p>
           </div>
@@ -104,10 +104,10 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Subdomain Input */}
             <div className="space-y-2">
-              <label htmlFor="subdomain" className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <label htmlFor="subdomain" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 اسم النطاق الفرعي للمركز (Subdomain)
               </label>
-              <div className="flex rounded-lg bg-slate-900 border border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
+              <div className="flex rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
                 <input
                   id="subdomain"
                   type="text"
@@ -115,9 +115,9 @@ export const Login: React.FC = () => {
                   placeholder="مثال: elite"
                   value={subdomain}
                   onChange={(e) => setSubdomain(e.target.value.toLowerCase())}
-                  className="w-full bg-transparent px-4 py-3 text-slate-100 placeholder-slate-600 outline-none"
+                  className="w-full bg-transparent px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
                 />
-                <span className="flex items-center bg-slate-900 border-r border-slate-800 px-4 text-sm font-semibold text-slate-500 rounded-l-lg" dir="ltr">
+                <span className="flex items-center bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 px-4 text-sm font-semibold text-slate-500 rounded-l-lg" dir="ltr">
                   .educenter.com
                 </span>
               </div>
@@ -125,7 +125,7 @@ export const Login: React.FC = () => {
 
             {/* Email Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 البريد الإلكتروني
               </label>
               <input
@@ -135,14 +135,14 @@ export const Login: React.FC = () => {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-3 text-slate-100 placeholder-slate-600 outline-none"
+                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
               />
             </div>
 
             {/* Password Input */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                   كلمة المرور
                 </label>
                 <a href="#forgot" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
@@ -156,14 +156,14 @@ export const Login: React.FC = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-3 text-slate-100 placeholder-slate-600 outline-none"
+                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-3 font-semibold text-white hover:bg-violet-500 disabled:bg-violet-800 disabled:text-slate-400 transition-all duration-200 cursor-pointer shadow-lg shadow-violet-600/20"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-3 font-semibold text-white hover:bg-violet-500 disabled:bg-violet-800 disabled:text-slate-600 dark:text-slate-400 transition-all duration-200 cursor-pointer shadow-lg shadow-violet-600/20"
             >
               {isSubmitting ? (
                 <>
@@ -180,9 +180,9 @@ export const Login: React.FC = () => {
           </form>
 
           {/* Quick Demo Login Box */}
-          <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
             <p className="text-xs font-bold text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed">
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
               يمكنك استخدام بيانات الأكاديمية التجريبية الافتراضية بنقرة واحدة لتجربة لوحة تحكم صاحب المركز.
             </p>
             <button

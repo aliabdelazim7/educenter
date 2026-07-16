@@ -196,15 +196,15 @@ export const AcademicHub: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Page Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">القسم الأكاديمي وإدارة الحصص</h1>
-            <p className="text-sm text-slate-400">اضبط السنوات الدراسية، ومجموعات الطلاب، وجداول المواعيد اليومية.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">القسم الأكاديمي وإدارة الحصص</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">اضبط السنوات الدراسية، ومجموعات الطلاب، وجداول المواعيد اليومية.</p>
           </div>
           <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300">
             ← العودة للوحة التحكم
@@ -212,13 +212,13 @@ export const AcademicHub: React.FC = () => {
         </div>
 
         {/* Tabs Bar */}
-        <div className="flex gap-4 border-b border-slate-900 mb-6 shrink-0">
+        <div className="flex gap-4 border-b border-slate-200 dark:border-slate-900 mb-6 shrink-0">
           <button
             onClick={() => setActiveTab('years')}
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'years'
                 ? 'border-violet-500 text-violet-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
             السنوات الدراسية
@@ -228,7 +228,7 @@ export const AcademicHub: React.FC = () => {
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'groups'
                 ? 'border-violet-500 text-violet-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
             المجموعات الدراسية
@@ -238,7 +238,7 @@ export const AcademicHub: React.FC = () => {
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'sessions'
                 ? 'border-violet-500 text-violet-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
             جدول المحاضرات اليومي
@@ -262,17 +262,17 @@ export const AcademicHub: React.FC = () => {
             ) : activeTab === 'years' ? (
               // Academic Years Tab Content
               <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-300">السنوات الدراسية المسجلة</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">السنوات الدراسية المسجلة</h2>
                 {years.length === 0 ? (
-                  <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                    <Calendar className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                    <Calendar className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                     <p className="text-sm font-semibold">لا توجد سنوات دراسية مضافة حالياً.</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {years.map((y) => (
-                      <div key={y.id} className="rounded-xl border border-slate-900 bg-slate-950/40 p-5 hover:border-slate-800 transition-all">
-                        <h3 className="font-bold text-slate-200">{y.name}</h3>
+                      <div key={y.id} className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all">
+                        <h3 className="font-bold text-slate-800 dark:text-slate-200">{y.name}</h3>
                         <span className="inline-block mt-2 text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded-full">
                           {y.status === 'active' ? 'نشط' : y.status}
                         </span>
@@ -284,21 +284,21 @@ export const AcademicHub: React.FC = () => {
             ) : activeTab === 'groups' ? (
               // Groups Tab Content
               <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-300">المجموعات الدراسية الحالية</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">المجموعات الدراسية الحالية</h2>
                 {groups.length === 0 ? (
-                  <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                    <Layers className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                    <Layers className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                     <p className="text-sm font-semibold">لا توجد مجموعات دراسية مضافة حالياً.</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {groups.map((g) => (
-                      <div key={g.id} className="rounded-xl border border-slate-900 bg-slate-950/40 p-5 hover:border-slate-800 transition-all space-y-3">
+                      <div key={g.id} className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all space-y-3">
                         <div>
-                          <h3 className="font-bold text-slate-200">{g.name}</h3>
+                          <h3 className="font-bold text-slate-800 dark:text-slate-200">{g.name}</h3>
                           <p className="text-xs text-slate-500">{g.subject.name} • {g.grade.name}</p>
                         </div>
-                        <div className="text-xs text-slate-400 space-y-1">
+                        <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
                           <div className="flex items-center gap-2"><MapPin className="h-3 w-3 text-slate-500" /> <span>{g.branch.name}</span></div>
                           <div className="flex items-center gap-2"><User className="h-3 w-3 text-slate-500" /> <span>المدرس: {g.teacher_profile?.user.name || 'غير محدد'}</span></div>
                         </div>
@@ -310,19 +310,19 @@ export const AcademicHub: React.FC = () => {
             ) : (
               // Sessions Tab Content
               <div className="space-y-4">
-                <h2 className="text-lg font-bold text-slate-300">جدول الحصص المجدولة</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">جدول الحصص المجدولة</h2>
                 {sessions.length === 0 ? (
-                  <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                    <Clock className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                    <Clock className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                     <p className="text-sm font-semibold">لا توجد حصص مجدولة في جدول اليوم.</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
                     {sessions.map((s) => (
-                      <div key={s.id} className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-xl border border-slate-900 bg-slate-950/40 p-5 hover:border-slate-800 transition-all">
+                      <div key={s.id} className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all">
                         <div className="space-y-1">
                           <span className="text-xs font-bold text-violet-400">{s.date} • {s.start_time} - {s.end_time}</span>
-                          <h3 className="font-bold text-slate-200 text-base">{s.group.name}</h3>
+                          <h3 className="font-bold text-slate-800 dark:text-slate-200 text-base">{s.group.name}</h3>
                           <p className="text-xs text-slate-500">القاعة: {s.classroom?.name || 'غير محدد'} • المدرس: {s.teacher_profile?.user.name || 'غير محدد'}</p>
                         </div>
                         <div className="flex items-center gap-3">
@@ -353,14 +353,14 @@ export const AcademicHub: React.FC = () => {
           </div>
 
           {/* Form Building Sidebar */}
-          <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
             {activeTab === 'years' && (
               // Add Year Form
               <>
-                <h2 className="text-lg font-bold text-slate-300">إضافة سنة دراسية جديدة</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">إضافة سنة دراسية جديدة</h2>
                 <form onSubmit={handleYearSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="yearName" className="text-xs font-semibold uppercase tracking-wider text-slate-400">اسم السنة الدراسية</label>
+                    <label htmlFor="yearName" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اسم السنة الدراسية</label>
                     <input
                       id="yearName"
                       type="text"
@@ -368,29 +368,29 @@ export const AcademicHub: React.FC = () => {
                       placeholder="مثال: 2026/2027"
                       value={newYearName}
                       onChange={(e) => setNewYearName(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="startDate" className="text-xs font-semibold uppercase tracking-wider text-slate-400">تاريخ البدء</label>
+                    <label htmlFor="startDate" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">تاريخ البدء</label>
                     <input
                       id="startDate"
                       type="date"
                       required
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="endDate" className="text-xs font-semibold uppercase tracking-wider text-slate-400">تاريخ الانتهاء</label>
+                    <label htmlFor="endDate" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">تاريخ الانتهاء</label>
                     <input
                       id="endDate"
                       type="date"
                       required
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <button
@@ -408,10 +408,10 @@ export const AcademicHub: React.FC = () => {
             {activeTab === 'groups' && (
               // Add Group Form
               <>
-                <h2 className="text-lg font-bold text-slate-300">إنشاء مجموعة جديدة</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">إنشاء مجموعة جديدة</h2>
                 <form onSubmit={handleGroupSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="groupName" className="text-xs font-semibold uppercase tracking-wider text-slate-400">اسم المجموعة</label>
+                    <label htmlFor="groupName" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اسم المجموعة</label>
                     <input
                       id="groupName"
                       type="text"
@@ -419,56 +419,56 @@ export const AcademicHub: React.FC = () => {
                       placeholder="مثال: مجموعة الرياضيات - الصف الأول"
                       value={newGroupName}
                       onChange={(e) => setNewGroupName(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="groupBranch" className="text-xs font-semibold uppercase tracking-wider text-slate-400">الفرع</label>
+                    <label htmlFor="groupBranch" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">الفرع</label>
                     <select
                       id="groupBranch"
                       required
                       value={selBranch}
                       onChange={(e) => setSelBranch(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر الفرع</option>
                       {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="groupYear" className="text-xs font-semibold uppercase tracking-wider text-slate-400">السنة الدراسية</label>
+                    <label htmlFor="groupYear" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">السنة الدراسية</label>
                     <select
                       id="groupYear"
                       required
                       value={selYear}
                       onChange={(e) => setSelYear(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر السنة الدراسية</option>
                       {years.map(y => <option key={y.id} value={y.id}>{y.name}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="groupSubject" className="text-xs font-semibold uppercase tracking-wider text-slate-400">المادة</label>
+                    <label htmlFor="groupSubject" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">المادة</label>
                     <select
                       id="groupSubject"
                       required
                       value={selSubject}
                       onChange={(e) => setSelSubject(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر المادة</option>
                       {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="groupGrade" className="text-xs font-semibold uppercase tracking-wider text-slate-400">الصف الدراسي</label>
+                    <label htmlFor="groupGrade" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">الصف الدراسي</label>
                     <select
                       id="groupGrade"
                       required
                       value={selGrade}
                       onChange={(e) => setSelGrade(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر الصف الدراسي</option>
                       {grades.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -489,53 +489,53 @@ export const AcademicHub: React.FC = () => {
             {activeTab === 'sessions' && (
               // Add Session Form
               <>
-                <h2 className="text-lg font-bold text-slate-300">جدولة حصة جديدة</h2>
+                <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">جدولة حصة جديدة</h2>
                 <form onSubmit={handleSessionSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="sessionGroup" className="text-xs font-semibold uppercase tracking-wider text-slate-400">المجموعة الدراسية</label>
+                    <label htmlFor="sessionGroup" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">المجموعة الدراسية</label>
                     <select
                       id="sessionGroup"
                       required
                       value={selGroup}
                       onChange={(e) => setSelGroup(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر المجموعة</option>
                       {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label htmlFor="sessionDate" className="text-xs font-semibold uppercase tracking-wider text-slate-400">تاريخ الحصة</label>
+                    <label htmlFor="sessionDate" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">تاريخ الحصة</label>
                     <input
                       id="sessionDate"
                       type="date"
                       required
                       value={sessionDate}
                       onChange={(e) => setSessionDate(e.target.value)}
-                      className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label htmlFor="sessionStart" className="text-xs font-semibold uppercase tracking-wider text-slate-400">وقت البدء</label>
+                      <label htmlFor="sessionStart" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">وقت البدء</label>
                       <input
                         id="sessionStart"
                         type="time"
                         required
                         value={startTime}
                         onChange={(e) => setStartTime(e.target.value)}
-                        className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                        className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label htmlFor="sessionEnd" className="text-xs font-semibold uppercase tracking-wider text-slate-400">وقت الانتهاء</label>
+                      <label htmlFor="sessionEnd" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">وقت الانتهاء</label>
                       <input
                         id="sessionEnd"
                         type="time"
                         required
                         value={endTime}
                         onChange={(e) => setEndTime(e.target.value)}
-                        className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                        className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                       />
                     </div>
                   </div>

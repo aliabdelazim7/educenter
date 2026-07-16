@@ -77,15 +77,15 @@ export const Settings: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-slate-950 text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 border-b border-slate-900 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-slate-50">إعدادات النظام والأكاديمية</h1>
-            <p className="text-sm text-slate-400">اضبط البيانات العامة للمركز، والخيارات الأمنية، وراجع سجل الرقابة والإدارة.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">إعدادات النظام والأكاديمية</h1>
+            <p className="text-sm text-slate-600 dark:text-slate-400">اضبط البيانات العامة للمركز، والخيارات الأمنية، وراجع سجل الرقابة والإدارة.</p>
           </div>
           <a href="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300">
             ← العودة للوحة التحكم
@@ -93,13 +93,13 @@ export const Settings: React.FC = () => {
         </div>
 
         {/* Tabs Bar */}
-        <div className="flex gap-4 border-b border-slate-900 mb-6 shrink-0 text-sm font-semibold">
+        <div className="flex gap-4 border-b border-slate-200 dark:border-slate-900 mb-6 shrink-0 text-sm font-semibold">
           <button
             onClick={() => setActiveTab('profile')}
             className={`px-4 py-2 border-b-2 transition-all cursor-pointer ${
               activeTab === 'profile'
                 ? 'border-violet-500 text-violet-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
             الملف التعريفي العام
@@ -109,7 +109,7 @@ export const Settings: React.FC = () => {
             className={`px-4 py-2 border-b-2 transition-all cursor-pointer ${
               activeTab === 'audits'
                 ? 'border-violet-500 text-violet-400'
-                : 'border-transparent text-slate-500 hover:text-slate-300'
+                : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
             سجل الرقابة والأمان
@@ -133,34 +133,34 @@ export const Settings: React.FC = () => {
         <div className="max-w-4xl w-full">
           {activeTab === 'profile' ? (
             /* General Settings Tab */
-            <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 max-w-lg space-y-6">
-              <h2 className="text-lg font-bold text-slate-300 flex items-center gap-2">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 max-w-lg space-y-6">
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <SettingsIcon className="h-5 w-5 text-violet-400" /> بيانات الأكاديمية والمركز
               </h2>
               
               <form onSubmit={handleSaveConfig} className="space-y-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="acadName" className="text-xs font-semibold uppercase tracking-wider text-slate-400">اسم الأكاديمية أو المركز</label>
+                  <label htmlFor="acadName" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اسم الأكاديمية أو المركز</label>
                   <input
                     id="acadName"
                     type="text"
                     required
                     value={tenantName}
                     onChange={(e) => setTenantName(e.target.value)}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800 px-4 py-2.5 text-sm text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">رابط المركز الفرعي (Subdomain)</label>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">رابط المركز الفرعي (Subdomain)</label>
                   <input
                     type="text"
                     disabled
                     value={tenant?.subdomain || ''}
-                    className="w-full rounded-lg bg-slate-900 border border-slate-800/80 px-4 py-2.5 text-sm text-slate-500 outline-none cursor-not-allowed text-right font-mono"
+                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 px-4 py-2.5 text-sm text-slate-500 outline-none cursor-not-allowed text-right font-mono"
                     dir="ltr"
                   />
-                  <span className="text-[10px] text-slate-600 block leading-tight">روابط الفروع مقفلة لأسباب أمنية ولا يمكن تعديلها بعد إتمام التسجيل.</span>
+                  <span className="text-[10px] text-slate-600 dark:text-slate-300 block leading-tight">روابط الفروع مقفلة لأسباب أمنية ولا يمكن تعديلها بعد إتمام التسجيل.</span>
                 </div>
 
                 <button
@@ -176,7 +176,7 @@ export const Settings: React.FC = () => {
           ) : (
             /* Audit Log Timeline Tab */
             <div className="space-y-4">
-              <h2 className="text-lg font-bold text-slate-300 flex items-center gap-2">
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <Activity className="h-5 w-5 text-violet-400" /> سجل العمليات الإدارية والرقابة
               </h2>
 
@@ -185,28 +185,28 @@ export const Settings: React.FC = () => {
                   <Loader2 className="h-8 w-8 animate-spin text-violet-500" />
                 </div>
               ) : logs.length === 0 ? (
-                <div className="rounded-xl border border-slate-900 border-dashed p-12 text-center text-slate-500">
-                  <Clock className="h-10 w-10 mx-auto mb-4 text-slate-600" />
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-12 text-center text-slate-500">
+                  <Clock className="h-10 w-10 mx-auto mb-4 text-slate-600 dark:text-slate-300" />
                   <p className="text-sm font-semibold">لا توجد سجلات رقابة مسجلة حالياً.</p>
                 </div>
               ) : (
-                <div className="space-y-3 relative before:absolute before:inset-0 before:right-3.5 before:w-[1px] before:bg-slate-900">
+                <div className="space-y-3 relative before:absolute before:inset-0 before:right-3.5 before:w-[1px] before:bg-slate-50 dark:bg-slate-900">
                   {logs.map((log) => (
                     <div key={log.id} className="relative pr-10 flex gap-4 text-xs">
                       {/* Timeline dot */}
-                      <div className="absolute right-2 top-1.5 h-3 w-3 rounded-full border border-violet-500 bg-slate-950 shrink-0"></div>
+                      <div className="absolute right-2 top-1.5 h-3 w-3 rounded-full border border-violet-500 bg-white dark:bg-slate-950 shrink-0"></div>
                       
-                      <div className="flex-1 rounded-lg border border-slate-900 bg-slate-950/40 p-4 hover:border-slate-800 transition-all text-right">
+                      <div className="flex-1 rounded-lg border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-4 hover:border-slate-200 dark:border-slate-800 transition-all text-right">
                         <div className="flex justify-between items-start">
                           <div>
-                            <p className="font-bold text-slate-200">
+                            <p className="font-bold text-slate-800 dark:text-slate-200">
                               <span className="text-violet-400">{getActionArabic(log.action)}</span> - {log.model_type ? log.model_type.split('\\').pop() : 'النظام'}
                             </p>
                             <p className="text-[10px] text-slate-500 mt-1 leading-normal">
                               بواسطة: {log.user?.name || 'النظام'} • عنوان IP: {log.ip_address || 'غير متوفر'}
                             </p>
                           </div>
-                          <span className="text-[9px] font-semibold text-slate-600 shrink-0" dir="ltr">
+                          <span className="text-[9px] font-semibold text-slate-600 dark:text-slate-300 shrink-0" dir="ltr">
                             {new Date(log.created_at).toLocaleString('ar-EG')}
                           </span>
                         </div>
