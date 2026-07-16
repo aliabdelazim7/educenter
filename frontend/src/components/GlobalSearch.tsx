@@ -55,7 +55,7 @@ export const GlobalSearch: React.FC = () => {
   return (
     <div className="relative w-80" ref={dropdownRef}>
       {/* Search Input field */}
-      <div className="flex items-center rounded-lg bg-slate-900 border border-slate-800 focus-within:border-violet-500/50 px-3 py-1.5 transition-all">
+      <div className="flex items-center rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-200 dark:focus-within:border-violet-500/50 px-3 py-1.5 transition-all">
         <Search className="h-4 w-4 text-slate-500 shrink-0 mr-2" />
         <input
           type="text"
@@ -63,10 +63,10 @@ export const GlobalSearch: React.FC = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => { if (results) setOpen(true); }}
-          className="w-full bg-transparent text-xs text-slate-100 placeholder-slate-600 outline-none"
+          className="w-full bg-transparent text-xs text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
         />
         {query && (
-          <button onClick={() => setQuery('')} className="text-slate-500 hover:text-slate-300">
+          <button onClick={() => setQuery('')} className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
             <X className="h-3.5 w-3.5" />
           </button>
         )}
@@ -74,7 +74,7 @@ export const GlobalSearch: React.FC = () => {
 
       {/* Floating Results Box */}
       {open && results && (
-        <div className="absolute top-11 left-0 w-96 rounded-xl border border-slate-800 bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4 max-h-[400px] overflow-y-auto">
+        <div className="absolute top-11 left-0 w-96 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4 max-h-[400px] overflow-y-auto">
           {loading && (
             <div className="flex justify-center py-4">
               <Loader2 className="h-5 w-5 animate-spin text-violet-500" />
@@ -92,8 +92,8 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.students.map((student) => (
-                  <div key={student.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-slate-900 text-xs transition-all cursor-pointer">
-                    <p className="font-semibold text-slate-200">{student.user.name}</p>
+                  <div key={student.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                    <p className="font-semibold text-slate-800 dark:text-slate-200">{student.user.name}</p>
                     <p className="text-[10px] text-slate-500">{student.user.email} • QR: {student.qr_code || 'N/A'}</p>
                   </div>
                 ))}
@@ -108,8 +108,8 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.groups.map((group) => (
-                  <div key={group.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-slate-900 text-xs transition-all cursor-pointer">
-                    <p className="font-semibold text-slate-200">{group.name}</p>
+                  <div key={group.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                    <p className="font-semibold text-slate-800 dark:text-slate-200">{group.name}</p>
                   </div>
                 ))}
               </div>
@@ -123,8 +123,8 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.invoices.map((inv) => (
-                  <div key={inv.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-slate-900 text-xs transition-all cursor-pointer">
-                    <p className="font-semibold text-slate-200">{inv.invoice_number}</p>
+                  <div key={inv.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                    <p className="font-semibold text-slate-800 dark:text-slate-200">{inv.invoice_number}</p>
                     <p className="text-[10px] text-slate-500">Amount: ${parseFloat(inv.grand_total).toFixed(2)} • Status: <span className="uppercase">{inv.status}</span></p>
                   </div>
                 ))}
