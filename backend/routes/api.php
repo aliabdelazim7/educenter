@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Api\StudentTimelineController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -55,6 +56,9 @@ Route::prefix('v1')->group(function () {
             // User activation controls
             Route::get('users', [UserController::class, 'index']);
             Route::patch('users/{user}/status', [UserController::class, 'updateStatus']);
+
+            // Lookup used by the invite form
+            Route::get('subjects', [SubjectController::class, 'index']);
 
             // Branches
             Route::apiResource('branches', BranchController::class);

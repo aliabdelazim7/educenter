@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInvitationRequest;
 use App\Models\Invitation;
 use App\Services\InvitationService;
+use App\Support\RoleLabels;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -132,7 +133,7 @@ class InvitationController extends Controller
                 'email' => $invitation->email,
                 'phone' => $invitation->user?->phone,
                 'role' => $invitation->role,
-                'role_label' => __('roles.' . $invitation->role),
+                'role_label' => RoleLabels::for($invitation->role),
                 'center_name' => $invitation->tenant?->name,
                 'subdomain' => $invitation->tenant?->subdomain,
                 'expires_at' => $invitation->expires_at,
@@ -186,7 +187,7 @@ class InvitationController extends Controller
             'name' => $invitation->user?->name,
             'email' => $invitation->email,
             'role' => $invitation->role,
-            'role_label' => __('roles.' . $invitation->role),
+            'role_label' => RoleLabels::for($invitation->role),
             'status' => $invitation->displayStatus(),
             'user_status' => $invitation->user?->status,
             'invited_by' => $invitation->inviter?->name,

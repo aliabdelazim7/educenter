@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\User;
+use App\Support\RoleLabels;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -26,7 +27,7 @@ class UserController extends Controller
                 'phone' => $u->phone,
                 'status' => $u->status,
                 'roles' => $u->roles->pluck('name'),
-                'role_labels' => $u->roles->pluck('name')->map(fn ($r) => __('roles.' . $r)),
+                'role_labels' => $u->roles->pluck('name')->map(fn ($r) => RoleLabels::for($r)),
                 'created_at' => $u->created_at,
             ]);
 

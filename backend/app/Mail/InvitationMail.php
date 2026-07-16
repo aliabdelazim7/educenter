@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\Invitation;
 use App\Models\Tenant;
+use App\Support\RoleLabels;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -35,7 +36,7 @@ class InvitationMail extends Mailable
             view: 'emails.invitation',
             with: [
                 'centerName' => $this->tenant?->name ?? config('app.name'),
-                'roleLabel' => __('roles.' . $this->invitation->role),
+                'roleLabel' => RoleLabels::for($this->invitation->role),
                 'name' => $this->invitation->user?->name,
                 'url' => $this->url,
                 'expiresHours' => Invitation::TTL_HOURS,

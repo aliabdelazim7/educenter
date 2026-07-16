@@ -5,6 +5,8 @@ import { ThemeToggle } from './components/ThemeToggle'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
+import { AcceptInvitation } from './pages/AcceptInvitation'
+import { Users as UserManagement } from './pages/Users'
 import { Dashboard } from './pages/Dashboard'
 import { Branches } from './pages/Branches'
 import { AcademicHub } from './pages/AcademicHub'
@@ -27,9 +29,11 @@ function App() {
       <BrowserRouter>
         <ThemeToggle />
         <Routes>
-          {/* Public authentication routes */}
+          {/* Public authentication routes.
+              /register creates a centre + its Owner; every other account is invited. */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/invitation/:token" element={<AcceptInvitation />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/* Protected tenant routes */}
@@ -130,6 +134,14 @@ function App() {
             element={
               <ProtectedRoute requiredPermission="manage settings">
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute requiredPermission="manage settings">
+                <UserManagement />
               </ProtectedRoute>
             }
           />
