@@ -76,7 +76,7 @@ export const NotificationBell: React.FC = () => {
 
       {/* Dropdown Card */}
       {open && (
-        <div className="absolute top-11 right-0 w-80 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4">
+        <div className="absolute top-11 right-0 w-80 rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-900 pb-2">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Notifications ({notifications.length})</span>
             {notifications.length > 0 && (
@@ -103,8 +103,8 @@ export const NotificationBell: React.FC = () => {
                   className="group flex justify-between gap-3 p-2.5 rounded-lg bg-slate-100 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-900/50 hover:border-slate-200 dark:hover:border-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-900/40 text-xs transition-all"
                 >
                   <div className="space-y-0.5 min-w-0">
-                    <p className="font-bold text-slate-800 dark:text-slate-200 truncate">{n.title}</p>
-                    <p className="text-[10px] text-slate-500 leading-normal">{n.message}</p>
+                    <p className="font-bold text-slate-900 dark:text-slate-200 truncate">{n.title}</p>
+                    <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-normal">{n.message}</p>
                   </div>
                   <button
                     onClick={(e) => markAsRead(n.id, e)}
