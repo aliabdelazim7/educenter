@@ -77,7 +77,7 @@ export const Settings: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
@@ -133,7 +133,7 @@ export const Settings: React.FC = () => {
         <div className="max-w-4xl w-full">
           {activeTab === 'profile' ? (
             /* General Settings Tab */
-            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 max-w-lg space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 max-w-lg space-y-6">
               <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <SettingsIcon className="h-5 w-5 text-violet-400" /> بيانات الأكاديمية والمركز
               </h2>
@@ -147,7 +147,7 @@ export const Settings: React.FC = () => {
                     required
                     value={tenantName}
                     onChange={(e) => setTenantName(e.target.value)}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                   />
                 </div>
 
@@ -157,7 +157,7 @@ export const Settings: React.FC = () => {
                     type="text"
                     disabled
                     value={tenant?.subdomain || ''}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 px-4 py-2.5 text-sm text-slate-500 outline-none cursor-not-allowed text-right font-mono"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 px-4 py-2.5 text-sm text-slate-500 outline-none cursor-not-allowed text-right font-mono"
                     dir="ltr"
                   />
                   <span className="text-[10px] text-slate-600 dark:text-slate-300 block leading-tight">روابط الفروع مقفلة لأسباب أمنية ولا يمكن تعديلها بعد إتمام التسجيل.</span>
@@ -190,13 +190,13 @@ export const Settings: React.FC = () => {
                   <p className="text-sm font-semibold">لا توجد سجلات رقابة مسجلة حالياً.</p>
                 </div>
               ) : (
-                <div className="space-y-3 relative before:absolute before:inset-0 before:right-3.5 before:w-[1px] before:bg-slate-50 dark:bg-slate-900">
+                <div className="space-y-3 relative before:absolute before:inset-0 before:right-3.5 before:w-[1px] before:bg-white dark:bg-slate-900">
                   {logs.map((log) => (
                     <div key={log.id} className="relative pr-10 flex gap-4 text-xs">
                       {/* Timeline dot */}
-                      <div className="absolute right-2 top-1.5 h-3 w-3 rounded-full border border-violet-500 bg-white dark:bg-slate-950 shrink-0"></div>
+                      <div className="absolute right-2 top-1.5 h-3 w-3 rounded-full border border-violet-500 bg-slate-50 dark:bg-slate-950 shrink-0"></div>
                       
-                      <div className="flex-1 rounded-lg border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-4 hover:border-slate-200 dark:border-slate-800 transition-all text-right">
+                      <div className="flex-1 rounded-lg border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-4 hover:border-slate-200 dark:border-slate-800 transition-all text-right">
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="font-bold text-slate-800 dark:text-slate-200">

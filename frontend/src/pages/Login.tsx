@@ -38,7 +38,7 @@ export const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans">
+    <div className="flex min-h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans">
       {/* Left panel - Decorative marketing panel */}
       <div className="relative hidden w-1/2 overflow-hidden bg-gradient-to-tr from-violet-950 via-slate-100 dark:via-slate-950 to-indigo-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
         {/* Glow circles */}
@@ -107,7 +107,7 @@ export const Login: React.FC = () => {
               <label htmlFor="subdomain" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 اسم النطاق الفرعي للمركز (Subdomain)
               </label>
-              <div className="flex rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
+              <div className="flex rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
                 <input
                   id="subdomain"
                   type="text"
@@ -117,7 +117,7 @@ export const Login: React.FC = () => {
                   onChange={(e) => setSubdomain(e.target.value.toLowerCase())}
                   className="w-full bg-transparent px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
                 />
-                <span className="flex items-center bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 px-4 text-sm font-semibold text-slate-500 rounded-l-lg" dir="ltr">
+                <span className="flex items-center bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 px-4 text-sm font-semibold text-slate-500 rounded-l-lg" dir="ltr">
                   .educenter.com
                 </span>
               </div>
@@ -135,7 +135,7 @@ export const Login: React.FC = () => {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
               />
             </div>
 
@@ -156,7 +156,7 @@ export const Login: React.FC = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none"
               />
             </div>
 
@@ -180,7 +180,7 @@ export const Login: React.FC = () => {
           </form>
 
           {/* Quick Demo Login Box */}
-          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
             <p className="text-xs font-bold text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
             <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
               يمكنك استخدام بيانات الأكاديمية التجريبية الافتراضية بنقرة واحدة لتجربة لوحة تحكم صاحب المركز.

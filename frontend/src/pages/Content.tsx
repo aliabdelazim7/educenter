@@ -137,7 +137,7 @@ export const Content: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
         <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
@@ -173,7 +173,7 @@ export const Content: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-7xl">
             {/* Add Content Form */}
-            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <h2 className="text-lg font-bold text-slate-350 flex items-center gap-2 text-right">
                 <BookOpen className="h-5 w-5 text-violet-400" />
                 <span>إضافة رابط محتوى جديد</span>
@@ -187,7 +187,7 @@ export const Content: React.FC = () => {
                     required
                     value={selectedGroup}
                     onChange={(e) => setSelectedGroup(e.target.value)}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="">اختر المجموعة...</option>
                     {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -203,7 +203,7 @@ export const Content: React.FC = () => {
                     placeholder="مثال: مذكرة الجبر والتحليل - الباب الأول"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   />
                 </div>
 
@@ -214,7 +214,7 @@ export const Content: React.FC = () => {
                     required
                     value={contentType}
                     onChange={(e) => setContentType(e.target.value)}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
                   >
                     <option value="homework">واجب منزلي</option>
                     <option value="book">كتاب / ملزمة</option>
@@ -233,7 +233,7 @@ export const Content: React.FC = () => {
                     placeholder="https://drive.google.com/..."
                     value={driveLink}
                     onChange={(e) => setDriveLink(e.target.value)}
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500 text-left font-mono"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500 text-left font-mono"
                     dir="ltr"
                   />
                   <span className="text-[10px] text-slate-600 dark:text-slate-300 block text-right leading-tight">انسخ رابط المشاركة المباشر من جوجل درايف والصقه هنا.</span>
@@ -264,10 +264,10 @@ export const Content: React.FC = () => {
                   <p className="text-sm font-semibold">لم يتم نشر أي محتوى دراسي بعد.</p>
                 </div>
               ) : (
-                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
+                <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 overflow-hidden">
                   <table className="w-full text-right border-collapse text-sm">
                     <thead>
-                      <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
+                      <tr className="border-b border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500">
                         <th className="px-6 py-4">عنوان المادة الدراسية / الملف</th>
                         <th className="px-6 py-4">المجموعة</th>
                         <th className="px-6 py-4">النوع</th>
@@ -276,7 +276,7 @@ export const Content: React.FC = () => {
                     </thead>
                     <tbody className="divide-y divide-slate-900 text-xs">
                       {contents.map((item) => (
-                        <tr key={item.id} className="hover:bg-slate-50 dark:bg-slate-900/10 transition-all">
+                        <tr key={item.id} className="hover:bg-white dark:bg-slate-900/10 transition-all">
                           <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{item.title}</td>
                           <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{item.group?.name || 'عام'}</td>
                           <td className="px-6 py-4">

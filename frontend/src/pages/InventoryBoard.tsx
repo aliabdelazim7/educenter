@@ -76,7 +76,7 @@ export const InventoryBoard: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative font-sans">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
@@ -113,10 +113,10 @@ export const InventoryBoard: React.FC = () => {
                 <p className="text-sm font-semibold">لا توجد مستلزمات مسجلة بالمخزن حالياً.</p>
               </div>
             ) : (
-              <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
+              <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 overflow-hidden">
                 <table className="w-full text-right border-collapse text-sm" dir="rtl">
                   <thead>
-                    <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500 text-right">
+                    <tr className="border-b border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900/30 text-xs font-bold uppercase text-slate-500 text-right">
                       <th className="px-5 py-3">بيانات الصنف</th>
                       <th className="px-5 py-3">سعر الشراء / البيع</th>
                       <th className="px-5 py-3 text-left">الكمية المتاحة</th>
@@ -126,7 +126,7 @@ export const InventoryBoard: React.FC = () => {
                     {products.map((p) => {
                       const isLowStock = p.stock <= p.low_stock_threshold
                       return (
-                        <tr key={p.id} className="hover:bg-slate-50 dark:bg-slate-900/10 transition-all">
+                        <tr key={p.id} className="hover:bg-white dark:bg-slate-900/10 transition-all">
                           <td className="px-5 py-3">
                             <p className="font-semibold text-slate-700 dark:text-slate-300">{p.name}</p>
                             <p className="text-[10px] text-slate-500">كود: {p.sku || 'لا يوجد'} • النوع: <span>{getProductTypeArabic(p.type)}</span></p>
@@ -154,7 +154,7 @@ export const InventoryBoard: React.FC = () => {
           </div>
 
           {/* Adjust Stock Form */}
-          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
             <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">تسجيل تسوية للمخزون</h2>
 
             <form onSubmit={handleAdjustSubmit} className="space-y-4">
@@ -165,7 +165,7 @@ export const InventoryBoard: React.FC = () => {
                   required
                   value={selectedProduct}
                   onChange={(e) => setSelectedProduct(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                 >
                   <option value="">اختر الصنف من القائمة</option>
                   {products.map(p => <option key={p.id} value={p.id}>{p.name} ({p.stock} متوفر)</option>)}
@@ -181,7 +181,7 @@ export const InventoryBoard: React.FC = () => {
                   placeholder="مثال: +10 أو -3"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                 />
                 <span className="text-[10px] text-slate-500 block leading-tight">اكتب رقماً موجباً للإضافة، ورقماً سالباً للسحب من المخزن.</span>
               </div>
@@ -193,7 +193,7 @@ export const InventoryBoard: React.FC = () => {
                   required
                   value={adjustType}
                   onChange={(e) => setAdjustType(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
                 >
                   <option value="purchase">شراء وتوريد كميات (+)</option>
                   <option value="adjustment">جرد دوري وتعديل (+/-)</option>
@@ -210,7 +210,7 @@ export const InventoryBoard: React.FC = () => {
                   placeholder="مثال: فاتورة توريد رقم 8820"
                   value={remarks}
                   onChange={(e) => setRemarks(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
                 />
               </div>
 

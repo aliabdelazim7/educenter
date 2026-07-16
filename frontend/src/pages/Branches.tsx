@@ -66,7 +66,7 @@ export const Branches: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
@@ -111,7 +111,7 @@ export const Branches: React.FC = () => {
                 {branches.map((branch) => (
                   <div
                     key={branch.id}
-                    className="group relative rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all hover:translate-y-[-2px] duration-200"
+                    className="group relative rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all hover:translate-y-[-2px] duration-200"
                   >
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
@@ -132,7 +132,7 @@ export const Branches: React.FC = () => {
 
                       <button
                         onClick={() => handleDelete(branch.id)}
-                        className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-950 hover:bg-red-950/10 text-slate-500 hover:text-red-400 flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover:opacity-100"
+                        className="h-8 w-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-950 hover:bg-red-950/10 text-slate-500 hover:text-red-400 flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -144,7 +144,7 @@ export const Branches: React.FC = () => {
           </div>
 
           {/* Add New Branch Panel */}
-          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 p-6 space-y-6">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
             <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">إضافة فرع جديد</h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -159,7 +159,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: فرع وسط البلد"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 
@@ -173,7 +173,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: شارع التحرير، الدقي"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: 01023456789"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 

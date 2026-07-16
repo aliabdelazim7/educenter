@@ -123,7 +123,7 @@ export const AttendanceBoard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-10 w-10 animate-spin text-violet-500" />
           <p className="text-sm text-slate-600 dark:text-slate-400">جاري تحميل سجل حضور الفصل...</p>
@@ -133,7 +133,7 @@ export const AttendanceBoard: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative">
         <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
@@ -142,7 +142,7 @@ export const AttendanceBoard: React.FC = () => {
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/academic')}
-              className="h-9 w-9 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 flex items-center justify-center transition-all cursor-pointer"
+              className="h-9 w-9 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 flex items-center justify-center transition-all cursor-pointer"
             >
               <ArrowLeft className="h-4 w-4" />
             </button>
@@ -189,11 +189,11 @@ export const AttendanceBoard: React.FC = () => {
               <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">يرجى تسجيل الطلاب في المجموعة الدراسية أولاً لتتمكن من أخذ الحضور.</p>
             </div>
           ) : (
-            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950/40 overflow-hidden">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse" dir="rtl">
                   <thead>
-                    <tr className="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-900/30 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">
+                    <tr className="border-b border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900/30 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">
                       <th className="px-6 py-4">اسم الطالب</th>
                       <th className="px-6 py-4">حالة الحضور</th>
                       <th className="px-6 py-4">ملاحظات إضافية</th>
@@ -203,7 +203,7 @@ export const AttendanceBoard: React.FC = () => {
                     {students.map((student) => {
                       const record = attendance[student.id] || { status: 'present', remarks: '' }
                       return (
-                        <tr key={student.id} className="hover:bg-slate-50 dark:bg-slate-900/20 transition-all">
+                        <tr key={student.id} className="hover:bg-white dark:bg-slate-900/20 transition-all">
                           {/* Student Details */}
                           <td className="px-6 py-4">
                             <p className="font-bold text-slate-800 dark:text-slate-200">{student.user.name}</p>
@@ -212,7 +212,7 @@ export const AttendanceBoard: React.FC = () => {
 
                           {/* Status Options */}
                           <td className="px-6 py-4">
-                            <div className="inline-flex rounded-lg bg-slate-50 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800/80">
+                            <div className="inline-flex rounded-lg bg-white dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800/80">
                               <button
                                 type="button"
                                 onClick={() => handleStatusChange(student.id, 'present')}
@@ -251,7 +251,7 @@ export const AttendanceBoard: React.FC = () => {
                                 onClick={() => handleStatusChange(student.id, 'excused')}
                                 className={`px-3 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
                                   record.status === 'excused'
-                                    ? 'bg-slate-200 dark:bg-slate-700 text-white shadow-sm'
+                                    ? 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
                                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
                                 }`}
                               >
@@ -267,7 +267,7 @@ export const AttendanceBoard: React.FC = () => {
                               placeholder="أضف ملاحظة..."
                               value={record.remarks}
                               onChange={(e) => handleRemarksChange(student.id, e.target.value)}
-                              className="w-full max-w-xs rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                              className="w-full max-w-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
                             />
                           </td>
                         </tr>
