@@ -2,8 +2,9 @@ services:
   - type: web
     name: educenter-api
     runtime: docker
-    rootDir: backend
-    dockerfilePath: ./Dockerfile
+    # Paths are resolved from the repo root, not from dockerContext.
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     plan: free
     healthCheckPath: /up
     envVars:
