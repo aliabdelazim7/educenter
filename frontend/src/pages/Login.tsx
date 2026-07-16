@@ -16,6 +16,12 @@ export const Login: React.FC = () => {
   // Retrieve redirect path from router state or default to dashboard
   const from = (location.state as any)?.from?.pathname || '/dashboard'
 
+  const handleFillDemo = () => {
+    setSubdomain('elite')
+    setEmail('admin@elite.com')
+    setPassword('password')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     clearError()
@@ -172,6 +178,21 @@ export const Login: React.FC = () => {
               )}
             </button>
           </form>
+
+          {/* Quick Demo Login Box */}
+          <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
+            <p className="text-xs font-bold text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              يمكنك استخدام بيانات الأكاديمية التجريبية الافتراضية بنقرة واحدة لتجربة لوحة تحكم صاحب المركز.
+            </p>
+            <button
+              type="button"
+              onClick={handleFillDemo}
+              className="w-full py-2 rounded bg-violet-600/10 hover:bg-violet-600/25 border border-violet-500/20 hover:border-violet-500/40 text-xs font-bold text-violet-400 transition-all cursor-pointer"
+            >
+              تعبئة بيانات الحساب التجريبي تلقائياً
+            </button>
+          </div>
 
           <p className="text-center text-sm text-slate-500">
             ليس لديك نطاق خاص بك؟{' '}
