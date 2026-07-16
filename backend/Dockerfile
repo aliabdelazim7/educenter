@@ -1,4 +1,5 @@
-FROM php:8.3-fpm-alpine
+# composer.lock pins Symfony 8.1, which requires PHP >= 8.4.1
+FROM php:8.4-fpm-alpine
 
 # nginx + supervisor + envsubst
 RUN apk add --no-cache nginx supervisor gettext
