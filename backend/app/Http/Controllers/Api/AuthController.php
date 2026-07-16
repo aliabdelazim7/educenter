@@ -75,10 +75,22 @@ class AuthController extends Controller
         // Because of the 'tenant' middleware, the query is automatically scoped to the resolved tenant
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        // Invited-but-not-accepted users have a null password; Hash::check would
+        // throw on null, so guard before comparing.
+        if (!$user || $user->password === null || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => 'Invalid credentials.'
             ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!$user->canLogin()) {
+            return response()->json([
+                'message' => match ($user->status) {
+                    User::STATUS_PENDING_INVITATION => 'لم يتم تفعيل حسابك بعد. يرجى إكمال إنشاء الحساب من رابط الدعوة.',
+                    User::STATUS_SUSPENDED => 'تم إيقاف هذا الحساب. يرجى التواصل مع إدارة المركز.',
+                    default => 'هذا الحساب غير مفعّل. يرجى التواصل مع إدارة المركز.',
+                },
+            ], Response::HTTP_FORBIDDEN);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;

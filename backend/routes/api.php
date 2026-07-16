@@ -19,11 +19,22 @@ use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\EducationalContentController;
 use App\Http\Controllers\Api\ExamController;
 use App\Http\Controllers\Api\StudentTimelineController;
+use App\Http\Controllers\Api\InvitationController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    // Central routes (no tenant isolation required to register a new tenant)
+    // Central routes (no tenant isolation required to register a new tenant).
+    // This is the only public sign-up: it creates a centre and its Owner.
+    // Every other account is provisioned by invitation.
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Public invitation acceptance: the invitee has no tenant context yet, so the
+    // token itself carries the tenant. Throttled because it is unauthenticated.
+    Route::middleware('throttle:10,1')->group(function () {
+        Route::get('/invitations/{token}', [InvitationController::class, 'show']);
+        Route::post('/invitations/{token}/accept', [InvitationController::class, 'accept']);
+    });
 
     // Tenant-scoped routes (requires a valid subdomain or X-Tenant-ID header)
     Route::middleware(['tenant'])->group(function () {
@@ -33,6 +44,17 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/me', [AuthController::class, 'me']);
             Route::post('/logout', [AuthController::class, 'logout']);
+
+            // Invitations (Owner/Admin only — enforced in the controller/request)
+            Route::get('invitations', [InvitationController::class, 'index']);
+            Route::post('invitations', [InvitationController::class, 'store']);
+            Route::post('invitations/{invitation}/resend', [InvitationController::class, 'resend']);
+            Route::patch('invitations/{invitation}/email', [InvitationController::class, 'updateEmail']);
+            Route::delete('invitations/{invitation}', [InvitationController::class, 'destroy']);
+
+            // User activation controls
+            Route::get('users', [UserController::class, 'index']);
+            Route::patch('users/{user}/status', [UserController::class, 'updateStatus']);
 
             // Branches
             Route::apiResource('branches', BranchController::class);
