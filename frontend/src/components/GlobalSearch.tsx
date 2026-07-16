@@ -74,7 +74,7 @@ export const GlobalSearch: React.FC = () => {
 
       {/* Floating Results Box */}
       {open && results && (
-        <div className="absolute top-11 left-0 w-96 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4 max-h-[400px] overflow-y-auto">
+        <div className="absolute top-11 left-0 w-96 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/95 backdrop-blur-md shadow-2xl p-4 z-50 space-y-4 max-h-[400px] overflow-y-auto">
           {loading && (
             <div className="flex justify-center py-4">
               <Loader2 className="h-5 w-5 animate-spin text-violet-500" />
@@ -92,7 +92,7 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.students.map((student) => (
-                  <div key={student.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                  <div key={student.id} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
                     <p className="font-semibold text-slate-800 dark:text-slate-200">{student.user.name}</p>
                     <p className="text-[10px] text-slate-500">{student.user.email} • QR: {student.qr_code || 'N/A'}</p>
                   </div>
@@ -108,7 +108,7 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.groups.map((group) => (
-                  <div key={group.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                  <div key={group.id} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
                     <p className="font-semibold text-slate-800 dark:text-slate-200">{group.name}</p>
                   </div>
                 ))}
@@ -123,7 +123,7 @@ export const GlobalSearch: React.FC = () => {
               </p>
               <div className="space-y-1">
                 {results.invoices.map((inv) => (
-                  <div key={inv.id} className="p-2 rounded-lg bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
+                  <div key={inv.id} className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900/30 hover:bg-white dark:hover:bg-slate-900 text-xs transition-all cursor-pointer">
                     <p className="font-semibold text-slate-800 dark:text-slate-200">{inv.invoice_number}</p>
                     <p className="text-[10px] text-slate-500">Amount: ${parseFloat(inv.grand_total).toFixed(2)} • Status: <span className="uppercase">{inv.status}</span></p>
                   </div>
