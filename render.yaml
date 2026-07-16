@@ -63,19 +63,21 @@ services:
       - key: FRONTEND_URL
         sync: false
 
-      # Resend over SMTP (no extra composer package needed).
-      # MAIL_PASSWORD is the Resend API key; MAIL_FROM_ADDRESS must be on a
-      # domain verified in Resend.
+      # Any standard SMTP provider works; set these in the dashboard.
+      #   Gmail: smtp.gmail.com / 587 / tls / <you>@gmail.com / <app password>
+      #   Brevo: smtp-relay.brevo.com / 587 / tls / <login> / <smtp key>
+      #  Resend: smtp.resend.com / 587 / tls / resend / <api key>
+      #          (requires a verified domain to mail arbitrary recipients)
       - key: MAIL_MAILER
         value: smtp
       - key: MAIL_HOST
-        value: smtp.resend.com
+        sync: false
       - key: MAIL_PORT
-        value: "587"
+        sync: false
       - key: MAIL_SCHEME
-        value: tls
+        sync: false
       - key: MAIL_USERNAME
-        value: resend
+        sync: false
       - key: MAIL_PASSWORD
         sync: false
       - key: MAIL_FROM_ADDRESS
