@@ -18,10 +18,12 @@ php artisan view:cache
 # Apply schema changes
 php artisan migrate --force
 
-# Optional demo data. The free Render plan has no shell, so this is the only way
-# to seed. The seeder is idempotent, so leaving the flag on is harmless.
-if [ "${SEED_DEMO}" = "true" ]; then
-    echo "SEED_DEMO=true — running database seeders"
+# Demo data, on by default: the login page ships a demo account, and the free
+# Render plan has no shell to seed by hand. The seeder is idempotent and the
+# demo lives in its own tenant, so it cannot touch a real centre's data.
+# Opt out with SEED_DEMO=false.
+if [ "${SEED_DEMO:-true}" != "false" ]; then
+    echo "Seeding demo data (set SEED_DEMO=false to disable)"
     php artisan db:seed --force
 fi
 

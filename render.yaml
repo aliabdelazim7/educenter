@@ -63,10 +63,10 @@ services:
       - key: FRONTEND_URL
         sync: false
 
-      # Set to "true" to seed the Elite Academy demo data on boot.
-      # The seeder is idempotent; the free plan has no shell to run it manually.
+      # Demo data seeds on boot by default (the login page offers a demo
+      # account). Set to "false" to stop seeding it. Idempotent either way.
       - key: SEED_DEMO
-        sync: false
+        value: "true"
 
       # Any standard SMTP provider works; set these in the dashboard.
       #   Gmail: smtp.gmail.com / 587 / tls / <you>@gmail.com / <app password>
