@@ -135,7 +135,7 @@ export const AttendanceBoard: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative">
-        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-900 pb-6 mb-8">
@@ -174,8 +174,8 @@ export const AttendanceBoard: React.FC = () => {
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -267,7 +267,7 @@ export const AttendanceBoard: React.FC = () => {
                               placeholder="أضف ملاحظة..."
                               value={record.remarks}
                               onChange={(e) => handleRemarksChange(student.id, e.target.value)}
-                              className="w-full max-w-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                              className="w-full max-w-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                             />
                           </td>
                         </tr>

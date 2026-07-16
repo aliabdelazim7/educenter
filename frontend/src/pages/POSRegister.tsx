@@ -146,7 +146,7 @@ export const POSRegister: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
-        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -154,14 +154,14 @@ export const POSRegister: React.FC = () => {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">كاشير التحصيل السريع</h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">سدد اشتراكات الطلاب الشهرية وقم ببيع الكتب والمذكرات في خطوتين فقط.</p>
           </div>
-          <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
+          <Link to="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 flex items-center">
             ← لوحة التحكم
           </Link>
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-5xl text-right">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-5xl text-right">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -176,7 +176,7 @@ export const POSRegister: React.FC = () => {
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-900 pb-3">
                 <h2 className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                  <Coins className="h-5 w-5 text-violet-400" />
+                  <Coins className="h-5 w-5 text-violet-700 dark:text-violet-400" />
                   <span>تسجيل عملية تحصيل</span>
                 </h2>
                 
@@ -259,7 +259,7 @@ export const POSRegister: React.FC = () => {
                         onClick={() => setPaymentMethod(method)}
                         className={`py-2 rounded text-xs font-semibold border transition-all cursor-pointer ${
                           paymentMethod === method
-                            ? 'bg-violet-600/10 border-violet-500 text-violet-400'
+                            ? 'bg-violet-100 dark:bg-violet-600/10 border-violet-500 text-violet-700 dark:text-violet-400'
                             : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
                         }`}
                       >
@@ -288,11 +288,11 @@ export const POSRegister: React.FC = () => {
             <div className="space-y-6">
               {receiptData ? (
                 <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950 p-6 space-y-6 shadow-2xl relative print:border-0 print:shadow-none print:p-0">
-                  <div className="absolute top-0 right-0 h-[200px] w-[200px] rounded-full bg-emerald-600/5 blur-[80px] pointer-events-none"></div>
+                  <div className="absolute top-0 right-0 h-[200px] w-[200px] rounded-full bg-emerald-100 dark:bg-emerald-600/5 blur-[80px] pointer-events-none"></div>
 
                   {/* Receipt Header */}
                   <div className="text-center space-y-1 border-b border-slate-200 dark:border-slate-900 pb-4">
-                    <CheckCircle className="h-8 w-8 text-emerald-400 mx-auto mb-2 print:hidden" />
+                    <CheckCircle className="h-8 w-8 text-emerald-700 dark:text-emerald-400 mx-auto mb-2 print:hidden" />
                     <h3 className="text-lg font-bold text-slate-900 dark:text-slate-50">إيصال سداد إلكتروني</h3>
                     <p className="text-xs text-slate-500">رقم الفاتورة: {receiptData.invoiceNumber}</p>
                   </div>
@@ -322,13 +322,13 @@ export const POSRegister: React.FC = () => {
                     {receiptData.discount > 0 && (
                       <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
                         <span className="text-slate-600 dark:text-slate-400">الخصم الممنوح</span>
-                        <span className="font-bold text-red-400">-{receiptData.discount} ج</span>
+                        <span className="font-bold text-red-700 dark:text-red-400">-{receiptData.discount} ج</span>
                       </div>
                     )}
 
                     <div className="flex justify-between pt-2 text-sm font-black text-slate-900 dark:text-slate-100">
                       <span>إجمالي المدفوع</span>
-                      <span className="text-emerald-400">{receiptData.finalPrice.toLocaleString('ar-EG')} جنيه مصري</span>
+                      <span className="text-emerald-700 dark:text-emerald-400">{receiptData.finalPrice.toLocaleString('ar-EG')} جنيه مصري</span>
                     </div>
                   </div>
 

@@ -182,7 +182,7 @@ export const Exams: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
-        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -190,21 +190,21 @@ export const Exams: React.FC = () => {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">رصد درجات امتحانات الطلاب</h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">سجل اختبارات الطلاب الدورية وارصد درجاتهم لمتابعة مستوياتهم التعليمية.</p>
           </div>
-          <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
+          <Link to="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 flex items-center">
             ← لوحة التحكم
           </Link>
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
 
         {success && (
-          <div className="flex items-center gap-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-6xl text-right">
-            <CheckCircle className="h-5 w-5 shrink-0 text-emerald-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-6xl text-right">
+            <CheckCircle className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400" />
             <span>{success}</span>
           </div>
         )}
@@ -218,7 +218,7 @@ export const Exams: React.FC = () => {
             {/* Create Exam Panel */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <h2 className="text-lg font-bold text-slate-350 flex items-center gap-2 text-right">
-                <CheckSquare className="h-5 w-5 text-violet-400" />
+                <CheckSquare className="h-5 w-5 text-violet-700 dark:text-violet-400" />
                 <span>إنشاء امتحان جديد</span>
               </h2>
 
@@ -317,7 +317,7 @@ export const Exams: React.FC = () => {
                             key={exam.id}
                             onClick={() => handleExamSelect(exam)}
                             className={`hover:bg-white dark:bg-slate-900/20 transition-all cursor-pointer ${
-                              selectedExam?.id === exam.id ? 'bg-violet-600/10 border-r-2 border-violet-500' : ''
+                              selectedExam?.id === exam.id ? 'bg-violet-100 dark:bg-violet-600/10 border-r-2 border-violet-500' : ''
                             }`}
                           >
                             <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{exam.title}</td>
@@ -340,7 +340,7 @@ export const Exams: React.FC = () => {
                       <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">رصد الدرجات: {selectedExam.title}</h3>
                       <p className="text-xs text-slate-500 mt-0.5">درجة النهاية الكبرى: {selectedExam.max_score}</p>
                     </div>
-                    <Users className="h-5 w-5 text-violet-400" />
+                    <Users className="h-5 w-5 text-violet-700 dark:text-violet-400" />
                   </div>
 
                   {loadingRoster ? (

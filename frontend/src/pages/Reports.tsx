@@ -82,7 +82,7 @@ export const Reports: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
-        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -90,14 +90,14 @@ export const Reports: React.FC = () => {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">التقارير المالية والأرباح</h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">تابع حركة الخزنة، المصاريف الإدارية، مستحقات المعلمين، وصافي الربح للمركز.</p>
           </div>
-          <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
+          <Link to="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 flex items-center">
             ← لوحة التحكم
           </Link>
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -112,53 +112,53 @@ export const Reports: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {/* Total Revenue */}
               <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 space-y-3 relative overflow-hidden">
-                <div className="absolute top-0 right-0 h-16 w-16 bg-emerald-500/5 blur-xl"></div>
+                <div className="absolute top-0 right-0 h-16 w-16 bg-emerald-100 dark:bg-emerald-500/5 blur-xl"></div>
                 <div className="flex justify-between items-start">
-                  <TrendingUp className="h-5 w-5 text-emerald-400" />
+                  <TrendingUp className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
                   <span className="text-[10px] text-slate-500 font-bold">المحصل الفعلي</span>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">إجمالي الإيرادات (الدخل)</p>
-                  <p className="text-xl font-black text-emerald-400 mt-1">{totalRevenue.toLocaleString('ar-EG')} ج</p>
+                  <p className="text-xl font-black text-emerald-700 dark:text-emerald-400 mt-1">{totalRevenue.toLocaleString('ar-EG')} ج</p>
                 </div>
               </div>
 
               {/* Total Expenses */}
               <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 space-y-3 relative overflow-hidden">
-                <div className="absolute top-0 right-0 h-16 w-16 bg-red-500/5 blur-xl"></div>
+                <div className="absolute top-0 right-0 h-16 w-16 bg-red-100 dark:bg-red-500/5 blur-xl"></div>
                 <div className="flex justify-between items-start">
-                  <TrendingDown className="h-5 w-5 text-red-400" />
+                  <TrendingDown className="h-5 w-5 text-red-700 dark:text-red-400" />
                   <span className="text-[10px] text-slate-500 font-bold">مصاريف التشغيل</span>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">المصاريف الإدارية</p>
-                  <p className="text-xl font-black text-red-400 mt-1">{totalExpenses.toLocaleString('ar-EG')} ج</p>
+                  <p className="text-xl font-black text-red-700 dark:text-red-400 mt-1">{totalExpenses.toLocaleString('ar-EG')} ج</p>
                 </div>
               </div>
 
               {/* Teacher Commissions */}
               <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 space-y-3 relative overflow-hidden">
-                <div className="absolute top-0 right-0 h-16 w-16 bg-violet-500/5 blur-xl"></div>
+                <div className="absolute top-0 right-0 h-16 w-16 bg-violet-100 dark:bg-violet-500/5 blur-xl"></div>
                 <div className="flex justify-between items-start">
-                  <Award className="h-5 w-5 text-violet-400" />
+                  <Award className="h-5 w-5 text-violet-700 dark:text-violet-400" />
                   <span className="text-[10px] text-slate-500 font-bold">عمولات الحصص</span>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">مستحقات المدرسين</p>
-                  <p className="text-xl font-black text-violet-400 mt-1">{calculatedTeacherCommissions.toLocaleString('ar-EG')} ج</p>
+                  <p className="text-xl font-black text-violet-700 dark:text-violet-400 mt-1">{calculatedTeacherCommissions.toLocaleString('ar-EG')} ج</p>
                 </div>
               </div>
 
               {/* Net Profit */}
-              <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 space-y-3 relative overflow-hidden border-violet-500/20 bg-violet-950/5">
-                <div className="absolute top-0 right-0 h-16 w-16 bg-sky-500/10 blur-xl"></div>
+              <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 space-y-3 relative overflow-hidden border-violet-200 dark:border-violet-500/20 bg-violet-100 dark:bg-violet-950/5">
+                <div className="absolute top-0 right-0 h-16 w-16 bg-sky-100 dark:bg-sky-500/10 blur-xl"></div>
                 <div className="flex justify-between items-start">
-                  <DollarSign className="h-5 w-5 text-sky-400" />
-                  <span className="text-[10px] text-violet-400 font-bold">صافي أرباح المركز</span>
+                  <DollarSign className="h-5 w-5 text-sky-700 dark:text-sky-400" />
+                  <span className="text-[10px] text-violet-700 dark:text-violet-400 font-bold">صافي أرباح المركز</span>
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-slate-700 dark:text-slate-300 font-bold">الأرباح الصافية المتبقية</p>
-                  <p className="text-xl font-black text-sky-400 mt-1">{netProfit.toLocaleString('ar-EG')} ج</p>
+                  <p className="text-xl font-black text-sky-700 dark:text-sky-400 mt-1">{netProfit.toLocaleString('ar-EG')} ج</p>
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export const Reports: React.FC = () => {
                         <tr key={entry.id} className="hover:bg-white dark:bg-slate-900/10 transition-all">
                           <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{entry.description}</td>
                           <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{entry.category === 'revenue' ? 'إيراد / تحصيل' : 'مصاريف تشغيل'}</td>
-                          <td className={`px-6 py-4 font-bold ${entry.type === 'credit' ? 'text-emerald-400' : 'text-red-400'}`}>
+                          <td className={`px-6 py-4 font-bold ${entry.type === 'credit' ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-700 dark:text-red-400'}`}>
                             {entry.type === 'credit' ? '+' : '-'}{parseFloat(entry.amount).toLocaleString('ar-EG')} ج
                           </td>
                           <td className="px-6 py-4 text-slate-500 font-mono">{new Date(entry.created_at).toLocaleDateString('ar-EG')}</td>
@@ -199,7 +199,7 @@ export const Reports: React.FC = () => {
               <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
                 <div className="border-b border-slate-200 dark:border-slate-900 pb-3 text-right">
                   <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5 text-violet-400" />
+                    <BarChart3 className="h-5 w-5 text-violet-700 dark:text-violet-400" />
                     <span>مستحقات المدرسين المفصلة</span>
                   </h3>
                   <p className="text-xs text-slate-500 mt-1">حسابات قائمة المدرسين ونسب عمولاتهم الحالية.</p>
@@ -215,7 +215,7 @@ export const Reports: React.FC = () => {
                           <p className="font-bold text-slate-800 dark:text-slate-200">{t.user.name}</p>
                           <p className="text-[10px] text-slate-500">نسبة العمولة المحددة: %{rate.toFixed(0)}</p>
                         </div>
-                        <span className="text-xs font-black text-violet-400" dir="ltr">+{deserved.toLocaleString('ar-EG')} ج</span>
+                        <span className="text-xs font-black text-violet-700 dark:text-violet-400" dir="ltr">+{deserved.toLocaleString('ar-EG')} ج</span>
                       </div>
                     )
                   })}

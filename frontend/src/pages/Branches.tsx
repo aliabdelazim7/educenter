@@ -68,7 +68,7 @@ export const Branches: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
-        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -78,15 +78,15 @@ export const Branches: React.FC = () => {
           </div>
           <Link
             to="/dashboard"
-            className="text-xs font-semibold text-violet-400 hover:text-violet-300"
+            className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300"
           >
             ← العودة للوحة التحكم
           </Link>
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -132,7 +132,7 @@ export const Branches: React.FC = () => {
 
                       <button
                         onClick={() => handleDelete(branch.id)}
-                        className="h-8 w-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-950 hover:bg-red-950/10 text-slate-500 hover:text-red-400 flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover:opacity-100"
+                        className="h-8 w-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-950 hover:bg-red-100 dark:hover:bg-red-950/10 text-slate-500 hover:text-red-700 dark:hover:text-red-400 flex items-center justify-center transition-all cursor-pointer opacity-0 group-hover:opacity-100"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -159,7 +159,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: فرع وسط البلد"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 
@@ -173,7 +173,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: شارع التحرير، الدقي"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export const Branches: React.FC = () => {
                   placeholder="مثال: 01023456789"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
                 />
               </div>
 

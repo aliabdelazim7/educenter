@@ -135,8 +135,8 @@ export const Dashboard: React.FC = () => {
         <div className="space-y-8">
           {/* Tenant Header */}
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-600/20 border border-violet-500/30">
-              <School className="h-5 w-5 text-violet-400" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-600/20 border border-violet-200 dark:border-violet-500/30">
+              <School className="h-5 w-5 text-violet-700 dark:text-violet-400" />
             </div>
             <div className="min-w-0">
               <h2 className="text-sm font-bold text-slate-900 dark:text-slate-50 truncate leading-tight">{tenant?.name || 'Academy Hub'}</h2>
@@ -152,7 +152,7 @@ export const Dashboard: React.FC = () => {
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group ${
                   item.path === '/dashboard'
-                    ? 'bg-violet-600/10 text-violet-400 border border-violet-500/10'
+                    ? 'bg-violet-100 dark:bg-violet-600/10 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-500/10'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-white dark:bg-slate-900'
                 }`}
               >
@@ -166,18 +166,18 @@ export const Dashboard: React.FC = () => {
         {/* Footer Profile and Logout */}
         <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-900">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="h-9 w-9 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center font-bold text-violet-400">
+            <div className="h-9 w-9 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center font-bold text-violet-700 dark:text-violet-400">
               {user?.name.charAt(0)}
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate leading-tight">{user?.name}</p>
-              <p className="text-[10px] text-violet-400 font-semibold uppercase tracking-wider">{user?.roles[0] || 'Member'}</p>
+              <p className="text-[10px] text-violet-700 dark:text-violet-400 font-semibold uppercase tracking-wider">{user?.roles[0] || 'Member'}</p>
             </div>
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:bg-red-950/20 hover:text-red-300 transition-all cursor-pointer"
+            className="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/20 hover:text-red-700 dark:hover:text-red-300 transition-all cursor-pointer"
           >
             <LogOut className="h-4 w-4 shrink-0" />
             <span>تسجيل الخروج</span>
@@ -188,7 +188,7 @@ export const Dashboard: React.FC = () => {
       {/* Main Workspace Area */}
       <main className="flex-1 flex flex-col overflow-y-auto bg-slate-50 dark:bg-slate-950 relative">
         {/* Glow Effects */}
-        <div className="absolute top-0 right-0 h-[300px] w-[300px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-[300px] w-[300px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
         
         {/* Top Navbar */}
         <header className="h-16 border-b border-slate-200 dark:border-slate-900 flex items-center justify-between px-8 z-10 shrink-0">
@@ -196,7 +196,7 @@ export const Dashboard: React.FC = () => {
             <div className="flex items-center gap-3">
               <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">لوحة تحكم الأكاديمية</h1>
               <span className="h-4 w-[1px] bg-slate-100 dark:bg-slate-800"></span>
-              <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/30 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/20 px-2 py-0.5 rounded-full">
                 النظام شغال ومؤمن
               </span>
             </div>
@@ -208,7 +208,7 @@ export const Dashboard: React.FC = () => {
               <select
                 value={selectedBranch}
                 onChange={(e) => setSelectedBranch(e.target.value)}
-                className="rounded-lg bg-white dark:bg-slate-900 border border-slate-850 text-xs font-semibold text-slate-350 px-3 py-1.5 outline-none focus:border-violet-500/50 transition-all cursor-pointer"
+                className="rounded-lg bg-white dark:bg-slate-900 border border-slate-850 text-xs font-semibold text-slate-350 px-3 py-1.5 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all cursor-pointer"
               >
                 <option value="">كل الفروع</option>
                 {branches.map((b) => (
@@ -236,9 +236,9 @@ export const Dashboard: React.FC = () => {
           <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               to="/academic"
-              className="flex items-center gap-3 rounded-xl border border-violet-500/10 bg-violet-600/5 p-4 hover:bg-violet-600/10 transition-all group"
+              className="flex items-center gap-3 rounded-xl border border-violet-200 dark:border-violet-500/10 bg-violet-100 dark:bg-violet-600/5 p-4 hover:bg-violet-100 dark:hover:bg-violet-600/10 transition-all group"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-600/20 text-violet-400 group-hover:scale-110 transition-transform">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-600/20 text-violet-700 dark:text-violet-400 group-hover:scale-110 transition-transform">
                 <BookOpen className="h-5 w-5" />
               </div>
               <div className="min-w-0">
@@ -249,9 +249,9 @@ export const Dashboard: React.FC = () => {
 
             <Link
               to="/pos"
-              className="flex items-center gap-3 rounded-xl border border-emerald-500/10 bg-emerald-600/5 p-4 hover:bg-emerald-600/10 transition-all group"
+              className="flex items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-500/10 bg-emerald-100 dark:bg-emerald-600/5 p-4 hover:bg-emerald-100 dark:hover:bg-emerald-600/10 transition-all group"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-600/20 text-emerald-400 group-hover:scale-110 transition-transform">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                 <ShoppingCart className="h-5 w-5" />
               </div>
               <div className="min-w-0">
@@ -262,9 +262,9 @@ export const Dashboard: React.FC = () => {
 
             <Link
               to="/financials"
-              className="flex items-center gap-3 rounded-xl border border-amber-500/10 bg-amber-600/5 p-4 hover:bg-amber-600/10 transition-all group"
+              className="flex items-center gap-3 rounded-xl border border-amber-200 dark:border-amber-500/10 bg-amber-100 dark:bg-amber-600/5 p-4 hover:bg-amber-100 dark:hover:bg-amber-600/10 transition-all group"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-600/20 text-amber-400 group-hover:scale-110 transition-transform">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-600/20 text-amber-700 dark:text-amber-400 group-hover:scale-110 transition-transform">
                 <DollarSign className="h-5 w-5" />
               </div>
               <div className="min-w-0">
@@ -300,13 +300,13 @@ export const Dashboard: React.FC = () => {
                 <div className="flex items-center justify-between relative z-10">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">{kpi.title}</span>
                   <div className={`flex h-8 w-8 items-center justify-center rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800`}>
-                    <kpi.icon className="h-4 w-4 text-violet-400" />
+                    <kpi.icon className="h-4 w-4 text-violet-700 dark:text-violet-400" />
                   </div>
                 </div>
                 
                 <div className="mt-4 flex items-baseline gap-2 relative z-10">
                   <span className="text-2xl font-black text-slate-900 dark:text-slate-50">{kpi.value}</span>
-                  <span className="text-xs font-bold text-emerald-400">{kpi.change}</span>
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">{kpi.change}</span>
                 </div>
               </div>
             ))}
@@ -322,7 +322,7 @@ export const Dashboard: React.FC = () => {
                   <p className="text-xs text-slate-500">معدل نمو الإيرادات الأسبوعية</p>
                 </div>
                 <div className="flex items-center gap-1 text-xs text-slate-600 dark:text-slate-400">
-                  <TrendingUp className="h-4 w-4 text-emerald-400" />
+                  <TrendingUp className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                   <span>زيادة بنسبة 8.2% عن الأسبوع اللي فات</span>
                 </div>
               </div>
@@ -401,7 +401,7 @@ export const Dashboard: React.FC = () => {
               <div className="space-y-4">
                 {sessions.map((session, idx) => (
                   <div key={idx} className="flex gap-4 p-3 rounded-lg bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-900 hover:border-slate-200 dark:border-slate-800 transition-all">
-                    <div className="text-center font-bold text-violet-400 border-r border-slate-200 dark:border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
+                    <div className="text-center font-bold text-violet-700 dark:text-violet-400 border-r border-slate-200 dark:border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
                       <span className="text-xs tracking-tight">{session.time.split(' ')[0]}</span>
                       <span className="text-[10px] text-slate-500 uppercase">{session.time.split(' ')[1]}</span>
                     </div>
@@ -420,7 +420,7 @@ export const Dashboard: React.FC = () => {
             {/* Recent Payments Widget */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
-                <Activity className="h-4 w-4 text-emerald-400" />
+                <Activity className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
                 <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">آخر عمليات التحصيل (المدفوعات)</h3>
               </div>
 
@@ -436,7 +436,7 @@ export const Dashboard: React.FC = () => {
                       <p className="font-bold text-slate-800 dark:text-slate-200">{pay.student}</p>
                       <p className="text-[10px] text-slate-500">طريقة التحصيل: {pay.method} • {pay.date}</p>
                     </div>
-                    <span className="text-xs font-black text-emerald-400" dir="ltr">+{pay.amount} ج</span>
+                    <span className="text-xs font-black text-emerald-700 dark:text-emerald-400" dir="ltr">+{pay.amount} ج</span>
                   </div>
                 ))}
               </div>
@@ -445,7 +445,7 @@ export const Dashboard: React.FC = () => {
             {/* Subscriptions Expiring Soon Widget */}
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-amber-400" />
+                <TrendingUp className="h-4 w-4 text-amber-700 dark:text-amber-400" />
                 <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">اشتراكات تنتهي قريباً (تجديد)</h3>
               </div>
 
@@ -461,7 +461,7 @@ export const Dashboard: React.FC = () => {
                       <p className="font-bold text-slate-800 dark:text-slate-200">{sub.name}</p>
                       <p className="text-[10px] text-slate-500">{sub.teacher}</p>
                     </div>
-                    <span className="text-[10px] font-bold text-amber-400 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 px-2 py-0.5 rounded-full">
                       باقي {sub.daysLeft} أيام
                     </span>
                   </div>

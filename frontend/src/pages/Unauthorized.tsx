@@ -6,9 +6,9 @@ export const Unauthorized: React.FC = () => {
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 px-6 font-sans">
       <div className="relative flex flex-col items-center max-w-md text-center space-y-6">
-        <div className="absolute top-[-50%] left-[-50%] h-[200%] w-[200%] rounded-full bg-red-600/5 blur-[120px]"></div>
+        <div className="absolute top-[-50%] left-[-50%] h-[200%] w-[200%] rounded-full bg-red-100 dark:bg-red-600/5 blur-[120px]"></div>
 
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-950/40 border border-red-500/20 text-red-400">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/20 text-red-700 dark:text-red-400">
           <ShieldAlert className="h-8 w-8" />
         </div>
 

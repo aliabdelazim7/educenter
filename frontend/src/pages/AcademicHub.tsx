@@ -198,7 +198,7 @@ export const AcademicHub: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
-        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -206,7 +206,7 @@ export const AcademicHub: React.FC = () => {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">القسم الأكاديمي وإدارة الحصص</h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">اضبط السنوات الدراسية، ومجموعات الطلاب، وجداول المواعيد اليومية.</p>
           </div>
-          <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300">
+          <Link to="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300">
             ← العودة للوحة التحكم
           </Link>
         </div>
@@ -217,7 +217,7 @@ export const AcademicHub: React.FC = () => {
             onClick={() => setActiveTab('years')}
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'years'
-                ? 'border-violet-500 text-violet-400'
+                ? 'border-violet-500 text-violet-700 dark:text-violet-400'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
@@ -227,7 +227,7 @@ export const AcademicHub: React.FC = () => {
             onClick={() => setActiveTab('groups')}
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'groups'
-                ? 'border-violet-500 text-violet-400'
+                ? 'border-violet-500 text-violet-700 dark:text-violet-400'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
@@ -237,7 +237,7 @@ export const AcademicHub: React.FC = () => {
             onClick={() => setActiveTab('sessions')}
             className={`px-4 py-2 text-sm font-semibold border-b-2 transition-all cursor-pointer ${
               activeTab === 'sessions'
-                ? 'border-violet-500 text-violet-400'
+                ? 'border-violet-500 text-violet-700 dark:text-violet-400'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
@@ -246,8 +246,8 @@ export const AcademicHub: React.FC = () => {
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -273,7 +273,7 @@ export const AcademicHub: React.FC = () => {
                     {years.map((y) => (
                       <div key={y.id} className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all">
                         <h3 className="font-bold text-slate-800 dark:text-slate-200">{y.name}</h3>
-                        <span className="inline-block mt-2 text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded-full">
+                        <span className="inline-block mt-2 text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 px-2 py-0.5 rounded-full">
                           {y.status === 'active' ? 'نشط' : y.status}
                         </span>
                       </div>
@@ -321,15 +321,15 @@ export const AcademicHub: React.FC = () => {
                     {sessions.map((s) => (
                       <div key={s.id} className="flex flex-col md:flex-row md:items-center justify-between gap-4 rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-5 hover:border-slate-200 dark:border-slate-800 transition-all">
                         <div className="space-y-1">
-                          <span className="text-xs font-bold text-violet-400">{s.date} • {s.start_time} - {s.end_time}</span>
+                          <span className="text-xs font-bold text-violet-700 dark:text-violet-400">{s.date} • {s.start_time} - {s.end_time}</span>
                           <h3 className="font-bold text-slate-800 dark:text-slate-200 text-base">{s.group.name}</h3>
                           <p className="text-xs text-slate-500">القاعة: {s.classroom?.name || 'غير محدد'} • المدرس: {s.teacher_profile?.user.name || 'غير محدد'}</p>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className={`text-[10px] font-bold border px-2 py-0.5 rounded-full ${
                             s.status === 'completed'
-                              ? 'bg-emerald-950/30 border-emerald-900/40 text-emerald-400'
-                              : 'bg-blue-950/30 border-blue-900/40 text-blue-400'
+                              ? 'bg-emerald-100 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/40 text-emerald-700 dark:text-emerald-400'
+                              : 'bg-blue-100 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/40 text-blue-700 dark:text-blue-400'
                           }`}>
                             {s.status === 'completed' ? 'تمت' : 'مجدولة'}
                           </span>
@@ -368,7 +368,7 @@ export const AcademicHub: React.FC = () => {
                       placeholder="مثال: 2026/2027"
                       value={newYearName}
                       onChange={(e) => setNewYearName(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -379,7 +379,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -390,7 +390,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <button
@@ -419,7 +419,7 @@ export const AcademicHub: React.FC = () => {
                       placeholder="مثال: مجموعة الرياضيات - الصف الأول"
                       value={newGroupName}
                       onChange={(e) => setNewGroupName(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -429,7 +429,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={selBranch}
                       onChange={(e) => setSelBranch(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر الفرع</option>
                       {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
@@ -442,7 +442,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={selYear}
                       onChange={(e) => setSelYear(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر السنة الدراسية</option>
                       {years.map(y => <option key={y.id} value={y.id}>{y.name}</option>)}
@@ -455,7 +455,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={selSubject}
                       onChange={(e) => setSelSubject(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر المادة</option>
                       {subjects.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -468,7 +468,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={selGrade}
                       onChange={(e) => setSelGrade(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر الصف الدراسي</option>
                       {grades.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -498,7 +498,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={selGroup}
                       onChange={(e) => setSelGroup(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     >
                       <option value="">اختر المجموعة</option>
                       {groups.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -512,7 +512,7 @@ export const AcademicHub: React.FC = () => {
                       required
                       value={sessionDate}
                       onChange={(e) => setSessionDate(e.target.value)}
-                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -524,7 +524,7 @@ export const AcademicHub: React.FC = () => {
                         required
                         value={startTime}
                         onChange={(e) => setStartTime(e.target.value)}
-                        className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                        className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -535,7 +535,7 @@ export const AcademicHub: React.FC = () => {
                         required
                         value={endTime}
                         onChange={(e) => setEndTime(e.target.value)}
-                        className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                        className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                       />
                     </div>
                   </div>

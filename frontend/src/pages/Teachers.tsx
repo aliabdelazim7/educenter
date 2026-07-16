@@ -94,7 +94,7 @@ export const Teachers: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col p-8 overflow-y-auto relative" dir="rtl">
-        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -110,22 +110,22 @@ export const Teachers: React.FC = () => {
               <Plus className="h-4 w-4" />
               <span>تسجيل مدرس جديد</span>
             </button>
-            <Link to="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300 flex items-center">
+            <Link to="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 flex items-center">
               ← لوحة التحكم
             </Link>
           </div>
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-6xl text-right">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
 
         {success && (
-          <div className="flex items-center gap-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-6xl text-right">
-            <CheckCircle className="h-5 w-5 shrink-0 text-emerald-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-6xl text-right">
+            <CheckCircle className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400" />
             <span>{success}</span>
           </div>
         )}
@@ -162,13 +162,13 @@ export const Teachers: React.FC = () => {
                           key={teacher.id}
                           onClick={() => handleTeacherSelect(teacher)}
                           className={`hover:bg-white dark:bg-slate-900/20 transition-all cursor-pointer ${
-                            selectedTeacher?.id === teacher.id ? 'bg-violet-600/10 border-r-2 border-violet-500' : ''
+                            selectedTeacher?.id === teacher.id ? 'bg-violet-100 dark:bg-violet-600/10 border-r-2 border-violet-500' : ''
                           }`}
                         >
                           <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{teacher.user.name}</td>
                           <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{teacher.user.email}</td>
                           <td className="px-6 py-4">
-                            <span className="inline-block text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded-full">
+                            <span className="inline-block text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 px-2 py-0.5 rounded-full">
                               نشط
                             </span>
                           </td>
@@ -196,7 +196,7 @@ export const Teachers: React.FC = () => {
                   {/* Calculator Input Fields */}
                   <div className="space-y-4">
                     <h4 className="text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5 text-right">
-                      <Coins className="h-4 w-4 text-violet-400" />
+                      <Coins className="h-4 w-4 text-violet-700 dark:text-violet-400" />
                       <span>محاسبة مستحقات المدرس التلقائية</span>
                     </h4>
 
@@ -232,8 +232,8 @@ export const Teachers: React.FC = () => {
 
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs font-semibold">
-                        <span className="text-violet-400">نصيب المدرس ({commPercentage}%)</span>
-                        <span className="text-emerald-400">نصيب المركز ({100 - commPercentage}%)</span>
+                        <span className="text-violet-700 dark:text-violet-400">نصيب المدرس ({commPercentage}%)</span>
+                        <span className="text-emerald-700 dark:text-emerald-400">نصيب المركز ({100 - commPercentage}%)</span>
                       </div>
 
                       {/* Stacked Progress Bar */}
@@ -252,13 +252,13 @@ export const Teachers: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 text-center pt-2">
-                      <div className="bg-violet-950/20 border border-violet-900/40 rounded-lg p-3">
+                      <div className="bg-violet-100 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-900/40 rounded-lg p-3">
                         <p className="text-[10px] text-slate-500">مستحقات المدرس</p>
-                        <p className="text-sm font-black text-violet-400 mt-1">{teacherShare.toLocaleString('ar-EG')} ج</p>
+                        <p className="text-sm font-black text-violet-700 dark:text-violet-400 mt-1">{teacherShare.toLocaleString('ar-EG')} ج</p>
                       </div>
-                      <div className="bg-emerald-950/20 border border-emerald-900/40 rounded-lg p-3">
+                      <div className="bg-emerald-100 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/40 rounded-lg p-3">
                         <p className="text-[10px] text-slate-500">صافي للمركز</p>
-                        <p className="text-sm font-black text-emerald-400 mt-1">{centerShare.toLocaleString('ar-EG')} ج</p>
+                        <p className="text-sm font-black text-emerald-700 dark:text-emerald-400 mt-1">{centerShare.toLocaleString('ar-EG')} ج</p>
                       </div>
                     </div>
                   </div>

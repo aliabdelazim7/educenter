@@ -79,7 +79,7 @@ export const Settings: React.FC = () => {
   return (
     <div className="flex h-screen w-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       <div className="flex-1 flex flex-col overflow-y-auto p-8 relative">
-        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-600/5 blur-[80px] pointer-events-none"></div>
+        <div className="absolute top-0 right-0 h-[250px] w-[250px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8 border-b border-slate-200 dark:border-slate-900 pb-4">
@@ -87,7 +87,7 @@ export const Settings: React.FC = () => {
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">إعدادات النظام والأكاديمية</h1>
             <p className="text-sm text-slate-600 dark:text-slate-400">اضبط البيانات العامة للمركز، والخيارات الأمنية، وراجع سجل الرقابة والإدارة.</p>
           </div>
-          <a href="/dashboard" className="text-xs font-semibold text-violet-400 hover:text-violet-300">
+          <a href="/dashboard" className="text-xs font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300">
             ← العودة للوحة التحكم
           </a>
         </div>
@@ -98,7 +98,7 @@ export const Settings: React.FC = () => {
             onClick={() => setActiveTab('profile')}
             className={`px-4 py-2 border-b-2 transition-all cursor-pointer ${
               activeTab === 'profile'
-                ? 'border-violet-500 text-violet-400'
+                ? 'border-violet-500 text-violet-700 dark:text-violet-400'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
@@ -108,7 +108,7 @@ export const Settings: React.FC = () => {
             onClick={() => setActiveTab('audits')}
             className={`px-4 py-2 border-b-2 transition-all cursor-pointer ${
               activeTab === 'audits'
-                ? 'border-violet-500 text-violet-400'
+                ? 'border-violet-500 text-violet-700 dark:text-violet-400'
                 : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-300'
             }`}
           >
@@ -117,15 +117,15 @@ export const Settings: React.FC = () => {
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
-            <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-4xl">
+            <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
         )}
 
         {success && (
-          <div className="flex items-center gap-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-4xl">
-            <Shield className="h-5 w-5 shrink-0 text-emerald-400" />
+          <div className="flex items-center gap-3 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 p-4 text-sm text-emerald-200 mb-6 max-w-4xl">
+            <Shield className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400" />
             <span>{success}</span>
           </div>
         )}
@@ -135,7 +135,7 @@ export const Settings: React.FC = () => {
             /* General Settings Tab */
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 max-w-lg space-y-6">
               <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                <SettingsIcon className="h-5 w-5 text-violet-400" /> بيانات الأكاديمية والمركز
+                <SettingsIcon className="h-5 w-5 text-violet-700 dark:text-violet-400" /> بيانات الأكاديمية والمركز
               </h2>
               
               <form onSubmit={handleSaveConfig} className="space-y-4">
@@ -147,7 +147,7 @@ export const Settings: React.FC = () => {
                     required
                     value={tenantName}
                     onChange={(e) => setTenantName(e.target.value)}
-                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
                   />
                 </div>
 
@@ -177,7 +177,7 @@ export const Settings: React.FC = () => {
             /* Audit Log Timeline Tab */
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                <Activity className="h-5 w-5 text-violet-400" /> سجل العمليات الإدارية والرقابة
+                <Activity className="h-5 w-5 text-violet-700 dark:text-violet-400" /> سجل العمليات الإدارية والرقابة
               </h2>
 
               {loadingLogs ? (
@@ -200,7 +200,7 @@ export const Settings: React.FC = () => {
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="font-bold text-slate-800 dark:text-slate-200">
-                              <span className="text-violet-400">{getActionArabic(log.action)}</span> - {log.model_type ? log.model_type.split('\\').pop() : 'النظام'}
+                              <span className="text-violet-700 dark:text-violet-400">{getActionArabic(log.action)}</span> - {log.model_type ? log.model_type.split('\\').pop() : 'النظام'}
                             </p>
                             <p className="text-[10px] text-slate-500 mt-1 leading-normal">
                               بواسطة: {log.user?.name || 'النظام'} • عنوان IP: {log.ip_address || 'غير متوفر'}

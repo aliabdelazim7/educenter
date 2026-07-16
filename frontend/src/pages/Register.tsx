@@ -43,12 +43,12 @@ export const Register: React.FC = () => {
       {/* Left panel - Decorative marketing panel */}
       <div className="relative hidden w-1/2 overflow-hidden bg-gradient-to-tr from-violet-950 via-slate-100 dark:via-slate-950 to-indigo-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
         {/* Glow circles */}
-        <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-violet-600/10 blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] h-[60%] w-[60%] rounded-full bg-indigo-600/10 blur-[120px]"></div>
+        <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-violet-100 dark:bg-violet-600/10 blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] h-[60%] w-[60%] rounded-full bg-indigo-100 dark:bg-indigo-600/10 blur-[120px]"></div>
 
         <div className="relative z-10 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600/20 border border-violet-500/30">
-            <School className="h-5 w-5 text-violet-400" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 dark:bg-violet-600/20 border border-violet-200 dark:border-violet-500/30">
+            <School className="h-5 w-5 text-violet-700 dark:text-violet-400" />
           </div>
           <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent">منصة إديوسنتر</span>
         </div>
@@ -96,8 +96,8 @@ export const Register: React.FC = () => {
           </div>
 
           {error && (
-            <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200">
-              <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+            <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200">
+              <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
               <span>حدث خطأ أثناء التسجيل، تأكد من التفاصيل وحاول مرة أخرى.</span>
             </div>
           )}
@@ -115,7 +115,7 @@ export const Register: React.FC = () => {
                 placeholder="مثال: أكاديمية النخبة للغات"
                 value={tenantName}
                 onChange={(e) => setTenantName(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
               />
             </div>
 
@@ -124,7 +124,7 @@ export const Register: React.FC = () => {
               <label htmlFor="subdomain" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 رابط المركز المطلوب (Subdomain)
               </label>
-              <div className="flex rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
+              <div className="flex rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-200 dark:focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
                 <input
                   id="subdomain"
                   type="text"
@@ -152,7 +152,7 @@ export const Register: React.FC = () => {
                 placeholder="مثال: أحمد محمد"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
               />
             </div>
 
@@ -168,7 +168,7 @@ export const Register: React.FC = () => {
                 placeholder="admin@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
               />
             </div>
 
@@ -184,7 +184,7 @@ export const Register: React.FC = () => {
                 placeholder="لا تقل عن 8 أحرف أو أرقام"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
+                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-600 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all text-right"
               />
             </div>
 
@@ -209,7 +209,7 @@ export const Register: React.FC = () => {
 
           <p className="text-center text-sm text-slate-500">
             لديك حساب بالفعل؟{' '}
-            <Link to="/login" className="font-semibold text-violet-400 hover:text-violet-300">
+            <Link to="/login" className="font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300">
               تسجيل الدخول من هنا
             </Link>
           </p>

@@ -42,12 +42,12 @@ export const Login: React.FC = () => {
       {/* Left panel - Decorative marketing panel */}
       <div className="relative hidden w-1/2 overflow-hidden bg-gradient-to-tr from-violet-950 via-slate-100 dark:via-slate-950 to-indigo-950 lg:flex lg:flex-col lg:justify-between lg:p-12">
         {/* Glow circles */}
-        <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-violet-600/10 blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] h-[60%] w-[60%] rounded-full bg-indigo-600/10 blur-[120px]"></div>
+        <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-violet-100 dark:bg-violet-600/10 blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] h-[60%] w-[60%] rounded-full bg-indigo-100 dark:bg-indigo-600/10 blur-[120px]"></div>
 
         <div className="relative z-10 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600/20 border border-violet-500/30">
-            <School className="h-5 w-5 text-violet-400" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 dark:bg-violet-600/20 border border-violet-200 dark:border-violet-500/30">
+            <School className="h-5 w-5 text-violet-700 dark:text-violet-400" />
           </div>
           <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent">منصة إديوسنتر</span>
         </div>
@@ -61,15 +61,15 @@ export const Login: React.FC = () => {
           </p>
           <div className="flex gap-6 pt-4 border-t border-slate-200 dark:border-slate-800">
             <div>
-              <p className="text-2xl font-bold text-violet-400">99.9%</p>
+              <p className="text-2xl font-bold text-violet-700 dark:text-violet-400">99.9%</p>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">جاهزية تشغيل مستمرة</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-indigo-400">10k+</p>
+              <p className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">10k+</p>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">طالب نشط</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-violet-400">24/7</p>
+              <p className="text-2xl font-bold text-violet-700 dark:text-violet-400">24/7</p>
               <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">دعم فني متميز</p>
             </div>
           </div>
@@ -95,8 +95,8 @@ export const Login: React.FC = () => {
           </div>
 
           {error && (
-            <div className="flex items-center gap-3 rounded-lg bg-red-950/40 border border-red-500/30 p-4 text-sm text-red-200">
-              <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
+            <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200">
+              <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
               <span>حدث خطأ أثناء تسجيل الدخول، تأكد من البيانات وحاول مرة أخرى.</span>
             </div>
           )}
@@ -107,7 +107,7 @@ export const Login: React.FC = () => {
               <label htmlFor="subdomain" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                 اسم النطاق الفرعي للمركز (Subdomain)
               </label>
-              <div className="flex rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
+              <div className="flex rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus-within:border-violet-200 dark:focus-within:border-violet-500/50 focus-within:ring-2 focus-within:ring-violet-500/20 transition-all">
                 <input
                   id="subdomain"
                   type="text"
@@ -145,7 +145,7 @@ export const Login: React.FC = () => {
                 <label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                   كلمة المرور
                 </label>
-                <a href="#forgot" className="text-xs text-violet-400 hover:text-violet-300 font-medium">
+                <a href="#forgot" className="text-xs text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 font-medium">
                   نسيت كلمة المرور؟
                 </a>
               </div>
@@ -180,15 +180,15 @@ export const Login: React.FC = () => {
           </form>
 
           {/* Quick Demo Login Box */}
-          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-4 border-violet-500/10 text-right space-y-3">
-            <p className="text-xs font-bold text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-4 border-violet-200 dark:border-violet-500/10 text-right space-y-3">
+            <p className="text-xs font-bold text-violet-700 dark:text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
             <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
               يمكنك استخدام بيانات الأكاديمية التجريبية الافتراضية بنقرة واحدة لتجربة لوحة تحكم صاحب المركز.
             </p>
             <button
               type="button"
               onClick={handleFillDemo}
-              className="w-full py-2 rounded bg-violet-600/10 hover:bg-violet-600/25 border border-violet-500/20 hover:border-violet-500/40 text-xs font-bold text-violet-400 transition-all cursor-pointer"
+              className="w-full py-2 rounded bg-violet-100 dark:bg-violet-600/10 hover:bg-violet-100 dark:hover:bg-violet-600/25 border border-violet-200 dark:border-violet-500/20 hover:border-violet-200 dark:hover:border-violet-500/40 text-xs font-bold text-violet-700 dark:text-violet-400 transition-all cursor-pointer"
             >
               تعبئة بيانات الحساب التجريبي تلقائياً
             </button>
@@ -196,7 +196,7 @@ export const Login: React.FC = () => {
 
           <p className="text-center text-sm text-slate-500">
             ليس لديك نطاق خاص بك؟{' '}
-            <Link to="/register" className="font-semibold text-violet-400 hover:text-violet-300">
+            <Link to="/register" className="font-semibold text-violet-700 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300">
               سجل مركزك التعليمي الآن
             </Link>
           </p>
