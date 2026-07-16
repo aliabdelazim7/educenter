@@ -20,6 +20,12 @@ class TenantResolveMiddleware
             $tenant = Tenant::where('id', $tenantId)->first();
         }
 
+        // 1.1 Resolve by Subdomain Header
+        if (!$tenant && $request->hasHeader('X-Tenant-Subdomain')) {
+            $subdomain = $request->header('X-Tenant-Subdomain');
+            $tenant = Tenant::where('subdomain', $subdomain)->first();
+        }
+
         // 2. Resolve by Subdomain
         if (!$tenant) {
             $host = $request->getHost();
