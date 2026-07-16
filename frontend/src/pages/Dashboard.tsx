@@ -191,7 +191,7 @@ export const Dashboard: React.FC = () => {
         <div className="absolute top-0 right-0 h-[300px] w-[300px] rounded-full bg-violet-100 dark:bg-violet-600/5 blur-[80px] pointer-events-none"></div>
         
         {/* Top Navbar */}
-        <header className="h-16 border-b border-slate-200 dark:border-slate-900 flex items-center justify-between px-8 z-10 shrink-0">
+        <header className="relative h-16 border-b border-slate-200 dark:border-slate-900 flex items-center justify-between px-8 z-30 shrink-0">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
               <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">لوحة تحكم الأكاديمية</h1>
