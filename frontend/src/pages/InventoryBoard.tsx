@@ -137,7 +137,7 @@ export const InventoryBoard: React.FC = () => {
                           <td className="px-5 py-3 text-left">
                             <div className="flex items-center justify-end gap-2">
                               {isLowStock && (
-                                <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" title="تنبيه: مخزون منخفض" />
+                                <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0" />
                               )}
                               <span className={`font-bold ${p.stock === 0 ? 'text-red-400 font-extrabold' : isLowStock ? 'text-amber-400' : 'text-slate-200'}`}>
                                 {p.stock.toLocaleString('ar-EG')} نسخة
