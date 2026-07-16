@@ -63,6 +63,11 @@ services:
       - key: FRONTEND_URL
         sync: false
 
+      # Set to "true" to seed the Elite Academy demo data on boot.
+      # The seeder is idempotent; the free plan has no shell to run it manually.
+      - key: SEED_DEMO
+        sync: false
+
       # Any standard SMTP provider works; set these in the dashboard.
       #   Gmail: smtp.gmail.com / 587 / tls / <you>@gmail.com / <app password>
       #   Brevo: smtp-relay.brevo.com / 587 / tls / <login> / <smtp key>

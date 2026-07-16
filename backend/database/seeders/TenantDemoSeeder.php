@@ -32,6 +32,13 @@ class TenantDemoSeeder extends Seeder
 {
     public function run(): void
     {
+        // Idempotent: this may run on every deploy, and the subdomain is unique.
+        if (Tenant::where('subdomain', 'elite')->exists()) {
+            $this->command?->info('Demo tenant already exists — skipping.');
+
+            return;
+        }
+
         DB::transaction(function () {
             // 1. Create Demo Tenant
             $tenant = Tenant::create([

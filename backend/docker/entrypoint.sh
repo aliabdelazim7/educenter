@@ -18,4 +18,11 @@ php artisan view:cache
 # Apply schema changes
 php artisan migrate --force
 
+# Optional demo data. The free Render plan has no shell, so this is the only way
+# to seed. The seeder is idempotent, so leaving the flag on is harmless.
+if [ "${SEED_DEMO}" = "true" ]; then
+    echo "SEED_DEMO=true — running database seeders"
+    php artisan db:seed --force
+fi
+
 exec supervisord -c /etc/supervisord.conf
