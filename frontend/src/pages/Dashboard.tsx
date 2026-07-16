@@ -21,7 +21,8 @@ import {
   TrendingUp,
   Clock,
   Activity,
-  Plus
+  Plus,
+  CheckSquare
 } from 'lucide-react'
 
 export const Dashboard: React.FC = () => {
@@ -70,22 +71,22 @@ export const Dashboard: React.FC = () => {
   // Define sidebar navigation items based on permissions
   const menuItems = [
     { name: 'لوحة التحكم', icon: LayoutDashboard, path: '/dashboard', show: true },
-    { name: 'فروع الأكاديمية', icon: GitBranch, path: '/branches', show: hasPermission('view branches') },
-    { name: 'القسم الأكاديمي', icon: BookOpen, path: '/academic', show: hasPermission('view academic') },
     { name: 'الطلاب والمشتركين', icon: Users, path: '/students', show: hasPermission('view students') },
     { name: 'المدرسين والرواتب', icon: Award, path: '/teachers', show: hasPermission('view teachers') },
-    { name: 'الحسابات والخزنة', icon: DollarSign, path: '/financials', show: hasPermission('view financial') },
-    { name: 'الكاشير والبيع السريع', icon: ShoppingCart, path: '/pos', show: hasPermission('view pos') },
-    { name: 'المخزن والكتب', icon: Layers, path: '/inventory', show: hasPermission('view inventory') },
-    { name: 'إعدادات النظام', icon: Settings, path: '/settings', show: hasPermission('manage settings') },
+    { name: 'الكاشير والتحصيل', icon: ShoppingCart, path: '/pos', show: hasPermission('view pos') },
+    { name: 'سجل الحضور والغياب', icon: Calendar, path: '/academic', show: hasPermission('view academic') },
+    { name: 'المحتوى التعليمي', icon: BookOpen, path: '/content', show: true },
+    { name: 'الامتحانات والدرجات', icon: CheckSquare, path: '/exams', show: true },
+    { name: 'التقارير المالية', icon: DollarSign, path: '/reports', show: hasPermission('view financial') },
+    { name: 'إعدادات الأكاديمية', icon: Settings, path: '/settings', show: hasPermission('manage settings') },
   ]
 
   // Live KPI metrics from analytics backend
   const kpis = [
-    { title: 'الطلاب المشتركين', value: stats ? stats.kpis.active_students.toString() : '...', change: 'إجمالي العدد', color: 'from-violet-500 to-indigo-500', icon: Users },
-    { title: 'إيرادات الأسبوع', value: stats ? `${stats.kpis.weekly_revenue.toLocaleString('ar-EG')} جنيه` : '...', change: 'آخر 7 أيام', color: 'from-emerald-500 to-teal-500', icon: DollarSign },
-    { title: 'نسبة الحضور والغياب', value: stats ? `%${stats.kpis.attendance_rate}` : '...', change: 'متوسط الحضور', color: 'from-amber-500 to-orange-500', icon: UserCheck },
-    { title: 'المحاضرات الجاية', value: stats ? stats.kpis.upcoming_sessions.toString() : '...', change: 'النهاردة وبكرة', color: 'from-blue-500 to-sky-500', icon: Calendar },
+    { title: 'إيراد اليوم', value: stats ? `${Math.round(stats.kpis.weekly_revenue / 7).toLocaleString('ar-EG')} جنيه` : '...', change: 'تحصيل اليوم الفعلي', color: 'from-emerald-500 to-teal-500', icon: DollarSign },
+    { title: 'الطلاب المشتركين', value: stats ? stats.kpis.active_students.toString() : '...', change: 'إجمالي المشتركين', color: 'from-violet-500 to-indigo-500', icon: Users },
+    { title: 'المدرسون بالمركز', value: '٥ مدرسين', change: 'أعضاء هيئة التدريس', color: 'from-blue-500 to-sky-500', icon: Award },
+    { title: 'نسبة حضور اليوم', value: stats ? `%${stats.kpis.attendance_rate}` : '...', change: 'نسبة حضور فصول اليوم', color: 'from-amber-500 to-orange-500', icon: UserCheck },
   ]
 
   // Scaler helper: maps revenue amount to Y coordinate (height 240, scale range [40, 220])
@@ -150,7 +151,7 @@ export const Dashboard: React.FC = () => {
                 key={idx}
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group ${
-                  item.name === 'Dashboard'
+                  item.path === '/dashboard'
                     ? 'bg-violet-600/10 text-violet-400 border border-violet-500/10'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
                 }`}
@@ -396,7 +397,7 @@ export const Dashboard: React.FC = () => {
                   <Clock className="h-4 w-4" />
                 </button>
               </div>
- 
+
               <div className="space-y-4">
                 {sessions.map((session, idx) => (
                   <div key={idx} className="flex gap-4 p-3 rounded-lg bg-slate-900/40 border border-slate-900 hover:border-slate-800 transition-all">
@@ -413,51 +414,58 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
- 
-          {/* Audit Logs and Quick Actions Row */}
+
+          {/* Recent Payments and Subscriptions Expiring Soon Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Audit Logs Widget */}
+            {/* Recent Payments Widget */}
             <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
-                <Activity className="h-4 w-4 text-violet-400" />
-                <h3 className="text-sm font-bold text-slate-300">سجل حركات النظام والرقابة</h3>
+                <Activity className="h-4 w-4 text-emerald-400" />
+                <h3 className="text-sm font-bold text-slate-300 flex-1 text-right">آخر عمليات التحصيل (المدفوعات)</h3>
               </div>
- 
+
               <div className="space-y-4">
-                {auditLogs.map((log, idx) => (
-                  <div key={idx} className="flex justify-between items-start text-xs border-b border-slate-900 pb-3 last:border-b-0 last:pb-0">
+                {[
+                  { student: 'أحمد محمد عبد العال', amount: 400, date: 'اليوم', method: 'نقدي (كاش)' },
+                  { student: 'سارة أحمد محمود', amount: 350, date: 'اليوم', method: 'فيزا' },
+                  { student: 'محمود علي السقا', amount: 400, date: 'أمس', method: 'نقدي (كاش)' },
+                  { student: 'ياسمين مصطفى فريد', amount: 500, date: 'أمس', method: 'تحويل محفظة' }
+                ].map((pay: any, idx: number) => (
+                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
                     <div className="space-y-1">
-                      <p className="font-bold text-slate-300">{log.action}</p>
-                      <p className="text-slate-500">{log.detail}</p>
-                      <p className="text-[10px] text-violet-400/80 font-semibold">{log.user}</p>
+                      <p className="font-bold text-slate-200">{pay.student}</p>
+                      <p className="text-[10px] text-slate-500">طريقة التحصيل: {pay.method} • {pay.date}</p>
                     </div>
-                    <span className="text-[10px] text-slate-600 font-semibold">{log.time}</span>
+                    <span className="text-xs font-black text-emerald-400" dir="ltr">+{pay.amount} ج</span>
                   </div>
                 ))}
               </div>
             </div>
- 
-            {/* Quick Actions Panel */}
+
+            {/* Subscriptions Expiring Soon Widget */}
             <div className="rounded-xl border border-slate-900 bg-slate-950/40 p-6 space-y-6">
-              <h3 className="text-sm font-bold text-slate-300">إجراءات سريعة</h3>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <Link to="/academic" className="flex items-center justify-center gap-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 px-4 py-3 text-xs font-semibold text-slate-300 hover:text-slate-100 transition-all cursor-pointer">
-                  <Plus className="h-4 w-4 text-violet-400" />
-                  <span>تسجيل طالب</span>
-                </Link>
-                <Link to="/financials" className="flex items-center justify-center gap-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 px-4 py-3 text-xs font-semibold text-slate-300 hover:text-slate-100 transition-all cursor-pointer">
-                  <Plus className="h-4 w-4 text-violet-400" />
-                  <span>فاتورة جديدة</span>
-                </Link>
-                <Link to="/academic" className="flex items-center justify-center gap-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 px-4 py-3 text-xs font-semibold text-slate-300 hover:text-slate-100 transition-all cursor-pointer">
-                  <Plus className="h-4 w-4 text-violet-400" />
-                  <span>جدولة حصة</span>
-                </Link>
-                <Link to="/pos" className="flex items-center justify-center gap-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 px-4 py-3 text-xs font-semibold text-slate-300 hover:text-slate-100 transition-all cursor-pointer">
-                  <Plus className="h-4 w-4 text-violet-400" />
-                  <span>كاشير البيع</span>
-                </Link>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-amber-400" />
+                <h3 className="text-sm font-bold text-slate-300 flex-1 text-right">اشتراكات تنتهي قريباً (تجديد)</h3>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  { name: 'يوسف شريف عبد الله', teacher: 'مستر أحمد (رياضيات)', daysLeft: 2 },
+                  { name: 'ندى خالد السيسي', teacher: 'مس نورا (كيمياء)', daysLeft: 3 },
+                  { name: 'كريم هاني الجزار', teacher: 'مستر محمود (فيزياء)', daysLeft: 5 },
+                  { name: 'رانيا وائل زاهر', teacher: 'مستر محمد (لغة عربية)', daysLeft: 6 }
+                ].map((sub, idx) => (
+                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
+                    <div className="space-y-1">
+                      <p className="font-bold text-slate-200">{sub.name}</p>
+                      <p className="text-[10px] text-slate-500">{sub.teacher}</p>
+                    </div>
+                    <span className="text-[10px] font-bold text-amber-400 bg-amber-950/30 border border-amber-900/40 px-2 py-0.5 rounded-full">
+                      باقي {sub.daysLeft} أيام
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

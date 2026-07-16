@@ -25,8 +25,9 @@ class AttendanceController extends Controller
 
         $records = DB::transaction(function () use ($validated, $academicSession) {
             $saved = [];
+            $academicSession->loadMissing('group');
             foreach ($validated['records'] as $record) {
-                $saved[] = Attendance::updateOrCreate(
+                $attendanceRecord = Attendance::updateOrCreate(
                     [
                         'academic_session_id' => $academicSession->id,
                         'student_profile_id' => $record['student_profile_id'],
@@ -35,6 +36,21 @@ class AttendanceController extends Controller
                         'status' => $record['status'],
                         'remarks' => $record['remarks'] ?? null,
                     ]
+                );
+                $saved[] = $attendanceRecord;
+
+                $statusArabic = [
+                    'present' => 'حضور',
+                    'absent' => 'غياب',
+                    'late' => 'تأخير',
+                    'excused' => 'غياب بإذن',
+                ][$record['status']] ?? $record['status'];
+
+                \App\Models\StudentTimelineEvent::logEvent(
+                    $record['student_profile_id'],
+                    'attendance',
+                    "تسجيل حالة حضور: {$statusArabic}",
+                    "تم رصد حالة الطالب كـ ({$statusArabic}) في حصة {$academicSession->group->name} بتاريخ {$academicSession->date}."
                 );
             }
 

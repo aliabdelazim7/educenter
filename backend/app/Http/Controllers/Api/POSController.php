@@ -115,6 +115,17 @@ class POSController extends Controller
                     'reference_type' => 'Payment',
                 ]);
 
+                // 5. Log Student Timeline Event
+                if ($invoice->student_profile_id) {
+                    $itemNames = collect($itemsData)->map(fn($d) => $d['product']->name)->implode(', ');
+                    \App\Models\StudentTimelineEvent::logEvent(
+                        $invoice->student_profile_id,
+                        'payment',
+                        "سداد فاتورة مبيعات: {$invoiceNumber}",
+                        "تم دفع مبلغ {$grandTotal} جنيه لشراء: {$itemNames}."
+                    );
+                }
+
                 return [
                     'invoice' => $invoice->load('items'),
                     'payment' => $payment

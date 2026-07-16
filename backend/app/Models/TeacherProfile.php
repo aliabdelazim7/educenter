@@ -19,6 +19,7 @@ class TeacherProfile extends Model
         'user_id',
         'salary',
         'commission_rate',
+        'commission_percentage',
         'status',
     ];
 

@@ -16,6 +16,9 @@ use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\AnalyticsController;
+use App\Http\Controllers\Api\EducationalContentController;
+use App\Http\Controllers\Api\ExamController;
+use App\Http\Controllers\Api\StudentTimelineController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -70,7 +73,17 @@ Route::prefix('v1')->group(function () {
             // Global search
             Route::get('search', [SearchController::class, 'search']);
             Route::get('students', [SearchController::class, 'allStudents']);
+            Route::post('students', [SearchController::class, 'storeStudent']);
             Route::get('teachers', [SearchController::class, 'allTeachers']);
+            Route::post('teachers', [SearchController::class, 'storeTeacher']);
+
+            // Educational Content, Exams & Timeline
+            Route::apiResource('educational-contents', EducationalContentController::class);
+            Route::apiResource('exams', ExamController::class);
+            Route::post('exams/{exam}/grade', [ExamController::class, 'grade']);
+            Route::get('exams/{exam}/grades', [ExamController::class, 'getGrades']);
+            Route::get('students/{student}/timeline', [StudentTimelineController::class, 'show']);
+            Route::post('students/timeline', [StudentTimelineController::class, 'store']);
 
             // Audit Logs activity trail
             Route::get('audit-logs', [AuditLogController::class, 'index']);

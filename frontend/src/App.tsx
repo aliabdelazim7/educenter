@@ -14,6 +14,9 @@ import { Settings } from './pages/Settings'
 import { Unauthorized } from './pages/Unauthorized'
 import { Students } from './pages/Students'
 import { Teachers } from './pages/Teachers'
+import { Content } from './pages/Content'
+import { Exams } from './pages/Exams'
+import { Reports } from './pages/Reports'
 
 function App() {
   return (
@@ -87,6 +90,26 @@ function App() {
             element={
               <ProtectedRoute requiredPermission="view teachers">
                 <Teachers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/content"
+            element={
+              <Content />
+            }
+          />
+          <Route
+            path="/exams"
+            element={
+              <Exams />
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute requiredPermission="view financial">
+                <Reports />
               </ProtectedRoute>
             }
           />
