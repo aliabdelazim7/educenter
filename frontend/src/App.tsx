@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ThemeToggle } from './components/ThemeToggle'
@@ -7,6 +7,9 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { AcceptInvitation } from './pages/AcceptInvitation'
 import { Users as UserManagement } from './pages/Users'
+import { StudentPortal } from './pages/StudentPortal'
+import { ParentPortal } from './pages/ParentPortal'
+import { HomeRedirect } from './components/HomeRedirect'
 import { Dashboard } from './pages/Dashboard'
 import { Branches } from './pages/Branches'
 import { AcademicHub } from './pages/AcademicHub'
@@ -146,11 +149,27 @@ function App() {
             }
           />
 
-          {/* Root fallback redirects to dashboard */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          
-          {/* Catch-all redirect to dashboard */}
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          {/* Self-service portals for the non-staff roles */}
+          <Route
+            path="/portal"
+            element={
+              <ProtectedRoute requiredRole="Student">
+                <StudentPortal />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/parent"
+            element={
+              <ProtectedRoute requiredRole="Parent">
+                <ParentPortal />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Land each role on the surface it can actually use */}
+          <Route path="/" element={<HomeRedirect />} />
+          <Route path="*" element={<HomeRedirect />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
