@@ -17,6 +17,15 @@ interface Teacher {
   id: string
   commission_percentage: string
   user: { name: string; email: string }
+  groups?: Array<{
+    id: string
+    name: string
+    subject?: { name: string }
+    students?: Array<{
+      id: string
+      user: { name: string }
+    }>
+  }>
 }
 
 export const Teachers: React.FC = () => {
@@ -191,6 +200,42 @@ export const Teachers: React.FC = () => {
                   <div className="border-b border-slate-200 dark:border-slate-900 pb-4 text-right">
                     <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">{selectedTeacher.user.name}</h3>
                     <p className="text-xs text-slate-500">نسبة العمولة المحددة: %{parseFloat(selectedTeacher.commission_percentage).toFixed(0)}</p>
+                  </div>
+
+                  {/* Taught Groups, Subjects & Enrolled Students */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-bold text-slate-600 dark:text-slate-400 text-right">المجموعات والمواد التي يدرسها</h4>
+                    {selectedTeacher.groups && selectedTeacher.groups.length > 0 ? (
+                      <div className="space-y-2.5 max-h-60 overflow-y-auto pr-1">
+                        {selectedTeacher.groups.map((grp: any) => (
+                          <div key={grp.id} className="text-xs bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 p-3 rounded-xl space-y-2 text-right" dir="rtl">
+                            <div className="flex justify-between items-center">
+                              <div>
+                                <p className="font-extrabold text-slate-850 dark:text-slate-100">{grp.name}</p>
+                                <p className="text-[10px] text-slate-500 mt-0.5">عدد الطلاب: {grp.students?.length || 0} طالب</p>
+                              </div>
+                              <span className="text-[9px] font-black bg-violet-100 dark:bg-violet-950/40 text-violet-750 dark:text-violet-400 px-2.5 py-1 rounded-lg">
+                                {grp.subject?.name || 'مادة عامة'}
+                              </span>
+                            </div>
+
+                            {grp.students && grp.students.length > 0 ? (
+                              <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 flex flex-wrap gap-1 justify-start">
+                                {grp.students.map((st: any) => (
+                                  <span key={st.id} className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-350 px-2 py-0.5 rounded">
+                                    {st.user?.name}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-[9px] text-slate-500 italic">لا يوجد طلاب مسكنين في هذه المجموعة حالياً.</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-[10px] text-slate-500 text-center py-2 bg-slate-100/50 dark:bg-slate-950/20 rounded-lg">لا يدرس أي مجموعة حالياً.</p>
+                    )}
                   </div>
 
                   {/* Calculator Input Fields */}

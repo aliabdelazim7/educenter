@@ -22,6 +22,12 @@ interface Student {
   qr_code: string | null
   barcode: string | null
   created_at?: string
+  groups?: Array<{
+    id: string
+    name: string
+    subject?: { name: string }
+    teacher_profile?: { user?: { name: string } }
+  }>
 }
 
 interface TimelineEvent {
@@ -337,6 +343,28 @@ export const Students: React.FC = () => {
                       )}
                       <span>تجديد الاشتراك وتحصيل الحصص فوراً</span>
                     </button>
+                  </div>
+
+                  {/* Student Groups, Teachers & Subjects */}
+                  <div className="border-t border-slate-200 dark:border-slate-900 pt-4 space-y-3">
+                    <h4 className="text-xs font-bold text-slate-600 dark:text-slate-400 text-right">المجموعات والمواد المشترك بها</h4>
+                    {selectedStudent.groups && selectedStudent.groups.length > 0 ? (
+                      <div className="space-y-2">
+                        {selectedStudent.groups.map((grp: any) => (
+                          <div key={grp.id} className="text-xs bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 p-3 rounded-xl flex justify-between items-center text-right" dir="rtl">
+                            <div>
+                              <p className="font-extrabold text-slate-850 dark:text-slate-100">{grp.name}</p>
+                              <p className="text-[10px] text-slate-500 mt-0.5">المدرس: {grp.teacher_profile?.user?.name || 'غير محدد'}</p>
+                            </div>
+                            <span className="text-[9px] font-black bg-violet-100 dark:bg-violet-950/40 text-violet-750 dark:text-violet-400 px-2.5 py-1 rounded-lg">
+                              {grp.subject?.name || 'مادة عامة'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-[10px] text-slate-500 text-center py-2 bg-slate-100/50 dark:bg-slate-950/20 rounded-lg">غير مسكن في أي مجموعة دراسية حالياً.</p>
+                    )}
                   </div>
 
                   {/* Timeline Feed */}

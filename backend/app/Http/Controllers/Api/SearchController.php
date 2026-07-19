@@ -76,7 +76,7 @@ class SearchController extends Controller
      */
     public function allStudents(): JsonResponse
     {
-        $students = StudentProfile::with('user')->get();
+        $students = StudentProfile::with(['user', 'groups.subject', 'groups.teacherProfile.user'])->get();
         return response()->json(['data' => $students]);
     }
 
@@ -85,7 +85,7 @@ class SearchController extends Controller
      */
     public function allTeachers(): JsonResponse
     {
-        $teachers = TeacherProfile::with('user')->get();
+        $teachers = TeacherProfile::with(['user', 'groups.subject', 'groups.students.user'])->get();
         return response()->json(['data' => $teachers]);
     }
 
