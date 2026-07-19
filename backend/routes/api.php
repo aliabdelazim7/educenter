@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\StudentTimelineController;
 use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SubjectController;
+use App\Http\Controllers\Api\GradeController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -59,6 +60,7 @@ Route::prefix('v1')->group(function () {
 
             // Lookup used by the invite form
             Route::get('subjects', [SubjectController::class, 'index']);
+            Route::get('grades', [GradeController::class, 'index']);
 
             // Branches
             Route::apiResource('branches', BranchController::class);

@@ -148,5 +148,20 @@ class InitializeTenantRBACAction
 
         $studentRole = Role::findOrCreate('Student', 'web');
         $studentRole->syncPermissions(['view academic', 'view students']);
+
+        // Seed default grades for the tenant
+        $defaults = [
+            'الصف الأول الثانوي',
+            'الصف الثاني الثانوي',
+            'الصف الثالث الثانوي',
+            'Grade 11',
+            'Grade 12'
+        ];
+        foreach ($defaults as $name) {
+            \App\Models\Grade::firstOrCreate([
+                'tenant_id' => $tenant->id,
+                'name' => $name
+            ]);
+        }
     }
 }
