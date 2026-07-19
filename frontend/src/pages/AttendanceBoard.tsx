@@ -294,12 +294,6 @@ export const AttendanceBoard: React.FC = () => {
               </button>
             </div>
           </div>
-        )}d-650 dark:text-red-400 hover:bg-red-500/20 text-xs font-semibold cursor-pointer transition-all"
-              >
-                تحديد الكل كغائب ✕
-              </button>
-            </div>
-          </div>
         )}
 
         {/* Attendance Checklist Grid */}
