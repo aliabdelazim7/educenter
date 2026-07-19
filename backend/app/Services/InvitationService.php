@@ -180,12 +180,18 @@ class InvitationService
     {
         $payload = $invitation->profile_payload ?? [];
 
+        // Acceptance is a public route with no tenant middleware, so the tenant
+        // is not resolved and BelongsToTenant cannot fill tenant_id. Set it from
+        // the invitation explicitly or the insert violates NOT NULL.
+        $tenantId = $invitation->tenant_id;
+
         if ($invitation->role === 'Student') {
             StudentProfile::firstOrCreate(
                 ['user_id' => $user->id],
                 [
-                    // Links the child to the parent account that was picked at
-                    // invite time; the parent portal reads exactly this column.
+                    'tenant_id' => $tenantId,
+                    // Links the child to the parent account picked at invite
+                    // time; the parent portal reads exactly this column.
                     'parent_id' => $payload['parent_id'] ?? null,
                     'qr_code' => (string) Str::uuid(),
                     'barcode' => (string) Str::uuid(),
@@ -202,8 +208,11 @@ class InvitationService
             TeacherProfile::firstOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'tenant_id' => $tenantId,
                     'salary' => $isPercentage ? null : $compensation,
-                    'commission_percentage' => $isPercentage ? $compensation : null,
+                    // commission_percentage is the column the teacher and
+                    // payroll screens read; commission_rate is the older one.
+                    'commission_percentage' => $isPercentage ? $compensation : 0,
                     'status' => 'active',
                 ]
             );
