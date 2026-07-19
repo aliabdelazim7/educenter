@@ -111,3 +111,22 @@
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
+
+/* Color overrides for light-mode readability of alerts */
+:root {
+  .text-emerald-200 {
+    color: #065f46 !important; /* emerald-800 */
+  }
+  .text-red-200 {
+    color: #991b1b !important; /* red-800 */
+  }
+}
+
+.dark {
+  .text-emerald-200 {
+    color: #a7f3d0 !important; /* emerald-200 */
+  }
+  .text-red-200 {
+    color: #fecaca !important; /* red-200 */
+  }
+}
