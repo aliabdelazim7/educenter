@@ -32,12 +32,14 @@ class SearchController extends Controller
 
         // 1. Search Students
         $students = StudentProfile::with('user')
-            ->whereHas('user', function ($q) use ($term) {
-                $q->where('name', 'like', "%{$term}%")
-                  ->orWhere('email', 'like', "%{$term}%");
+            ->where(function ($query) use ($term) {
+                $query->whereHas('user', function ($q) use ($term) {
+                    $q->where('name', 'like', "%{$term}%")
+                      ->orWhere('email', 'like', "%{$term}%");
+                })
+                ->orWhere('qr_code', 'like', "%{$term}%")
+                ->orWhere('barcode', 'like', "%{$term}%");
             })
-            ->orWhere('qr_code', 'like', "%{$term}%")
-            ->orWhere('barcode', 'like', "%{$term}%")
             ->limit(10)
             ->get();
 

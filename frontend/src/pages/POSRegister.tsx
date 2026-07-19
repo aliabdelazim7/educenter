@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
 import {
@@ -9,7 +9,9 @@ import {
   Users,
   Printer,
   Coins,
-  Barcode
+  Barcode,
+  Copy,
+  Check
 } from 'lucide-react'
 
 interface Student {
@@ -33,6 +35,9 @@ export const POSRegister: React.FC = () => {
 
   // Cashier form state
   const [selectedStudent, setSelectedStudent] = useState('')
+  const [studentSearch, setStudentSearch] = useState('')
+  const [showStudentDropdown, setShowStudentDropdown] = useState(false)
+
   const [selectedProduct, setSelectedProduct] = useState('')
   const [payAmount, setPayAmount] = useState('')
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'bank_transfer'>('cash')
@@ -40,10 +45,12 @@ export const POSRegister: React.FC = () => {
 
   // Scanner state
   const [barcodeQuery, setBarcodeQuery] = useState('')
+  const barcodeInputRef = useRef<HTMLInputElement>(null)
 
   // Submit / Receipt states
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [receiptData, setReceiptData] = useState<any | null>(null)
+  const [invoiceCopied, setInvoiceCopied] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -64,6 +71,13 @@ export const POSRegister: React.FC = () => {
   useEffect(() => {
     fetchData()
   }, [])
+
+  // Auto-focus barcode input when data finishes loading
+  useEffect(() => {
+    if (!loading && barcodeInputRef.current) {
+      barcodeInputRef.current.focus()
+    }
+  }, [loading])
 
   // Auto-fill price on product selection
   const handleProductChange = (prodId: string) => {
@@ -86,9 +100,9 @@ export const POSRegister: React.FC = () => {
     const foundStud = students.find(s => s.barcode === barcodeQuery)
     if (foundStud) {
       setSelectedStudent(foundStud.id)
+      setStudentSearch(foundStud.user.name)
       setBarcodeQuery('')
     } else {
-      // Maybe find product by barcode (or SKU)
       setError('لم يتم العثور على طالب بهذا الباركود.')
     }
   }
@@ -129,6 +143,7 @@ export const POSRegister: React.FC = () => {
 
       // Reset form
       setSelectedStudent('')
+      setStudentSearch('')
       setSelectedProduct('')
       setPayAmount('')
       setDiscount('0')
@@ -141,6 +156,12 @@ export const POSRegister: React.FC = () => {
 
   const handlePrint = () => {
     window.print()
+  }
+
+  const handleCopyInvoiceNumber = (num: string) => {
+    navigator.clipboard.writeText(num)
+    setInvoiceCopied(true)
+    setTimeout(() => setInvoiceCopied(false), 2000)
   }
 
   return (
@@ -160,7 +181,7 @@ export const POSRegister: React.FC = () => {
         </div>
 
         {error && (
-          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-200 mb-6 max-w-5xl text-right">
+          <div className="flex items-center gap-3 rounded-lg bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-500/30 p-4 text-sm text-red-700 dark:text-red-200 mb-6 max-w-5xl text-right">
             <AlertCircle className="h-5 w-5 shrink-0 text-red-700 dark:text-red-400" />
             <span>{error}</span>
           </div>
@@ -184,6 +205,7 @@ export const POSRegister: React.FC = () => {
                 <form onSubmit={handleBarcodeSearch} className="flex gap-2">
                   <div className="relative">
                     <input
+                      ref={barcodeInputRef}
                       type="text"
                       placeholder="امسح باركود الطالب..."
                       value={barcodeQuery}
@@ -196,18 +218,55 @@ export const POSRegister: React.FC = () => {
               </div>
 
               <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-                {/* Select Student */}
-                <div className="space-y-1.5 text-right">
+                {/* Select Student (Searchable Autocomplete) */}
+                <div className="space-y-1.5 text-right relative">
                   <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">اسم الطالب</label>
-                  <select
-                    required
-                    value={selectedStudent}
-                    onChange={(e) => setSelectedStudent(e.target.value)}
-                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
-                  >
-                    <option value="">اختر الطالب...</option>
-                    {students.map(s => <option key={s.id} value={s.id}>{s.user.name}</option>)}
-                  </select>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="ابحث باسم الطالب أو كود الباركود..."
+                      value={studentSearch}
+                      onChange={(e) => {
+                        setStudentSearch(e.target.value)
+                        setShowStudentDropdown(true)
+                        if (!e.target.value) {
+                          setSelectedStudent('')
+                        }
+                      }}
+                      onFocus={() => setShowStudentDropdown(true)}
+                      onBlur={() => {
+                        // Small timeout to let clicks register
+                        setTimeout(() => setShowStudentDropdown(false), 200)
+                      }}
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-805 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
+                    />
+                    {selectedStudent && (
+                      <span className="absolute left-3 top-2.5 text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded">✓ تم الاختيار</span>
+                    )}
+                  </div>
+
+                  {showStudentDropdown && (
+                    <div className="absolute z-30 w-full mt-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl max-h-48 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
+                      {students
+                        .filter(s => s.user.name.toLowerCase().includes(studentSearch.toLowerCase()) || (s.barcode && s.barcode.includes(studentSearch)))
+                        .map(s => (
+                          <div
+                            key={s.id}
+                            onClick={() => {
+                              setSelectedStudent(s.id)
+                              setStudentSearch(s.user.name)
+                              setShowStudentDropdown(false)
+                            }}
+                            className="px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200 hover:bg-violet-50 dark:hover:bg-violet-950/30 cursor-pointer text-right transition-all"
+                          >
+                            {s.user.name} {s.barcode ? `(باركود: ${s.barcode})` : ''}
+                          </div>
+                        ))}
+                      {students.filter(s => s.user.name.toLowerCase().includes(studentSearch.toLowerCase()) || (s.barcode && s.barcode.includes(studentSearch))).length === 0 && (
+                        <div className="px-4 py-3 text-xs text-slate-500 text-center">لا يوجد طلاب يطابقون محددات البحث.</div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Select Product/Subscription */}
@@ -294,39 +353,52 @@ export const POSRegister: React.FC = () => {
                   <div className="text-center space-y-1 border-b border-slate-200 dark:border-slate-900 pb-4">
                     <CheckCircle className="h-8 w-8 text-emerald-700 dark:text-emerald-400 mx-auto mb-2 print:hidden" />
                     <h3 className="text-lg font-bold text-slate-900 dark:text-slate-50">إيصال سداد إلكتروني</h3>
-                    <p className="text-xs text-slate-500">رقم الفاتورة: {receiptData.invoiceNumber}</p>
+                    <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                      <span>رقم الفاتورة: {receiptData.invoiceNumber}</span>
+                      <button
+                        onClick={() => handleCopyInvoiceNumber(receiptData.invoiceNumber)}
+                        className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-slate-200 transition-all cursor-pointer print:hidden"
+                        title="نسخ رقم الفاتورة"
+                      >
+                        {invoiceCopied ? (
+                          <Check className="h-3.5 w-3.5 text-emerald-500" />
+                        ) : (
+                          <Copy className="h-3.5 w-3.5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Receipt Meta */}
-                  <div className="space-y-3 text-xs text-right">
+                  <div className="space-y-3 text-xs text-right text-slate-800 dark:text-slate-200">
                     <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
-                      <span className="text-slate-600 dark:text-slate-400">اسم الطالب</span>
+                      <span className="text-slate-500">اسم الطالب</span>
                       <span className="font-bold text-slate-800 dark:text-slate-200">{receiptData.studentName}</span>
                     </div>
 
                     <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
-                      <span className="text-slate-600 dark:text-slate-400">الصنف / البند</span>
+                      <span className="text-slate-500">الصنف / البند</span>
                       <span className="font-semibold text-slate-800 dark:text-slate-200">{receiptData.productName}</span>
                     </div>
 
                     <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
-                      <span className="text-slate-600 dark:text-slate-400">طريقة التحصيل</span>
+                      <span className="text-slate-500">طريقة التحصيل</span>
                       <span className="font-semibold text-slate-800 dark:text-slate-200">{receiptData.paymentMethod}</span>
                     </div>
 
                     <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
-                      <span className="text-slate-600 dark:text-slate-400">تاريخ المعاملة</span>
-                      <span className="font-mono text-slate-350" dir="ltr">{receiptData.date}</span>
+                      <span className="text-slate-500">تاريخ المعاملة</span>
+                      <span className="font-mono text-slate-600 dark:text-slate-450" dir="ltr">{receiptData.date}</span>
                     </div>
 
                     {receiptData.discount > 0 && (
                       <div className="flex justify-between border-b border-slate-200 dark:border-slate-900/60 pb-2">
-                        <span className="text-slate-600 dark:text-slate-400">الخصم الممنوح</span>
-                        <span className="font-bold text-red-700 dark:text-red-400">-{receiptData.discount} ج</span>
+                        <span className="text-slate-500">الخصم الممنوح</span>
+                        <span className="font-bold text-red-500 dark:text-red-400">-{receiptData.discount} ج</span>
                       </div>
                     )}
 
-                    <div className="flex justify-between pt-2 text-sm font-black text-slate-900 dark:text-slate-100">
+                    <div className="flex justify-between pt-2 text-sm font-black text-slate-950 dark:text-slate-100">
                       <span>إجمالي المدفوع</span>
                       <span className="text-emerald-700 dark:text-emerald-400">{receiptData.finalPrice.toLocaleString('ar-EG')} جنيه مصري</span>
                     </div>
@@ -340,7 +412,7 @@ export const POSRegister: React.FC = () => {
                   {/* Print Button */}
                   <button
                     onClick={handlePrint}
-                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-emerald-650 hover:bg-emerald-500 text-white font-semibold py-2.5 text-xs transition-all cursor-pointer shadow-lg shadow-emerald-600/10 print:hidden"
+                    className="w-full flex items-center justify-center gap-2 rounded-lg bg-emerald-650 hover:bg-emerald-600 text-white font-semibold py-2.5 text-xs transition-all cursor-pointer shadow-lg shadow-emerald-600/10 print:hidden"
                   >
                     <Printer className="h-4 w-4" />
                     <span>طباعة الفاتورة الفورية</span>
@@ -348,7 +420,7 @@ export const POSRegister: React.FC = () => {
                 </div>
               ) : (
                 <div className="rounded-xl border border-slate-200 dark:border-slate-900 border-dashed p-16 text-center text-slate-500">
-                  <Printer className="h-10 w-10 mx-auto mb-4 text-slate-650" />
+                  <Printer className="h-10 w-10 mx-auto mb-4 text-slate-450 dark:text-slate-650" />
                   <p className="text-xs font-semibold">بمجرد إتمام عملية التحصيل، سيظهر إيصال السداد الفوري القابل للطباعة هنا.</p>
                 </div>
               )}
