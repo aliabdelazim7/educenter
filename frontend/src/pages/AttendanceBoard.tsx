@@ -53,6 +53,7 @@ export const AttendanceBoard: React.FC = () => {
   const [studentFilter, setStudentFilter] = useState('')
   const [scanQuery, setScanQuery] = useState('')
   const [scanSuccessMsg, setScanSuccessMsg] = useState<string | null>(null)
+  const [allStudents, setAllStudents] = useState<Student[]>([])
 
   useEffect(() => {
     const loadBoardData = async () => {
@@ -65,18 +66,39 @@ export const AttendanceBoard: React.FC = () => {
         const sessionData = sessionRes.data.data
         setSession(sessionData)
 
-        // 2. Fetch Group Students
+        // 2. Fetch All Students (globally) to resolve alternative attendees
+        const allStudRes = await api.get('/students')
+        const allStudData = allStudRes.data.data
+        setAllStudents(allStudData)
+
+        // 3. Fetch Group Students
         const studentsRes = await api.get(`/groups/${sessionData.group_id}/students`)
         const studentsData = studentsRes.data.data
-        setStudents(studentsData)
 
-        // 3. Fetch Existing Attendance
+        // 4. Fetch Existing Attendance
         const existingRes = await api.get(`/academic-sessions/${sessionId}/attendance`)
         const existingData = existingRes.data.data
 
-        // Initialize state map (default all to 'present' so it's pre-filled, or 'absent' as they prefer. Let's default all to present and let them uncheck absents, or default all to absent and they check presents. Let's default to present as it's the most common case)
+        // Merge any students in existingData who are not in the group roster
+        const mergedStudents = [...studentsData]
+        existingData.forEach((rec: any) => {
+          const profile = rec.student_profile || rec.student_profile;
+          if (profile && !mergedStudents.some(s => s.id === profile.id)) {
+            const fullProfile = allStudData.find((s: any) => s.id === profile.id) || profile
+            mergedStudents.push({
+              id: profile.id,
+              user: profile.user,
+              barcode: fullProfile.barcode || null,
+              qr_code: fullProfile.qr_code || null,
+              isAlternative: true
+            })
+          }
+        })
+        setStudents(mergedStudents)
+
+        // Initialize state map
         const initialAttendance: AttendanceState = {}
-        studentsData.forEach((student: Student) => {
+        mergedStudents.forEach((student: Student) => {
           const matchedRecord = existingData.find(
             (r: any) => r.student_profile_id === student.id
           )
@@ -138,21 +160,40 @@ export const AttendanceBoard: React.FC = () => {
     setError(null)
     setScanSuccessMsg(null)
 
-    // Find student in our students list by barcode or qr_code
+    // 1. Find student in currently displayed checklist first
     const matched = students.find(s => s.barcode === scanQuery || s.qr_code === scanQuery)
     if (matched) {
       setAttendance(prev => ({
         ...prev,
         [matched.id]: {
-          ...prev[matched.id],
+          ...prev[matched.id] || { remarks: '' },
           status: 'present'
         }
       }))
       setScanSuccessMsg(`تم تحضير الطالب: ${matched.user.name} بنجاح!`)
       setTimeout(() => setScanSuccessMsg(null), 3000)
     } else {
-      setError('لم يتم العثور على طالب بهذا الكود في هذه المجموعة.')
-      setTimeout(() => setError(null), 4000)
+      // 2. Lookup globally in all system students to handle alternative/emergency attendance
+      const globalMatched = allStudents.find(s => s.barcode === scanQuery || s.qr_code === scanQuery)
+      if (globalMatched) {
+        const newStudentEntry = {
+          ...globalMatched,
+          isAlternative: true
+        }
+        setStudents(prev => [...prev, newStudentEntry])
+        setAttendance(prev => ({
+          ...prev,
+          [globalMatched.id]: {
+            status: 'present',
+            remarks: 'حضور بديل من مجموعة أخرى'
+          }
+        }))
+        setScanSuccessMsg(`تم رصد حضور بديل للطالب: ${globalMatched.user.name} بنجاح! 🔄`)
+        setTimeout(() => setScanSuccessMsg(null), 4000)
+      } else {
+        setError('لم يتم العثور على أي طالب بهذا الكود في النظام.')
+        setTimeout(() => setError(null), 4000)
+      }
     }
     setScanQuery('')
   }
@@ -338,7 +379,14 @@ export const AttendanceBoard: React.FC = () => {
 
                     {/* Student Name */}
                     <div className="space-y-0.5 text-right">
-                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{student.user.name}</p>
+                      <div className="flex items-center gap-1.5 justify-end">
+                        {student.isAlternative && (
+                          <span className="text-[9px] font-black bg-amber-500/20 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded shrink-0">
+                            حضور بديل 🔄
+                          </span>
+                        )}
+                        <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{student.user.name}</p>
+                      </div>
                       <p className="text-[10px] text-slate-500">{student.user.email}</p>
                     </div>
 
