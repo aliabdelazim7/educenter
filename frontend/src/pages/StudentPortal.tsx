@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import {
   School, LogOut, Loader2, BookOpen, CalendarCheck, Receipt,
-  ExternalLink, CheckCircle2, XCircle, Clock,
+  ExternalLink, CheckCircle2, XCircle, Clock, CalendarClock,
 } from 'lucide-react'
 
 interface Profile {
@@ -30,16 +30,26 @@ export const StudentPortal: React.FC = () => {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [content, setContent] = useState<any[]>([])
   const [invoices, setInvoices] = useState<any[]>([])
+  const [schedule, setSchedule] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [tab, setTab] = useState<'overview' | 'content' | 'invoices'>('overview')
+  const [tab, setTab] = useState<'overview' | 'schedule' | 'content' | 'invoices'>('overview')
 
   useEffect(() => {
     Promise.all([
       api.get('/portal/me').then((r) => setProfile(r.data.data)).catch(() => setProfile(null)),
       api.get('/portal/content').then((r) => setContent(r.data.data)).catch(() => setContent([])),
       api.get('/portal/invoices').then((r) => setInvoices(r.data.data)).catch(() => setInvoices([])),
+      api.get('/portal/schedule').then((r) => setSchedule(r.data.data)).catch(() => setSchedule([])),
     ]).finally(() => setLoading(false))
   }, [])
+
+  // "16:00:00" -> "04:00 م"
+  const formatTime = (t?: string) => {
+    if (!t) return ''
+    const [h, m] = t.split(':').map(Number)
+    const hour12 = h % 12 === 0 ? 12 : h % 12
+    return `${String(hour12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${h >= 12 ? 'م' : 'ص'}`
+  }
 
   if (loading) {
     return (
@@ -51,6 +61,7 @@ export const StudentPortal: React.FC = () => {
 
   const TABS = [
     { key: 'overview' as const, label: 'نظرة عامة', Icon: CalendarCheck },
+    { key: 'schedule' as const, label: 'مواعيد حصصي', Icon: CalendarClock },
     { key: 'content' as const, label: 'المحتوى التعليمي', Icon: BookOpen },
     { key: 'invoices' as const, label: 'الاشتراك والمدفوعات', Icon: Receipt },
   ]
@@ -150,6 +161,34 @@ export const StudentPortal: React.FC = () => {
                   )}
                 </Panel>
               </div>
+            )}
+
+            {tab === 'schedule' && (
+              <Panel title="حصصي القادمة">
+                {schedule.length === 0 ? (
+                  <Empty>لا توجد حصص قادمة مجدولة.</Empty>
+                ) : (
+                  schedule.map((s) => (
+                    <Row key={s.id}>
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold truncate">{s.subject || s.group}</p>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 truncate">
+                          {s.teacher ? `أ. ${s.teacher}` : ''}
+                          {s.classroom ? ` • ${s.classroom}` : ''}
+                        </p>
+                      </div>
+                      <div className="shrink-0 text-left">
+                        <p className="text-xs font-bold text-violet-700 dark:text-violet-400">
+                          {formatTime(s.start_time)}
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          {s.date ? new Date(s.date).toLocaleDateString('ar-EG', { weekday: 'short', day: 'numeric', month: 'short' }) : ''}
+                        </p>
+                      </div>
+                    </Row>
+                  ))
+                )}
+              </Panel>
             )}
 
             {tab === 'content' && (

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
+use App\Models\StudentProfile;
 use App\Models\User;
 use App\Support\RoleLabels;
 use Illuminate\Http\JsonResponse;
@@ -90,6 +91,72 @@ class UserController extends Controller
             'message' => 'تم تحديث حالة المستخدم.',
             'data' => ['id' => $user->id, 'status' => $user->status],
         ]);
+    }
+
+    /**
+     * Attach (or detach) a student to a parent account.
+     *
+     * This is the link the parent portal reads: a parent sees exactly the
+     * student profiles whose parent_id is their user id.
+     */
+    public function linkParent(Request $request, string $studentProfileId): JsonResponse
+    {
+        $this->authorizeAdmin($request);
+
+        $profile = StudentProfile::findOrFail($studentProfileId);
+
+        $data = $request->validate([
+            'parent_id' => ['nullable', 'uuid', 'exists:users,id'],
+        ]);
+
+        if (!empty($data['parent_id'])) {
+            $parent = User::find($data['parent_id']);
+
+            if (!$parent?->hasRole('Parent')) {
+                return response()->json([
+                    'message' => 'الحساب المحدد ليس ولي أمر.',
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        $from = $profile->parent_id;
+        $profile->update(['parent_id' => $data['parent_id'] ?? null]);
+
+        AuditLog::create([
+            'tenant_id' => $profile->tenant_id,
+            'user_id' => $request->user()->id,
+            'action' => 'student.parent_linked',
+            'model_type' => StudentProfile::class,
+            'model_id' => $profile->id,
+            'payload' => ['from' => $from, 'to' => $data['parent_id'] ?? null],
+            'ip_address' => $request->ip(),
+        ]);
+
+        return response()->json([
+            'message' => empty($data['parent_id'])
+                ? 'تم إلغاء ربط ولي الأمر.'
+                : 'تم ربط الطالب بولي الأمر.',
+        ]);
+    }
+
+    /**
+     * Students with their current parent link, for the linking screen.
+     */
+    public function studentLinks(Request $request): JsonResponse
+    {
+        $this->authorizeAdmin($request);
+
+        $students = StudentProfile::with(['user:id,name,email', 'parent:id,name'])
+            ->get()
+            ->map(fn (StudentProfile $p) => [
+                'profile_id' => $p->id,
+                'name' => $p->user?->name,
+                'email' => $p->user?->email,
+                'parent_id' => $p->parent_id,
+                'parent_name' => $p->parent?->name,
+            ]);
+
+        return response()->json(['data' => $students]);
     }
 
     private function authorizeAdmin(Request $request): void

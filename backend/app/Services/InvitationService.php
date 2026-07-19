@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Mail\InvitationMail;
 use App\Models\AuditLog;
 use App\Models\Invitation;
+use App\Models\StudentProfile;
+use App\Models\TeacherProfile;
 use App\Models\User;
 use App\Tenant\TenantManager;
 use Illuminate\Support\Facades\DB;
@@ -157,10 +159,55 @@ class InvitationService
                 'token_hash' => hash('sha256', 'accepted:' . $invitation->id),
             ])->save();
 
+            // Turn the captured profile data into the real record the portals
+            // and rosters read from. Without this the account has no profile
+            // and every self-service screen comes up empty.
+            $this->provisionProfile($invitation, $user);
+
             $this->audit('invitation.accepted', $invitation, $user, ['email' => $invitation->email]);
 
             return $user;
         });
+    }
+
+    /**
+     * Create the domain profile matching the invited role.
+     *
+     * Idempotent: re-running for an already-provisioned user is a no-op, so a
+     * replayed accept cannot create duplicates.
+     */
+    private function provisionProfile(Invitation $invitation, User $user): void
+    {
+        $payload = $invitation->profile_payload ?? [];
+
+        if ($invitation->role === 'Student') {
+            StudentProfile::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    // Links the child to the parent account that was picked at
+                    // invite time; the parent portal reads exactly this column.
+                    'parent_id' => $payload['parent_id'] ?? null,
+                    'qr_code' => (string) Str::uuid(),
+                    'barcode' => (string) Str::uuid(),
+                ]
+            );
+
+            return;
+        }
+
+        if (in_array($invitation->role, ['Teacher', 'Teacher Assistant'], true)) {
+            $isPercentage = ($payload['contract_type'] ?? null) === 'percentage';
+            $compensation = $payload['compensation'] ?? null;
+
+            TeacherProfile::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'salary' => $isPercentage ? null : $compensation,
+                    'commission_percentage' => $isPercentage ? $compensation : null,
+                    'status' => 'active',
+                ]
+            );
+        }
     }
 
     /**

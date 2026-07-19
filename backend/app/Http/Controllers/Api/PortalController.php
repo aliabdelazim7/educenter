@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AcademicSession;
 use App\Models\EducationalContent;
 use App\Models\Invoice;
 use App\Models\StudentProfile;
@@ -80,6 +81,41 @@ class PortalController extends Controller
         return response()->json([
             'data' => Invoice::where('student_profile_id', $profile->id)->latest()->get(),
         ]);
+    }
+
+    /**
+     * Upcoming classes for the student's own groups, with the teacher running
+     * each one. This is how a student sees "their" teachers' schedule without
+     * any access to the wider timetable.
+     */
+    public function schedule(Request $request): JsonResponse
+    {
+        $profile = $this->ownProfile($request);
+
+        if (!$profile) {
+            return response()->json(['data' => []]);
+        }
+
+        $sessions = AcademicSession::with(['group.subject', 'teacherProfile.user', 'classroom'])
+            ->whereIn('group_id', $profile->groups->pluck('id'))
+            ->whereDate('date', '>=', now()->toDateString())
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->limit(30)
+            ->get()
+            ->map(fn (AcademicSession $s) => [
+                'id' => $s->id,
+                'date' => $s->date,
+                'start_time' => $s->start_time,
+                'end_time' => $s->end_time,
+                'status' => $s->status,
+                'group' => $s->group?->name,
+                'subject' => $s->group?->subject?->name,
+                'teacher' => $s->teacherProfile?->user?->name,
+                'classroom' => $s->classroom?->name,
+            ]);
+
+        return response()->json(['data' => $sessions]);
     }
 
     private function ownProfile(Request $request): ?StudentProfile

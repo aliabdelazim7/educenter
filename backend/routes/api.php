@@ -60,6 +60,10 @@ Route::prefix('v1')->group(function () {
             Route::get('users', [UserController::class, 'index']);
             Route::patch('users/{user}/status', [UserController::class, 'updateStatus']);
 
+            // Parent <-> student linking (drives the parent portal)
+            Route::get('student-links', [UserController::class, 'studentLinks']);
+            Route::patch('student-links/{studentProfile}/parent', [UserController::class, 'linkParent']);
+
             // Role access management (Owner/Admin only — enforced in controller)
             Route::get('roles', [RoleController::class, 'index']);
             Route::patch('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
@@ -179,6 +183,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('portal')->group(function () {
                 Route::get('me', [PortalController::class, 'me']);
                 Route::get('children', [PortalController::class, 'children']);
+                Route::get('schedule', [PortalController::class, 'schedule']);
                 Route::get('content', [PortalController::class, 'content']);
                 Route::get('invoices', [PortalController::class, 'invoices']);
             });

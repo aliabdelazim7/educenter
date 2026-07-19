@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import api from '../services/api'
 import { InviteUserModal } from '../components/InviteUserModal'
 import { RolePermissions } from '../components/RolePermissions'
+import { ParentLinks } from '../components/ParentLinks'
 import {
   UserPlus, Loader2, RefreshCw, XCircle, Mail, ArrowLeft,
   ShieldCheck, ShieldOff, Clock, CheckCircle2, Ban,
@@ -52,7 +53,7 @@ export const Users: React.FC = () => {
   const [showInvite, setShowInvite] = useState(false)
   const [busyId, setBusyId] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
-  const [tab, setTab] = useState<'invitations' | 'users' | 'roles'>('invitations')
+  const [tab, setTab] = useState<'invitations' | 'users' | 'roles' | 'links'>('invitations')
 
   const load = useCallback(async () => {
     try {
@@ -138,7 +139,7 @@ export const Users: React.FC = () => {
         )}
 
         <div className="flex gap-2 overflow-x-auto">
-          {(['invitations', 'users', 'roles'] as const).map((t) => (
+          {(['invitations', 'users', 'links', 'roles'] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -152,7 +153,9 @@ export const Users: React.FC = () => {
                 ? `الدعوات (${invitations.length})`
                 : t === 'users'
                   ? `المستخدمون (${users.length})`
-                  : 'الصلاحيات'}
+                  : t === 'links'
+                    ? 'ربط أولياء الأمور'
+                    : 'الصلاحيات'}
             </button>
           ))}
         </div>
@@ -163,6 +166,8 @@ export const Users: React.FC = () => {
           </div>
         ) : tab === 'roles' ? (
           <RolePermissions />
+        ) : tab === 'links' ? (
+          <ParentLinks />
         ) : tab === 'invitations' ? (
           <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900 overflow-hidden">
             {invitations.length === 0 ? (
