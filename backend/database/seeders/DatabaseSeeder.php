@@ -12,5 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(TenantDemoSeeder::class);
+        // Depends on the demo tenant above; safe to re-run.
+        $this->call(DemoAccountsSeeder::class);
     }
 }

@@ -1,7 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import api from '../services/api'
 import { School, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react'
+
+interface DemoAccount {
+  role: string
+  role_label: string
+  email: string
+  password: string
+}
 
 export const Login: React.FC = () => {
   const { login, error, clearError } = useAuth()
@@ -12,14 +20,27 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('')
   const [subdomain, setSubdomain] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [demoAccounts, setDemoAccounts] = useState<DemoAccount[]>([])
+  const [demoSubdomain, setDemoSubdomain] = useState('elite')
 
   // Retrieve redirect path from router state or default to dashboard
   const from = (location.state as any)?.from?.pathname || '/dashboard'
 
-  const handleFillDemo = () => {
-    setSubdomain('elite')
-    setEmail('admin@elite.com')
-    setPassword('password')
+  // Demo logins are served by the API so this list stays in step with whatever
+  // the seeder actually created, rather than hardcoding credentials here.
+  useEffect(() => {
+    api.get('/demo-accounts')
+      .then((r) => {
+        setDemoAccounts(r.data.data.accounts || [])
+        setDemoSubdomain(r.data.data.subdomain || 'elite')
+      })
+      .catch(() => setDemoAccounts([]))
+  }, [])
+
+  const handleFillDemo = (account: DemoAccount) => {
+    setSubdomain(demoSubdomain)
+    setEmail(account.email)
+    setPassword(account.password)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -181,17 +202,36 @@ export const Login: React.FC = () => {
 
           {/* Quick Demo Login Box */}
           <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-4 border-violet-200 dark:border-violet-500/10 text-right space-y-3">
-            <p className="text-xs font-bold text-violet-700 dark:text-violet-400">💡 الحساب التجريبي السريع (الديمو)</p>
+            <p className="text-xs font-bold text-violet-700 dark:text-violet-400">💡 الحسابات التجريبية (الديمو)</p>
             <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-              يمكنك استخدام بيانات الأكاديمية التجريبية الافتراضية بنقرة واحدة لتجربة لوحة تحكم صاحب المركز.
+              اختر نوع المستخدم لتعبئة بياناته تلقائياً وتجربة ما يراه كل دور.
             </p>
-            <button
-              type="button"
-              onClick={handleFillDemo}
-              className="w-full py-2 rounded bg-violet-100 dark:bg-violet-600/10 hover:bg-violet-100 dark:hover:bg-violet-600/25 border border-violet-200 dark:border-violet-500/20 hover:border-violet-200 dark:hover:border-violet-500/40 text-xs font-bold text-violet-700 dark:text-violet-400 transition-all cursor-pointer"
-            >
-              تعبئة بيانات الحساب التجريبي تلقائياً
-            </button>
+
+            {demoAccounts.length === 0 ? (
+              <p className="text-[11px] text-slate-500">لا توجد حسابات تجريبية متاحة حالياً.</p>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 gap-2">
+                  {demoAccounts.map((a) => (
+                    <button
+                      key={a.role}
+                      type="button"
+                      onClick={() => handleFillDemo(a)}
+                      className={`rounded-lg border px-2 py-2 text-[11px] font-bold transition-all cursor-pointer ${
+                        email === a.email
+                          ? 'border-violet-500 bg-violet-600 text-white'
+                          : 'border-violet-200 dark:border-violet-500/20 bg-violet-100 dark:bg-violet-600/10 text-violet-700 dark:text-violet-400 hover:border-violet-300 dark:hover:border-violet-500/40'
+                      }`}
+                    >
+                      {a.role_label}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  كلمة المرور للجميع: <span className="font-bold" dir="ltr">{demoAccounts[0].password}</span>
+                </p>
+              </>
+            )}
           </div>
 
           <p className="text-center text-sm text-slate-500">

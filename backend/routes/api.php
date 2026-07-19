@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\PortalController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TeacherEarningController;
 use App\Http\Controllers\Api\GradeController;
+use App\Http\Controllers\Api\DemoAccountController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -33,6 +34,11 @@ Route::prefix('v1')->group(function () {
     // This is the only public sign-up: it creates a centre and its Owner.
     // Every other account is provisioned by invitation.
     Route::post('/register', [AuthController::class, 'register']);
+
+    // Seeded demo logins for the sign-in page. Pinned to the demo tenant, so no
+    // real credentials can be exposed.
+    Route::get('/demo-accounts', [DemoAccountController::class, 'index'])
+        ->middleware('throttle:30,1');
 
     // Public invitation acceptance: the invitee has no tenant context yet, so the
     // token itself carries the tenant. Throttled because it is unauthenticated.
