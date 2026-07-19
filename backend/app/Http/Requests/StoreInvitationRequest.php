@@ -37,6 +37,10 @@ class StoreInvitationRequest extends FormRequest
             $rules['profile.school'] = ['nullable', 'string', 'max:255'];
             $rules['profile.parent_id'] = ['nullable', 'uuid', 'exists:users,id'];
             $rules['profile.branch_id'] = ['required', 'uuid', 'exists:branches,id'];
+            // Groups carry the subject and teacher, so enrolling here is what
+            // gives the student their teachers, schedule and content.
+            $rules['profile.group_ids'] = ['nullable', 'array'];
+            $rules['profile.group_ids.*'] = ['uuid', 'exists:groups,id'];
         }
 
         if ($this->input('role') === 'Teacher') {

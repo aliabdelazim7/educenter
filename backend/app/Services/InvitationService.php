@@ -186,7 +186,7 @@ class InvitationService
         $tenantId = $invitation->tenant_id;
 
         if ($invitation->role === 'Student') {
-            StudentProfile::firstOrCreate(
+            $profile = StudentProfile::firstOrCreate(
                 ['user_id' => $user->id],
                 [
                     'tenant_id' => $tenantId,
@@ -197,6 +197,13 @@ class InvitationService
                     'barcode' => (string) Str::uuid(),
                 ]
             );
+
+            // Enrol into the groups chosen at invite time. Each group carries a
+            // subject and teacher, so this is what populates the student's
+            // teachers, schedule and content.
+            if (!empty($payload['group_ids'])) {
+                $profile->groups()->syncWithoutDetaching($payload['group_ids']);
+            }
 
             return;
         }

@@ -23,6 +23,8 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
   const [branches, setBranches] = useState<any[]>([])
   const [subjects, setSubjects] = useState<any[]>([])
   const [parents, setParents] = useState<any[]>([])
+  const [groups, setGroups] = useState<any[]>([])
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([])
 
   const [submitting, setSubmitting] = useState(false)
   const [errors, setErrors] = useState<Record<string, string[]>>({})
@@ -45,7 +47,10 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
         setParents((r.data.data || []).filter((u: any) => u.roles?.includes('Parent')))
       }).catch(() => {})
     }
-  }, [role, branches.length, subjects.length, parents.length])
+    if (role === 'Student' && groups.length === 0) {
+      api.get('/groups').then((r) => setGroups(r.data.data)).catch(() => {})
+    }
+  }, [role, branches.length, subjects.length, parents.length, groups.length])
 
   const set = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }))
 
@@ -66,7 +71,9 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
         email: form.email || null,
         phone: form.phone,
         role,
-        profile: Object.keys(profile).length ? profile : undefined,
+        profile: role === 'Student'
+          ? { ...profile, group_ids: selectedGroups }
+          : (Object.keys(profile).length ? profile : undefined),
       })
       onInvited()
 
@@ -249,6 +256,60 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
                     {parents.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
                 </Field>
+
+                {/* Groups carry the subject and teacher, so this is how the
+                    student gets their teachers, schedule and content. */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">
+                    المجموعات والمدرسون
+                  </label>
+                  {groups.length === 0 ? (
+                    <p className="rounded-lg border border-amber-200 dark:border-amber-500/30 bg-amber-100 dark:bg-amber-950/40 p-3 text-[11px] text-amber-800 dark:text-amber-300">
+                      لا توجد مجموعات بعد. أنشئ مجموعة من «سجل الحضور والغياب» أولاً، أو أرسل الدعوة وسجّله لاحقاً.
+                    </p>
+                  ) : (
+                    <>
+                      <div className="max-h-44 space-y-1.5 overflow-y-auto rounded-lg border border-slate-200 dark:border-slate-800 p-2">
+                        {groups.map((g) => {
+                          const checked = selectedGroups.includes(g.id)
+                          return (
+                            <label
+                              key={g.id}
+                              className={`flex cursor-pointer items-start gap-2 rounded-md px-2 py-1.5 transition-colors ${
+                                checked ? 'bg-violet-100 dark:bg-violet-600/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800/50'
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() =>
+                                  setSelectedGroups((prev) =>
+                                    checked ? prev.filter((x) => x !== g.id) : [...prev, g.id]
+                                  )
+                                }
+                                className="mt-0.5 h-3.5 w-3.5 accent-violet-600"
+                              />
+                              <span className="min-w-0">
+                                <span className="block text-xs font-semibold text-slate-800 dark:text-slate-200">
+                                  {g.name}
+                                </span>
+                                <span className="block text-[10px] text-slate-500">
+                                  {g.subject?.name}
+                                  {g.teacher_profile?.user?.name ? ` • أ. ${g.teacher_profile.user.name}` : ' • بدون مدرس'}
+                                </span>
+                              </span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                      <p className="text-[10px] text-slate-500">
+                        {selectedGroups.length > 0
+                          ? `تم اختيار ${selectedGroups.length} مجموعة — سيظهر للطالب مدرسوها ومواعيدها ومحتواها.`
+                          : 'اختر المجموعات التي سينضم إليها الطالب.'}
+                      </p>
+                    </>
+                  )}
+                </div>
               </>
             )}
 
