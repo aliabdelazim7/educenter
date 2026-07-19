@@ -277,7 +277,7 @@ export const Exams: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || !selectedGroup || !title || !examDate}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-violet-850 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-xs mt-4"
+                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-xs mt-4"
                 >
                   {isSubmitting ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -375,7 +375,7 @@ export const Exams: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isSavingRoster}
-                        className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-650 hover:bg-violet-500 disabled:bg-violet-850 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-xs"
+                        className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-xs"
                       >
                         {isSavingRoster ? (
                           <Loader2 className="h-4 w-4 animate-spin" />

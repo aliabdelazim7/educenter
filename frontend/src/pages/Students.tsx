@@ -302,7 +302,7 @@ export const Students: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isEnrolling || !selectedGroup}
-                        className="rounded-lg bg-violet-650 hover:bg-violet-500 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-white flex items-center justify-center gap-1.5"
+                        className="rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-white flex items-center justify-center gap-1.5"
                       >
                         {isEnrolling ? <Loader2 className="h-3 w-3 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
                         <span>تسكين</span>

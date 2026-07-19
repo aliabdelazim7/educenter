@@ -116,9 +116,9 @@ export const Dashboard: React.FC = () => {
 
   // Mock sessions list
   const sessions = [
-    { id: 1, time: '09:00 AM', group: 'Grade 10 Calculus', subject: 'Mathematics', teacher: 'Sarah Jenkins', branch: 'Main Branch' },
-    { id: 2, time: '11:30 AM', group: 'Grade 12 Physics', subject: 'Science', teacher: 'Albert Cooper', branch: 'Main Branch' },
-    { id: 3, time: '02:00 PM', group: 'English Grammar 101', subject: 'English', teacher: 'Emily Davis', branch: 'North Campus' },
+    { id: 1, time: '04:00 م', group: 'رياضيات - الصف الثالث الثانوي (مجموعة أ)', subject: 'الرياضيات', teacher: 'أ. أحمد محمد', branch: 'الفرع الرئيسي' },
+    { id: 2, time: '06:00 م', group: 'فيزياء - الصف الثاني الثانوي (مجموعة ب)', subject: 'الفيزياء', teacher: 'أ. محمود عبد العال', branch: 'الفرع الرئيسي' },
+    { id: 3, time: '07:30 م', group: 'لغة إنجليزية - الصف الأول الثانوي', subject: 'اللغة الإنجليزية', teacher: 'أ. سارة أحمد', branch: 'فرع الدقي' },
   ]
 
   // Mock audit logs
@@ -171,7 +171,9 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate leading-tight">{user?.name}</p>
-              <p className="text-[10px] text-violet-700 dark:text-violet-400 font-semibold uppercase tracking-wider">{user?.roles[0] || 'Member'}</p>
+              <p className="text-[10px] text-violet-700 dark:text-violet-400 font-semibold uppercase tracking-wider">
+                {user?.roles[0] === 'owner' ? 'مالك الأكاديمية' : user?.roles[0] === 'admin' ? 'مدير النظام' : 'عضو'}
+              </p>
             </div>
           </div>
 

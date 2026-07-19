@@ -188,7 +188,7 @@ export const AttendanceBoard: React.FC = () => {
           <button
             onClick={handleSave}
             disabled={saving || students.length === 0}
-            className="flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-violet-850 px-6 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 shrink-0 text-sm"
+            className="flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 px-6 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 shrink-0 text-sm"
           >
             {saving ? (
               <Loader2 className="h-4 w-4 animate-spin" />

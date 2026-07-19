@@ -331,7 +331,7 @@ export const POSRegister: React.FC = () => {
                 <button
                   type="submit"
                   disabled={checkoutLoading || !selectedStudent || !selectedProduct}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-violet-850 py-3 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-sm mt-4"
+                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 py-3 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 text-sm mt-4"
                 >
                   {checkoutLoading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
