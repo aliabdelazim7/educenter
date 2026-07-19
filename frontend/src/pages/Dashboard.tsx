@@ -109,7 +109,10 @@ export const Dashboard: React.FC = () => {
     { name: 'سجل الحضور والغياب', icon: Calendar, path: '/academic', show: hasPermission('view academic') },
     { name: 'المحتوى التعليمي', icon: BookOpen, path: '/content', show: true },
     { name: 'الامتحانات والدرجات', icon: CheckSquare, path: '/exams', show: true },
+    { name: 'الحسابات والخزنة', icon: Activity, path: '/financials', show: hasPermission('view financial') },
     { name: 'التقارير المالية', icon: DollarSign, path: '/reports', show: hasPermission('view financial') },
+    { name: 'المخزون والأصناف', icon: Layers, path: '/inventory', show: hasPermission('view inventory') },
+    { name: 'الفروع والقاعات', icon: GitBranch, path: '/branches', show: hasPermission('view branches') },
     { name: 'المستخدمون والصلاحيات', icon: UserPlus, path: '/users', show: hasPermission('manage settings') },
     { name: 'إعدادات الأكاديمية', icon: Settings, path: '/settings', show: hasPermission('manage settings') },
   ]
