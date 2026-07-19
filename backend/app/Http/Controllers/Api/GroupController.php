@@ -29,9 +29,15 @@ class GroupController extends Controller
             'subject_id' => ['required', 'uuid', 'exists:subjects,id'],
             'grade_id' => ['required', 'uuid', 'exists:grades,id'],
             'teacher_profile_id' => ['nullable', 'uuid', 'exists:teacher_profiles,id'],
+            'weekly_schedule' => ['nullable', 'array'],
+            'weekly_schedule.*.day' => ['required', 'string', 'in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday'],
+            'weekly_schedule.*.start_time' => ['required', 'string'],
+            'weekly_schedule.*.end_time' => ['required', 'string'],
         ]);
 
         $group = Group::create($validated);
+        
+        $this->generateSessions($group);
 
         return response()->json([
             'message' => 'Class Group created successfully.',
@@ -55,14 +61,54 @@ class GroupController extends Controller
             'subject_id' => ['required', 'uuid', 'exists:subjects,id'],
             'grade_id' => ['required', 'uuid', 'exists:grades,id'],
             'teacher_profile_id' => ['nullable', 'uuid', 'exists:teacher_profiles,id'],
+            'weekly_schedule' => ['nullable', 'array'],
+            'weekly_schedule.*.day' => ['required', 'string', 'in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday'],
+            'weekly_schedule.*.start_time' => ['required', 'string'],
+            'weekly_schedule.*.end_time' => ['required', 'string'],
         ]);
 
         $group->update($validated);
+        
+        $this->generateSessions($group);
 
         return response()->json([
             'message' => 'Class Group updated successfully.',
             'data' => $group->load(['branch', 'academicYear', 'subject', 'grade', 'teacherProfile.user'])
         ]);
+    }
+
+    /**
+     * Auto-generates academic sessions for the next 30 days matching the weekly schedule.
+     */
+    protected function generateSessions(Group $group): void
+    {
+        $schedule = $group->weekly_schedule;
+        if (empty($schedule) || !is_array($schedule)) {
+            return;
+        }
+
+        $startDate = now();
+        $endDate = now()->addDays(30);
+
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+            $dayOfWeek = $date->format('l'); // e.g. "Saturday"
+            
+            foreach ($schedule as $slot) {
+                if (isset($slot['day']) && strtolower($slot['day']) === strtolower($dayOfWeek)) {
+                    \App\Models\AcademicSession::firstOrCreate([
+                        'tenant_id' => $group->tenant_id,
+                        'group_id' => $group->id,
+                        'date' => $date->format('Y-m-d'),
+                        'start_time' => $slot['start_time'],
+                        'end_time' => $slot['end_time'],
+                    ], [
+                        'classroom_id' => null,
+                        'teacher_profile_id' => $group->teacher_profile_id,
+                        'status' => 'scheduled',
+                    ]);
+                }
+            }
+        }
     }
 
     public function destroy(Group $group): JsonResponse

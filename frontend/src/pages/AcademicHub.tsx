@@ -73,6 +73,20 @@ export const AcademicHub: React.FC = () => {
   const [selGrade, setSelGrade] = useState('')
   const [selTeacher, setSelTeacher] = useState('')
 
+  const [weeklySchedule, setWeeklySchedule] = useState<{ day: string; start_time: string; end_time: string }[]>([])
+
+  const addScheduleSlot = () => {
+    setWeeklySchedule(prev => [...prev, { day: 'Saturday', start_time: '16:00', end_time: '17:00' }])
+  }
+
+  const removeScheduleSlot = (index: number) => {
+    setWeeklySchedule(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const updateScheduleSlot = (index: number, key: 'day' | 'start_time' | 'end_time', value: string) => {
+    setWeeklySchedule(prev => prev.map((item, i) => i === index ? { ...item, [key]: value } : item))
+  }
+
   // New Session States
   const [selGroup, setSelGroup] = useState('')
   const [selClassroom, setSelClassroom] = useState('')
@@ -159,9 +173,11 @@ export const AcademicHub: React.FC = () => {
         academic_year_id: selYear,
         subject_id: selSubject,
         grade_id: selGrade,
-        teacher_profile_id: selTeacher || null
+        teacher_profile_id: selTeacher || null,
+        weekly_schedule: weeklySchedule.length ? weeklySchedule : null
       })
       setNewGroupName('')
+      setWeeklySchedule([])
       fetchData()
     } catch (err: any) {
       setError(err.response?.data?.message || 'فشل في إنشاء المجموعة')
@@ -474,6 +490,80 @@ export const AcademicHub: React.FC = () => {
                       {grades.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
                     </select>
                   </div>
+
+                  <div className="space-y-1.5">
+                    <label htmlFor="groupTeacher" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">المدرس</label>
+                    <select
+                      id="groupTeacher"
+                      value={selTeacher}
+                      onChange={(e) => setSelTeacher(e.target.value)}
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-200 dark:focus:border-violet-500/50 transition-all text-right"
+                    >
+                      <option value="">اختر المدرس</option>
+                      {teachers.map(t => <option key={t.id} value={t.id}>{t.user.name}</option>)}
+                    </select>
+                  </div>
+
+                  {/* Weekly Schedule Section */}
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4 text-right">
+                    <div className="flex justify-between items-center">
+                      <button
+                        type="button"
+                        onClick={addScheduleSlot}
+                        className="px-2 py-1 rounded bg-violet-600/10 hover:bg-violet-600/20 border border-violet-500/20 text-violet-700 dark:text-violet-400 text-xs font-bold transition-all cursor-pointer"
+                      >
+                        + إضافة موعد أسبوعي
+                      </button>
+                      <h3 className="text-xs font-bold text-slate-600 dark:text-slate-400">جدول المواعيد الأسبوعية للمجموعة</h3>
+                    </div>
+
+                    {weeklySchedule.map((slot, index) => (
+                      <div key={index} className="grid grid-cols-4 gap-2 items-center bg-slate-100 dark:bg-slate-900/60 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800">
+                        <select
+                          value={slot.day}
+                          onChange={(e) => updateScheduleSlot(index, 'day', e.target.value)}
+                          className="rounded bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-2 py-1 text-xs text-slate-700 dark:text-slate-200 outline-none focus:border-violet-500 text-right w-full"
+                        >
+                          <option value="Saturday">السبت</option>
+                          <option value="Sunday">الأحد</option>
+                          <option value="Monday">الاثنين</option>
+                          <option value="Tuesday">الثلاثاء</option>
+                          <option value="Wednesday">الأربعاء</option>
+                          <option value="Thursday">الخميس</option>
+                          <option value="Friday">الجمعة</option>
+                        </select>
+
+                        <div className="space-y-0.5">
+                          <label className="text-[9px] text-slate-500 block">وقت البدء</label>
+                          <input
+                            type="time"
+                            value={slot.start_time}
+                            onChange={(e) => updateScheduleSlot(index, 'start_time', e.target.value)}
+                            className="w-full rounded bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-2 py-0.5 text-xs text-slate-700 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                          />
+                        </div>
+
+                        <div className="space-y-0.5">
+                          <label className="text-[9px] text-slate-500 block">وقت الانتهاء</label>
+                          <input
+                            type="time"
+                            value={slot.end_time}
+                            onChange={(e) => updateScheduleSlot(index, 'end_time', e.target.value)}
+                            className="w-full rounded bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-2 py-0.5 text-xs text-slate-700 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                          />
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => removeScheduleSlot(index)}
+                          className="text-red-500 hover:text-red-400 text-[10px] font-bold transition-all cursor-pointer text-center"
+                        >
+                          حذف الموعد
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
                   <button
                     type="submit"
                     disabled={isSubmitting}

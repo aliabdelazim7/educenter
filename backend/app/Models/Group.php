@@ -23,6 +23,11 @@ class Group extends Model
         'subject_id',
         'grade_id',
         'teacher_profile_id',
+        'weekly_schedule',
+    ];
+
+    protected $casts = [
+        'weekly_schedule' => 'array',
     ];
 
     public function branch(): BelongsTo
