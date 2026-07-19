@@ -142,12 +142,14 @@ class InitializeTenantRBACAction
             'grade homework',
         ]);
 
-        // Student and Parent roles usually have no admin permissions (policy-level access only)
+        // Students and parents get no directory-wide permissions: 'view students'
+        // would expose the whole roster. Their access is limited to their own
+        // records through the dedicated /portal endpoints.
         $parentRole = Role::findOrCreate('Parent', 'web');
-        $parentRole->syncPermissions(['view academic', 'view students', 'view financial']);
+        $parentRole->syncPermissions([]);
 
         $studentRole = Role::findOrCreate('Student', 'web');
-        $studentRole->syncPermissions(['view academic', 'view students']);
+        $studentRole->syncPermissions([]);
 
         // Seed default grades for the tenant
         $defaults = [
