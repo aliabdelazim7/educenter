@@ -94,17 +94,6 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
 
   const err = (field: string) => errors[field]?.[0]
 
-  const inputClass =
-    'w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-violet-500 focus:outline-none'
-
-  const Field: React.FC<{ label: string; name: string; children: React.ReactNode }> = ({ label, name, children }) => (
-    <div className="space-y-1.5">
-      <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">{label}</label>
-      {children}
-      {err(name) && <p className="text-[11px] text-red-600 dark:text-red-400">{err(name)}</p>}
-    </div>
-  )
-
   // Post-invite state for students enrolled without an email.
   if (inviteUrl) {
     return (
@@ -166,7 +155,7 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
           </div>
         )}
 
-        <Field label="نوع المستخدم" name="role">
+        <Field label="نوع المستخدم" error={err('role')}>
           <div className="grid grid-cols-3 gap-2">
             {ROLES.map((r) => (
               <button
@@ -187,11 +176,11 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
 
         {role && (
           <>
-            <Field label="الاسم" name="name">
+            <Field label="الاسم" error={err('name')}>
               <input className={inputClass} value={form.name || ''} onChange={(e) => set('name', e.target.value)} required />
             </Field>
 
-            <Field label={role === 'Student' ? 'البريد الإلكتروني (اختياري)' : 'البريد الإلكتروني'} name="email">
+            <Field label={role === 'Student' ? 'البريد الإلكتروني (اختياري)' : 'البريد الإلكتروني'} error={err('email')}>
               <input
                 type="email"
                 dir="ltr"
@@ -202,25 +191,25 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
               />
             </Field>
 
-            <Field label="رقم الهاتف" name="phone">
+            <Field label="رقم الهاتف" error={err('phone')}>
               <input dir="ltr" className={`${inputClass} text-right`} value={form.phone || ''} onChange={(e) => set('phone', e.target.value)} required />
             </Field>
 
             {role === 'Teacher' && (
               <>
-                <Field label="المادة" name="profile.subject_id">
+                <Field label="المادة" error={err('profile.subject_id')}>
                   <select className={inputClass} value={form['profile.subject_id'] || ''} onChange={(e) => set('profile.subject_id', e.target.value)} required>
                     <option value="">اختر المادة</option>
                     {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select>
                 </Field>
-                <Field label="الفرع" name="profile.branch_id">
+                <Field label="الفرع" error={err('profile.branch_id')}>
                   <select className={inputClass} value={form['profile.branch_id'] || ''} onChange={(e) => set('profile.branch_id', e.target.value)} required>
                     <option value="">اختر الفرع</option>
                     {branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
                   </select>
                 </Field>
-                <Field label="نوع التعاقد" name="profile.contract_type">
+                <Field label="نوع التعاقد" error={err('profile.contract_type')}>
                   <select className={inputClass} value={form['profile.contract_type'] || ''} onChange={(e) => set('profile.contract_type', e.target.value)} required>
                     <option value="">اختر النوع</option>
                     <option value="salary">مرتب ثابت</option>
@@ -229,7 +218,7 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
                 </Field>
                 <Field
                   label={form['profile.contract_type'] === 'percentage' ? 'النسبة (%)' : 'المرتب'}
-                  name="profile.compensation"
+                  error={err('profile.compensation')}
                 >
                   <input type="number" min="0" step="any" dir="ltr" className={`${inputClass} text-right`} value={form['profile.compensation'] || ''} onChange={(e) => set('profile.compensation', e.target.value)} required />
                 </Field>
@@ -238,19 +227,19 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
 
             {role === 'Student' && (
               <>
-                <Field label="الصف الدراسي" name="profile.grade">
+                <Field label="الصف الدراسي" error={err('profile.grade')}>
                   <input className={inputClass} value={form['profile.grade'] || ''} onChange={(e) => set('profile.grade', e.target.value)} required />
                 </Field>
-                <Field label="المدرسة" name="profile.school">
+                <Field label="المدرسة" error={err('profile.school')}>
                   <input className={inputClass} value={form['profile.school'] || ''} onChange={(e) => set('profile.school', e.target.value)} />
                 </Field>
-                <Field label="الفرع" name="profile.branch_id">
+                <Field label="الفرع" error={err('profile.branch_id')}>
                   <select className={inputClass} value={form['profile.branch_id'] || ''} onChange={(e) => set('profile.branch_id', e.target.value)} required>
                     <option value="">اختر الفرع</option>
                     {branches.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
                   </select>
                 </Field>
-                <Field label="ولي الأمر" name="profile.parent_id">
+                <Field label="ولي الأمر" error={err('profile.parent_id')}>
                   <select className={inputClass} value={form['profile.parent_id'] || ''} onChange={(e) => set('profile.parent_id', e.target.value)}>
                     <option value="">بدون / يُضاف لاحقاً</option>
                     {parents.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -314,7 +303,7 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
             )}
 
             {['Admin', 'Reception', 'Accountant', 'Teacher Assistant'].includes(role) && (
-              <Field label="الوظيفة" name="profile.job_title">
+              <Field label="الوظيفة" error={err('profile.job_title')}>
                 <input className={inputClass} value={form['profile.job_title'] || ''} onChange={(e) => set('profile.job_title', e.target.value)} />
               </Field>
             )}
@@ -333,6 +322,28 @@ export const InviteUserModal: React.FC<Props> = ({ onClose, onInvited }) => {
     </Overlay>
   )
 }
+
+/**
+ * Declared at module scope on purpose.
+ *
+ * Defining a component inside another component makes it a new component type
+ * on every render, so React unmounts and remounts its subtree — which meant the
+ * input lost focus after every single keystroke.
+ */
+const Field: React.FC<{
+  label: string
+  error?: string
+  children: React.ReactNode
+}> = ({ label, error, children }) => (
+  <div className="space-y-1.5">
+    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">{label}</label>
+    {children}
+    {error && <p className="text-[11px] text-red-600 dark:text-red-400">{error}</p>}
+  </div>
+)
+
+const inputClass =
+  'w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:border-violet-500 focus:outline-none'
 
 const Overlay: React.FC<{ children: React.ReactNode; onClose: () => void }> = ({ children, onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>

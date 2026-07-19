@@ -6,7 +6,8 @@ import {
   Loader2,
   AlertCircle,
   AlertTriangle,
-  ArrowUpDown
+  ArrowUpDown,
+  Plus
 } from 'lucide-react'
 
 interface Product {
@@ -31,6 +32,17 @@ export const InventoryBoard: React.FC = () => {
   const [adjustType, setAdjustType] = useState('purchase')
   const [remarks, setRemarks] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // New Item Form States
+  const [showNewItem, setShowNewItem] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [newSku, setNewSku] = useState('')
+  const [newType, setNewType] = useState('book')
+  const [newCost, setNewCost] = useState('')
+  const [newPrice, setNewPrice] = useState('')
+  const [newStock, setNewStock] = useState('')
+  const [newThreshold, setNewThreshold] = useState('')
+  const [creating, setCreating] = useState(false)
 
   const fetchProducts = async () => {
     try {
@@ -64,6 +76,40 @@ export const InventoryBoard: React.FC = () => {
       setError(err.response?.data?.message || 'فشل في تعديل كمية المخزن')
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleCreateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setCreating(true)
+    setError(null)
+    try {
+      await api.post('/products', {
+        name: newName,
+        sku: newSku || null,
+        type: newType,
+        purchase_cost: parseFloat(newCost),
+        selling_price: parseFloat(newPrice),
+        // Opening balance is recorded as a stock movement by the API.
+        stock: newStock ? parseInt(newStock) : 0,
+        low_stock_threshold: newThreshold ? parseInt(newThreshold) : 0,
+      })
+      setNewName('')
+      setNewSku('')
+      setNewCost('')
+      setNewPrice('')
+      setNewStock('')
+      setNewThreshold('')
+      setShowNewItem(false)
+      fetchProducts()
+    } catch (err: any) {
+      const errors = err.response?.data?.errors
+      setError(
+        errors ? Object.values(errors).flat()[0] as string
+               : (err.response?.data?.message || 'فشل في إضافة الصنف')
+      )
+    } finally {
+      setCreating(false)
     }
   }
 
@@ -150,6 +196,138 @@ export const InventoryBoard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+            )}
+          </div>
+
+          {/* Add New Item */}
+          <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">إضافة صنف جديد</h2>
+              <button
+                type="button"
+                onClick={() => setShowNewItem((v) => !v)}
+                className="flex items-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 px-3 py-2 text-xs font-semibold text-white transition-colors cursor-pointer"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                {showNewItem ? 'إغلاق' : 'صنف جديد'}
+              </button>
+            </div>
+
+            {showNewItem && (
+              <form onSubmit={handleCreateSubmit} className="space-y-4">
+                <div className="space-y-1.5">
+                  <label htmlFor="newName" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اسم الصنف</label>
+                  <input
+                    id="newName"
+                    type="text"
+                    required
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="مثال: كتاب الرياضيات - الصف الثالث"
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="newType" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">النوع</label>
+                    <select
+                      id="newType"
+                      value={newType}
+                      onChange={(e) => setNewType(e.target.value)}
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                    >
+                      <option value="book">كتاب / ملزمة</option>
+                      <option value="material">أدوات مكتبية</option>
+                      <option value="product">منتج</option>
+                      <option value="subscription">اشتراك</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="newSku" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">الكود (اختياري)</label>
+                    <input
+                      id="newSku"
+                      type="text"
+                      value={newSku}
+                      onChange={(e) => setNewSku(e.target.value)}
+                      placeholder="ELITE-MATH-11"
+                      dir="ltr"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="newCost" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">سعر الشراء</label>
+                    <input
+                      id="newCost"
+                      type="number"
+                      min="0"
+                      step="any"
+                      required
+                      value={newCost}
+                      onChange={(e) => setNewCost(e.target.value)}
+                      placeholder="0"
+                      dir="ltr"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="newPrice" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">سعر البيع</label>
+                    <input
+                      id="newPrice"
+                      type="number"
+                      min="0"
+                      step="any"
+                      required
+                      value={newPrice}
+                      onChange={(e) => setNewPrice(e.target.value)}
+                      placeholder="0"
+                      dir="ltr"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label htmlFor="newStock" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">الكمية الافتتاحية</label>
+                    <input
+                      id="newStock"
+                      type="number"
+                      min="0"
+                      value={newStock}
+                      onChange={(e) => setNewStock(e.target.value)}
+                      placeholder="0"
+                      dir="ltr"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label htmlFor="newThreshold" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">حد التنبيه</label>
+                    <input
+                      id="newThreshold"
+                      type="number"
+                      min="0"
+                      value={newThreshold}
+                      onChange={(e) => setNewThreshold(e.target.value)}
+                      placeholder="مثال: 5"
+                      dir="ltr"
+                      className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={creating}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-60 px-4 py-3 text-sm font-semibold text-white transition-colors cursor-pointer"
+                >
+                  <Plus className="h-4 w-4" />
+                  {creating ? 'جاري الإضافة...' : 'إضافة الصنف للمخزن'}
+                </button>
+              </form>
             )}
           </div>
 
