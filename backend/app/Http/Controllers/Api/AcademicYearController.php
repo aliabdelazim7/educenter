@@ -18,6 +18,18 @@ class AcademicYearController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $data = $request->all();
+        if (isset($data['status'])) {
+            if (in_array($data['status'], ['نشط', 'نشطة', 'active'])) {
+                $data['status'] = 'active';
+            } else {
+                $data['status'] = 'inactive';
+            }
+        } else {
+            $data['status'] = 'active';
+        }
+        $request->merge($data);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
@@ -40,6 +52,16 @@ class AcademicYearController extends Controller
 
     public function update(Request $request, AcademicYear $academicYear): JsonResponse
     {
+        $data = $request->all();
+        if (isset($data['status'])) {
+            if (in_array($data['status'], ['نشط', 'نشطة', 'active'])) {
+                $data['status'] = 'active';
+            } else {
+                $data['status'] = 'inactive';
+            }
+        }
+        $request->merge($data);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
