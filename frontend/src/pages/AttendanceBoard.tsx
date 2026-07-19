@@ -19,6 +19,7 @@ interface Student {
   user: { name: string; email: string }
   barcode: string | null
   qr_code: string | null
+  isAlternative?: boolean
 }
 
 interface Session {
