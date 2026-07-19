@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
+import { useAuth } from '../contexts/AuthContext'
 import {
   Users,
   Plus,
@@ -20,6 +21,7 @@ interface Student {
   user: { name: string; email: string }
   qr_code: string | null
   barcode: string | null
+  created_at?: string
 }
 
 interface TimelineEvent {
@@ -36,6 +38,7 @@ interface Group {
 }
 
 export const Students: React.FC = () => {
+  const { tenant } = useAuth()
   const [students, setStudents] = useState<Student[]>([])
   const [groups, setGroups] = useState<Group[]>([])
   const [loading, setLoading] = useState(true)
@@ -49,6 +52,7 @@ export const Students: React.FC = () => {
 
   // Registration Modal State
   const [showRegModal, setShowRegModal] = useState(false)
+  const [showCardModal, setShowCardModal] = useState(false)
   const [regName, setRegName] = useState('')
   const [regEmail, setRegEmail] = useState('')
   const [regBarcode, setRegBarcode] = useState('')
@@ -283,7 +287,16 @@ export const Students: React.FC = () => {
                   {/* Selected Profile Header */}
                   <div className="border-b border-slate-200 dark:border-slate-900 pb-4 text-right">
                     <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">{selectedStudent.user.name}</h3>
-                    <p className="text-xs text-slate-500">{selectedStudent.user.email}</p>
+                    <p className="text-xs text-slate-500 mb-3">{selectedStudent.user.email}</p>
+                    
+                    <button
+                      type="button"
+                      onClick={() => setShowCardModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-violet-600/10 hover:bg-violet-600/20 border border-violet-500/20 text-violet-700 dark:text-violet-400 text-xs font-bold transition-all cursor-pointer w-full justify-center"
+                    >
+                      <QrCode className="h-4 w-4" />
+                      <span>عرض وطباعة كارنيه الطالب (QR)</span>
+                    </button>
                   </div>
 
                   {/* Quick Action: Assign Group */}
@@ -440,6 +453,127 @@ export const Students: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showCardModal && selectedStudent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 font-sans" onClick={() => setShowCardModal(false)}>
+          <div
+            className="w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-6 text-right relative shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-50">كارنيه عضوية الطالب</h3>
+              <button
+                type="button"
+                onClick={() => setShowCardModal(false)}
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Printable ID Card */}
+            <div id="student-id-card" className="border border-violet-500/30 rounded-2xl bg-gradient-to-br from-violet-600 via-indigo-750 to-indigo-900 text-white p-5 w-full aspect-[1.6/1] flex flex-col justify-between shadow-xl relative overflow-hidden">
+              <div className="absolute top-[-20%] left-[-20%] h-[70%] w-[70%] rounded-full bg-white/10 blur-[80px] pointer-events-none"></div>
+
+              {/* Card Top */}
+              <div className="flex justify-between items-start border-b border-white/20 pb-2 relative z-10" dir="rtl">
+                <div className="text-right">
+                  <h4 className="text-[10px] font-black uppercase tracking-wider text-violet-200">المنصة التعليمية للمركز</h4>
+                  <h3 className="text-sm font-extrabold tracking-tight">{tenant?.name || 'أكاديمية إديوسنتر'}</h3>
+                </div>
+                <span className="text-[9px] font-bold bg-white/20 border border-white/30 px-2 py-0.5 rounded-full">
+                  كارنيه طالب
+                </span>
+              </div>
+
+              {/* Card Center */}
+              <div className="flex gap-4 items-center mt-3 relative z-10" dir="rtl">
+                {/* Left Area: Details */}
+                <div className="flex-1 space-y-2 text-right">
+                  <div className="space-y-0.5">
+                    <p className="text-[9px] text-violet-200 leading-none">اسم الطالب</p>
+                    <p className="text-sm font-black truncate">{selectedStudent.user.name}</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] text-violet-200 leading-none">رقم الكود (QR)</p>
+                      <p className="text-[11px] font-bold font-mono">{selectedStudent.qr_code || 'لا يوجد'}</p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-[8px] text-violet-200 leading-none">رقم الباركود</p>
+                      <p className="text-[11px] font-bold font-mono">{selectedStudent.barcode || 'لا يوجد'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Area: QR Code Image */}
+                <div className="bg-white p-2 rounded-xl shrink-0 shadow-md">
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(selectedStudent.qr_code || selectedStudent.barcode || selectedStudent.id)}`}
+                    alt="Student QR Code"
+                    className="h-20 w-20"
+                  />
+                </div>
+              </div>
+
+              {/* Card Footer */}
+              <div className="flex justify-between items-center text-[8px] text-violet-200 pt-2 border-t border-white/10 relative z-10" dir="rtl">
+                <span>تاريخ الاشتراك: {new Date(selectedStudent.created_at || Date.now()).toLocaleDateString('ar-EG')}</span>
+                <span className="font-bold">يرجى إبراز الكارنيه عند الحضور والتحصيل</span>
+              </div>
+            </div>
+
+            {/* Print & Close Controls */}
+            <div className="flex gap-3 justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => {
+                  const cardEl = document.getElementById('student-id-card');
+                  if (!cardEl) return;
+                  const printWin = window.open('', '', 'width=600,height=400');
+                  if (printWin) {
+                    printWin.document.write(`
+                      <html>
+                        <head>
+                          <title>طباعة كارنيه الطالب</title>
+                          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                          <style>
+                            @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+                            body { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
+                            @media print {
+                              .no-print { display: none; }
+                            }
+                          </style>
+                        </head>
+                        <body class="p-6 flex flex-col items-center justify-center min-h-screen bg-white">
+                          <div class="border border-violet-500/30 rounded-2xl bg-gradient-to-br from-indigo-700 to-purple-900 text-white p-6 w-[400px] aspect-[1.6/1] flex flex-col justify-between shadow-2xl relative overflow-hidden">
+                            ${cardEl.innerHTML}
+                          </div>
+                          <script>
+                            window.onload = function() { window.print(); window.close(); }
+                          </script>
+                        </body>
+                      </html>
+                    `);
+                    printWin.document.close();
+                  }
+                }}
+                className="rounded-lg bg-violet-600 hover:bg-violet-500 text-xs font-semibold px-6 py-2 transition-all cursor-pointer text-white"
+              >
+                طباعة الكارنيه 🖨️
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCardModal(false)}
+                className="rounded-lg bg-slate-200 dark:bg-slate-800 text-xs font-semibold px-4 py-2 transition-all cursor-pointer text-slate-800 dark:text-slate-200"
+              >
+                إغلاق
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -17,6 +17,8 @@ import {
 interface Student {
   id: string
   user: { name: string; email: string }
+  barcode: string | null
+  qr_code: string | null
 }
 
 interface Session {
@@ -49,6 +51,8 @@ export const AttendanceBoard: React.FC = () => {
   
   // Search query to filter student checklist
   const [studentFilter, setStudentFilter] = useState('')
+  const [scanQuery, setScanQuery] = useState('')
+  const [scanSuccessMsg, setScanSuccessMsg] = useState<string | null>(null)
 
   useEffect(() => {
     const loadBoardData = async () => {
@@ -128,6 +132,31 @@ export const AttendanceBoard: React.FC = () => {
     })
   }
 
+  const handleScanAttendance = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!scanQuery) return
+    setError(null)
+    setScanSuccessMsg(null)
+
+    // Find student in our students list by barcode or qr_code
+    const matched = students.find(s => s.barcode === scanQuery || s.qr_code === scanQuery)
+    if (matched) {
+      setAttendance(prev => ({
+        ...prev,
+        [matched.id]: {
+          ...prev[matched.id],
+          status: 'present'
+        }
+      }))
+      setScanSuccessMsg(`تم تحضير الطالب: ${matched.user.name} بنجاح!`)
+      setTimeout(() => setScanSuccessMsg(null), 3000)
+    } else {
+      setError('لم يتم العثور على طالب بهذا الكود في هذه المجموعة.')
+      setTimeout(() => setError(null), 4000)
+    }
+    setScanQuery('')
+  }
+
   const handleSave = async () => {
     setSaving(true)
     setError(null)
@@ -191,11 +220,16 @@ export const AttendanceBoard: React.FC = () => {
             className="flex items-center justify-center gap-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-450 dark:disabled:text-slate-600 px-6 py-2.5 font-semibold text-white transition-all cursor-pointer shadow-lg shadow-violet-600/10 shrink-0 text-sm"
           >
             {saving ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>جاري الحفظ...</span>
+              </>
             ) : (
-              <Save className="h-4 w-4" />
+              <>
+                <Save className="h-4 w-4" />
+                <span>حفظ كشف الغياب والحضور</span>
+              </>
             )}
-            <span>حفظ كشف الغياب والحضور</span>
           </button>
         </div>
 
@@ -206,19 +240,40 @@ export const AttendanceBoard: React.FC = () => {
           </div>
         )}
 
+        {scanSuccessMsg && (
+          <div className="flex items-center gap-3 rounded-lg bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 p-4 text-sm text-emerald-700 dark:text-emerald-355 mb-6 max-w-5xl text-right animate-pulse" dir="rtl">
+            <Check className="h-5 w-5 shrink-0 text-emerald-700 dark:text-emerald-400" />
+            <span>{scanSuccessMsg}</span>
+          </div>
+        )}
+
         {/* Quick Toolbar for taking attendance */}
         {students.length > 0 && (
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 max-w-5xl" dir="rtl">
-            {/* Search Input */}
-            <div className="relative w-full md:w-80">
-              <input
-                type="text"
-                placeholder="ابحث باسم الطالب..."
-                value={studentFilter}
-                onChange={(e) => setStudentFilter(e.target.value)}
-                className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 pr-9 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
-              />
-              <Search className="absolute right-3 top-2.5 h-4 w-4 text-slate-400" />
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              {/* Search Input */}
+              <div className="relative w-full sm:w-64">
+                <input
+                  type="text"
+                  placeholder="ابحث باسم الطالب..."
+                  value={studentFilter}
+                  onChange={(e) => setStudentFilter(e.target.value)}
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 pr-9 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right"
+                />
+                <Search className="absolute right-3 top-2.5 h-4 w-4 text-slate-400" />
+              </div>
+
+              {/* Barcode/QR Scanner Input */}
+              <form onSubmit={handleScanAttendance} className="relative w-full sm:w-64">
+                <input
+                  type="text"
+                  placeholder="امسح كود الكارنيه (QR) للتحضير..."
+                  value={scanQuery}
+                  onChange={(e) => setScanQuery(e.target.value)}
+                  className="w-full rounded-lg bg-violet-50 dark:bg-violet-950/20 border border-violet-200 dark:border-violet-900/40 px-4 py-2 pr-9 text-xs text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 text-right font-mono"
+                />
+                <Sparkles className="absolute right-3 top-2.5 h-4 w-4 text-violet-500 animate-pulse" />
+              </form>
             </div>
 
             {/* Quick Toggle Selectors */}
@@ -234,6 +289,12 @@ export const AttendanceBoard: React.FC = () => {
                 type="button"
                 onClick={markAllAbsent}
                 className="px-3 py-1.5 rounded bg-red-500/10 border border-red-500/20 text-red-650 dark:text-red-400 hover:bg-red-500/20 text-xs font-semibold cursor-pointer transition-all"
+              >
+                تحديد الكل كغائب ✕
+              </button>
+            </div>
+          </div>
+        )}d-650 dark:text-red-400 hover:bg-red-500/20 text-xs font-semibold cursor-pointer transition-all"
               >
                 تحديد الكل كغائب ✕
               </button>

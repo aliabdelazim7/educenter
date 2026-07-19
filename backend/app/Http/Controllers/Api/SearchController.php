@@ -101,6 +101,23 @@ class SearchController extends Controller
             'qr_code' => 'nullable|string|max:100',
         ]);
 
+        $barcode = $validated['barcode'] ?? null;
+        $qr_code = $validated['qr_code'] ?? null;
+
+        if (empty($barcode)) {
+            $barcode = mt_rand(10000000, 99999999) . '';
+            while (\App\Models\StudentProfile::where('barcode', $barcode)->exists()) {
+                $barcode = mt_rand(10000000, 99999999) . '';
+            }
+        }
+
+        if (empty($qr_code)) {
+            $qr_code = 'STU-' . mt_rand(100000, 999999);
+            while (\App\Models\StudentProfile::where('qr_code', $qr_code)->exists()) {
+                $qr_code = 'STU-' . mt_rand(100000, 999999);
+            }
+        }
+
         $user = \App\Models\User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -111,8 +128,8 @@ class SearchController extends Controller
 
         $profile = StudentProfile::create([
             'user_id' => $user->id,
-            'barcode' => $validated['barcode'] ?? null,
-            'qr_code' => $validated['qr_code'] ?? null,
+            'barcode' => $barcode,
+            'qr_code' => $qr_code,
         ]);
 
         // Log timeline registration event

@@ -18,6 +18,7 @@ interface Student {
   id: string
   user: { name: string }
   barcode: string | null
+  qr_code: string | null
 }
 
 interface Product {
@@ -90,20 +91,20 @@ export const POSRegister: React.FC = () => {
     }
   }
 
-  // Handle barcode scanner input
+  // Handle barcode/QR scanner input
   const handleBarcodeSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (!barcodeQuery) return
     setError(null)
     
-    // Find student by barcode
-    const foundStud = students.find(s => s.barcode === barcodeQuery)
+    // Find student by barcode or QR code
+    const foundStud = students.find(s => s.barcode === barcodeQuery || s.qr_code === barcodeQuery)
     if (foundStud) {
       setSelectedStudent(foundStud.id)
       setStudentSearch(foundStud.user.name)
       setBarcodeQuery('')
     } else {
-      setError('لم يتم العثور على طالب بهذا الباركود.')
+      setError('لم يتم العثور على طالب بهذا الكود أو الباركود.')
     }
   }
 
