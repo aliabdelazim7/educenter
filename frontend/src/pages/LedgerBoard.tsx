@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../services/api'
+import { TeacherEarnings } from '../components/TeacherEarnings'
 import {
   DollarSign,
   TrendingUp,
@@ -136,6 +137,12 @@ export const LedgerBoard: React.FC = () => {
               {summary.net_profit.toLocaleString('ar-EG')} جنيه
             </p>
           </div>
+        </div>
+
+        {/* Teacher revenue share from selling their own material */}
+        <div className="max-w-5xl mb-8 space-y-4">
+          <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">مستحقات المدرسين من مبيعات موادهم</h2>
+          <TeacherEarnings />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-5xl">

@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\PortalController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\TeacherEarningController;
 use App\Http\Controllers\Api\GradeController;
 use Illuminate\Support\Facades\Route;
 
@@ -130,6 +131,14 @@ Route::prefix('v1')->group(function () {
                 Route::get('ledger', [LedgerController::class, 'index']);
                 Route::get('analytics/summary', [AnalyticsController::class, 'summary']);
             });
+            // Teacher revenue share from selling their own material
+            Route::middleware('permission:view financial')->group(function () {
+                Route::get('teacher-earnings', [TeacherEarningController::class, 'index']);
+                Route::get('teacher-earnings/{teacherProfile}', [TeacherEarningController::class, 'show']);
+            });
+            Route::post('teacher-earnings/{teacherProfile}/settle', [TeacherEarningController::class, 'settle'])
+                ->middleware('permission:manage financial');
+
             Route::middleware('permission:manage financial')->group(function () {
                 Route::post('invoices', [InvoiceController::class, 'store']);
                 Route::match(['put', 'patch'], 'invoices/{invoice}', [InvoiceController::class, 'update']);

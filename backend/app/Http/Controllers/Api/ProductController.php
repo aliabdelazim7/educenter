@@ -14,7 +14,9 @@ class ProductController extends Controller
 {
     public function index(): JsonResponse
     {
-        $products = Product::latest()->get();
+        // The teacher is shown alongside each item so staff can see whose
+        // material they are selling and on what terms.
+        $products = Product::with('teacherProfile.user:id,name')->latest()->get();
         return response()->json(['data' => $products]);
     }
 
@@ -28,6 +30,8 @@ class ProductController extends Controller
             'selling_price' => ['required', 'numeric', 'min:0'],
             'stock' => ['nullable', 'integer', 'min:0'],
             'low_stock_threshold' => ['nullable', 'integer', 'min:0'],
+            'teacher_profile_id' => ['nullable', 'uuid', 'exists:teacher_profiles,id'],
+            'teacher_share_percentage' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ]);
 
         $product = DB::transaction(function () use ($validated) {
@@ -67,6 +71,8 @@ class ProductController extends Controller
             'purchase_cost' => ['required', 'numeric', 'min:0'],
             'selling_price' => ['required', 'numeric', 'min:0'],
             'low_stock_threshold' => ['nullable', 'integer', 'min:0'],
+            'teacher_profile_id' => ['nullable', 'uuid', 'exists:teacher_profiles,id'],
+            'teacher_share_percentage' => ['nullable', 'numeric', 'min:0', 'max:100'],
         ]);
 
         $product->update($validated);

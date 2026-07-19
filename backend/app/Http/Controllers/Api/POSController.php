@@ -9,6 +9,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\InventoryMovement;
 use App\Models\LedgerEntry;
+use App\Models\TeacherEarning;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -95,6 +96,27 @@ class POSController extends Controller
                         'type' => 'sale',
                         'remarks' => "POS Checkout {$invoiceNumber}",
                     ]);
+
+                    // Accrue the supplying teacher's cut as a payable. Terms are
+                    // snapshotted so later edits to the product cannot rewrite
+                    // what was already earned.
+                    if ($product->teacher_profile_id && $product->teacher_share_percentage > 0) {
+                        $share = round(
+                            $data['subtotal'] * ($product->teacher_share_percentage / 100),
+                            2
+                        );
+
+                        TeacherEarning::create([
+                            'teacher_profile_id' => $product->teacher_profile_id,
+                            'product_id' => $product->id,
+                            'invoice_id' => $invoice->id,
+                            'quantity' => $data['quantity'],
+                            'unit_price' => $data['selling_price'],
+                            'share_percentage' => $product->teacher_share_percentage,
+                            'amount' => $share,
+                            'status' => TeacherEarning::STATUS_PENDING,
+                        ]);
+                    }
                 }
 
                 // 3. Save Payment entry

@@ -19,6 +19,8 @@ interface Product {
   selling_price: string
   stock: number
   low_stock_threshold: number
+  teacher_share_percentage: string
+  teacher_profile?: { user?: { name: string } } | null
 }
 
 export const InventoryBoard: React.FC = () => {
@@ -43,11 +45,18 @@ export const InventoryBoard: React.FC = () => {
   const [newStock, setNewStock] = useState('')
   const [newThreshold, setNewThreshold] = useState('')
   const [creating, setCreating] = useState(false)
+  const [teachers, setTeachers] = useState<any[]>([])
+  const [newTeacher, setNewTeacher] = useState('')
+  const [newShare, setNewShare] = useState('')
 
   const fetchProducts = async () => {
     try {
       setLoading(true)
-      const res = await api.get('/products')
+      const [res, tRes] = await Promise.all([
+        api.get('/products'),
+        api.get('/teachers').catch(() => ({ data: { data: [] } })),
+      ])
+      setTeachers(tRes.data.data)
       setProducts(res.data.data)
     } catch (err: any) {
       setError(err.response?.data?.message || 'فشل في تحميل كتالوج المخزن')
@@ -93,6 +102,9 @@ export const InventoryBoard: React.FC = () => {
         // Opening balance is recorded as a stock movement by the API.
         stock: newStock ? parseInt(newStock) : 0,
         low_stock_threshold: newThreshold ? parseInt(newThreshold) : 0,
+        // Attributes the item to a teacher who then earns a cut of each sale.
+        teacher_profile_id: newTeacher || null,
+        teacher_share_percentage: newTeacher && newShare ? parseFloat(newShare) : 0,
       })
       setNewName('')
       setNewSku('')
@@ -100,6 +112,8 @@ export const InventoryBoard: React.FC = () => {
       setNewPrice('')
       setNewStock('')
       setNewThreshold('')
+      setNewTeacher('')
+      setNewShare('')
       setShowNewItem(false)
       fetchProducts()
     } catch (err: any) {
@@ -176,6 +190,11 @@ export const InventoryBoard: React.FC = () => {
                           <td className="px-5 py-3">
                             <p className="font-semibold text-slate-700 dark:text-slate-300">{p.name}</p>
                             <p className="text-[10px] text-slate-500">كود: {p.sku || 'لا يوجد'} • النوع: <span>{getProductTypeArabic(p.type)}</span></p>
+                            {p.teacher_profile?.user?.name && (
+                              <p className="mt-1 inline-block rounded-full border border-violet-200 dark:border-violet-500/30 bg-violet-100 dark:bg-violet-600/20 px-2 py-0.5 text-[10px] font-bold text-violet-700 dark:text-violet-300">
+                                أ. {p.teacher_profile.user.name} • {parseFloat(p.teacher_share_percentage).toFixed(0)}%
+                              </p>
+                            )}
                           </td>
                           <td className="px-5 py-3 font-semibold text-slate-600 dark:text-slate-400" dir="ltr">
                             {parseFloat(p.purchase_cost).toLocaleString('ar-EG')} / <span className="text-violet-700 dark:text-violet-400">{parseFloat(p.selling_price).toLocaleString('ar-EG')} ج</span>
@@ -317,6 +336,53 @@ export const InventoryBoard: React.FC = () => {
                       className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
                     />
                   </div>
+                </div>
+
+                {/* Attributing the item to a teacher makes every sale accrue
+                    their cut automatically. */}
+                <div className="space-y-1.5 rounded-lg border border-violet-200 dark:border-violet-500/30 bg-violet-100/50 dark:bg-violet-600/10 p-3">
+                  <label htmlFor="newTeacher" className="text-xs font-semibold uppercase tracking-wider text-violet-800 dark:text-violet-300">
+                    ملزمة/مادة تخص مدرس؟
+                  </label>
+                  <select
+                    id="newTeacher"
+                    value={newTeacher}
+                    onChange={(e) => setNewTeacher(e.target.value)}
+                    className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 outline-none focus:border-violet-500/50 transition-all text-right"
+                  >
+                    <option value="">لا — صنف عادي للمركز</option>
+                    {teachers.map((t) => (
+                      <option key={t.id} value={t.id}>{t.user?.name || t.name}</option>
+                    ))}
+                  </select>
+
+                  {newTeacher && (
+                    <div className="space-y-1.5 pt-2">
+                      <label htmlFor="newShare" className="text-xs font-semibold uppercase tracking-wider text-violet-800 dark:text-violet-300">
+                        نسبة المدرس من سعر البيع (%)
+                      </label>
+                      <input
+                        id="newShare"
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="any"
+                        required
+                        value={newShare}
+                        onChange={(e) => setNewShare(e.target.value)}
+                        placeholder="مثال: 40"
+                        dir="ltr"
+                        className="w-full rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-violet-500/50 transition-all text-right"
+                      />
+                      {newPrice && newShare && (
+                        <p className="text-[11px] text-violet-800 dark:text-violet-300">
+                          كل نسخة تُباع بـ {newPrice} ج →
+                          {' '}<strong>{(parseFloat(newPrice) * parseFloat(newShare) / 100 || 0).toFixed(2)} ج للمدرس</strong>
+                          {' '}و {(parseFloat(newPrice) - (parseFloat(newPrice) * parseFloat(newShare) / 100) || 0).toFixed(2)} ج للمركز
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <button
