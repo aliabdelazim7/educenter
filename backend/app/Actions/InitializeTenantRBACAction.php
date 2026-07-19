@@ -110,6 +110,9 @@ class InitializeTenantRBACAction
             'mark attendance',
             'view pos',
             'manage pos',
+            // The POS screen lists products to sell, so selling requires
+            // reading the catalogue.
+            'view inventory',
             'view financial',
         ]);
 
@@ -120,6 +123,8 @@ class InitializeTenantRBACAction
             'manage financial',
             'view pos',
             'view inventory',
+            // Payroll reporting computes teacher commissions from the roster.
+            'view teachers',
         ]);
 
         $teacherRole = Role::findOrCreate('Teacher', 'web');
