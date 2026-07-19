@@ -29,3 +29,6 @@ storage/framework/cache/data/*
 storage/framework/sessions/*
 storage/framework/testing/*
 storage/framework/views/*.php
+
+# Local debug output
+debug.log
