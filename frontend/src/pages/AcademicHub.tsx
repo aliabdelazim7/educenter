@@ -68,6 +68,14 @@ export const AcademicHub: React.FC = () => {
 
   // New Group States
   const [newGroupName, setNewGroupName] = useState('')
+  // Lookups a group cannot be created without.
+  const missingPrerequisites = [
+    branches.length === 0 && 'فرع',
+    years.length === 0 && 'عام دراسي',
+    subjects.length === 0 && 'مادة',
+    grades.length === 0 && 'صف دراسي',
+  ].filter(Boolean) as string[]
+
   const [selBranch, setSelBranch] = useState('')
   const [selYear, setSelYear] = useState('')
   const [selSubject, setSelSubject] = useState('')
@@ -97,16 +105,21 @@ export const AcademicHub: React.FC = () => {
 
   const fetchDependencies = async () => {
     try {
-      const [b, s, g, t] = await Promise.all([
+      const [b, s, g, t, y] = await Promise.all([
         api.get('/branches').catch(() => ({ data: { data: [] } })),
         api.get('/subjects').catch(() => ({ data: { data: [] } })),
         api.get('/grades').catch(() => ({ data: { data: [] } })),
         api.get('/teachers').catch(() => ({ data: { data: [] } })),
+        api.get('/academic-years').catch(() => ({ data: { data: [] } })),
       ])
+      // Never substitute placeholder rows: their fake ids reach the API and the
+      // group create fails validation ("subject id must be a valid UUID").
       setBranches(b.data.data)
-      setSubjects(s.data.data.length ? s.data.data : [{ id: 'mock-s1', name: 'الرياضيات' }, { id: 'mock-s2', name: 'العلوم العامة' }])
-      setGrades(g.data.data.length ? g.data.data : [{ id: 'mock-g1', name: 'الصف الأول الثانوي' }, { id: 'mock-g2', name: 'الصف الثاني الثانوي' }])
-      setTeachers(t.data.data.length ? t.data.data : [])
+      setSubjects(s.data.data)
+      setGrades(g.data.data)
+      setTeachers(t.data.data)
+      // Years are needed by the group form even when that tab was never opened.
+      setYears(y.data.data)
     } catch (err) {
       console.error(err)
     }
@@ -481,6 +494,16 @@ export const AcademicHub: React.FC = () => {
               // Add Group Form
               <>
                 <h2 className="text-lg font-bold text-slate-700 dark:text-slate-300">إنشاء مجموعة جديدة</h2>
+
+                {/* A group needs all four lookups; tell the user what's missing
+                    instead of letting them submit into an empty select. */}
+                {missingPrerequisites.length > 0 && (
+                  <div className="rounded-lg border border-amber-200 dark:border-amber-500/30 bg-amber-100 dark:bg-amber-950/40 p-3 text-xs text-amber-800 dark:text-amber-300 space-y-1">
+                    <p className="font-bold">قبل إنشاء مجموعة، أضف أولاً:</p>
+                    <p>{missingPrerequisites.join(' • ')}</p>
+                  </div>
+                )}
+
                 <form onSubmit={handleGroupSubmit} className="space-y-4">
                   <div className="space-y-1.5">
                     <label htmlFor="groupName" className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">اسم المجموعة</label>

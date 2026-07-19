@@ -32,6 +32,10 @@ export const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [branches, setBranches] = useState<any[]>([])
   const [selectedBranch, setSelectedBranch] = useState<string>('')
+  const [sessions, setSessions] = useState<any[]>([])
+  const [payments, setPayments] = useState<any[]>([])
+  const [teacherCount, setTeacherCount] = useState<number | null>(null)
+  const [dueInvoices, setDueInvoices] = useState<any[]>([])
 
   useEffect(() => {
     const fetchBranches = async () => {
@@ -43,6 +47,33 @@ export const Dashboard: React.FC = () => {
       }
     }
     fetchBranches()
+  }, [])
+
+  // Panels below the KPIs, each from its own endpoint. Failures degrade to an
+  // empty panel rather than blocking the dashboard.
+  useEffect(() => {
+    const today = new Date().toISOString().slice(0, 10)
+
+    api.get(`/academic-sessions?date=${today}`)
+      .then((r) => setSessions(r.data.data))
+      .catch(() => setSessions([]))
+
+    api.get('/ledger')
+      .then((r) => setPayments((r.data.data || []).filter((e: any) => e.type === 'credit').slice(0, 5)))
+      .catch(() => setPayments([]))
+
+    api.get('/teachers')
+      .then((r) => setTeacherCount(r.data.data.length))
+      .catch(() => setTeacherCount(null))
+
+    api.get('/invoices')
+      .then((r) => setDueInvoices(
+        (r.data.data || [])
+          .filter((i: any) => i.status !== 'paid' && i.due_date)
+          .sort((a: any, b: any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())
+          .slice(0, 5)
+      ))
+      .catch(() => setDueInvoices([]))
   }, [])
 
   useEffect(() => {
@@ -85,7 +116,7 @@ export const Dashboard: React.FC = () => {
   const kpis = [
     { title: 'إيراد اليوم', value: stats ? `${Math.round(stats.kpis.weekly_revenue / 7).toLocaleString('ar-EG')} جنيه` : '...', change: 'تحصيل اليوم الفعلي', color: 'from-emerald-500 to-teal-500', icon: DollarSign },
     { title: 'الطلاب المشتركين', value: stats ? stats.kpis.active_students.toString() : '...', change: 'إجمالي المشتركين', color: 'from-violet-500 to-indigo-500', icon: Users },
-    { title: 'المدرسون بالمركز', value: '٥ مدرسين', change: 'أعضاء هيئة التدريس', color: 'from-blue-500 to-sky-500', icon: Award },
+    { title: 'المدرسون بالمركز', value: teacherCount !== null ? `${teacherCount} مدرس` : '...', change: 'أعضاء هيئة التدريس', color: 'from-blue-500 to-sky-500', icon: Award },
     { title: 'نسبة حضور اليوم', value: stats ? `%${stats.kpis.attendance_rate}` : '...', change: 'نسبة حضور فصول اليوم', color: 'from-amber-500 to-orange-500', icon: UserCheck },
   ]
 
@@ -114,12 +145,14 @@ export const Dashboard: React.FC = () => {
   // Create Area fill string
   const areaD = pathD ? `${pathD} L ${chartPoints[chartPoints.length - 1].x} 220 L ${chartPoints[0].x} 220 Z` : ''
 
-  // Mock sessions list
-  const sessions = [
-    { id: 1, time: '04:00 م', group: 'رياضيات - الصف الثالث الثانوي (مجموعة أ)', subject: 'الرياضيات', teacher: 'أ. أحمد محمد', branch: 'الفرع الرئيسي' },
-    { id: 2, time: '06:00 م', group: 'فيزياء - الصف الثاني الثانوي (مجموعة ب)', subject: 'الفيزياء', teacher: 'أ. محمود عبد العال', branch: 'الفرع الرئيسي' },
-    { id: 3, time: '07:30 م', group: 'لغة إنجليزية - الصف الأول الثانوي', subject: 'اللغة الإنجليزية', teacher: 'أ. سارة أحمد', branch: 'فرع الدقي' },
-  ]
+  // Format "16:00:00" as Arabic 12-hour time.
+  const formatTime = (t?: string) => {
+    if (!t) return ''
+    const [h, m] = t.split(':').map(Number)
+    const period = h >= 12 ? 'م' : 'ص'
+    const hour12 = h % 12 === 0 ? 12 : h % 12
+    return `${String(hour12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${period}`
+  }
 
   // Mock audit logs
   const auditLogs = [
@@ -401,18 +434,28 @@ export const Dashboard: React.FC = () => {
               </div>
 
               <div className="space-y-4">
-                {sessions.map((session, idx) => (
-                  <div key={idx} className="flex gap-4 p-3 rounded-lg bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-900 hover:border-slate-200 dark:border-slate-800 transition-all">
-                    <div className="text-center font-bold text-violet-700 dark:text-violet-400 border-r border-slate-200 dark:border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
-                      <span className="text-xs tracking-tight">{session.time.split(' ')[0]}</span>
-                      <span className="text-[10px] text-slate-500 uppercase">{session.time.split(' ')[1]}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{session.group}</p>
-                      <p className="text-xs text-slate-500 truncate">{session.subject} • {session.teacher}</p>
-                    </div>
-                  </div>
-                ))}
+                {sessions.length === 0 ? (
+                  <p className="py-8 text-center text-xs text-slate-500">لا توجد حصص مجدولة اليوم.</p>
+                ) : (
+                  sessions.map((session) => {
+                    const time = formatTime(session.start_time)
+                    return (
+                      <div key={session.id} className="flex gap-4 p-3 rounded-lg bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-900 transition-all">
+                        <div className="text-center font-bold text-violet-700 dark:text-violet-400 border-r border-slate-200 dark:border-slate-800 pr-3 shrink-0 flex flex-col justify-center">
+                          <span className="text-xs tracking-tight">{time.split(' ')[0]}</span>
+                          <span className="text-[10px] text-slate-500 uppercase">{time.split(' ')[1]}</span>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{session.group?.name}</p>
+                          <p className="text-xs text-slate-500 truncate">
+                            {session.group?.subject?.name}
+                            {session.teacher_profile?.user?.name ? ` • ${session.teacher_profile.user.name}` : ''}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -427,20 +470,23 @@ export const Dashboard: React.FC = () => {
               </div>
 
               <div className="space-y-4">
-                {[
-                  { student: 'أحمد محمد عبد العال', amount: 400, date: 'اليوم', method: 'نقدي (كاش)' },
-                  { student: 'سارة أحمد محمود', amount: 350, date: 'اليوم', method: 'فيزا' },
-                  { student: 'محمود علي السقا', amount: 400, date: 'أمس', method: 'نقدي (كاش)' },
-                  { student: 'ياسمين مصطفى فريد', amount: 500, date: 'أمس', method: 'تحويل محفظة' }
-                ].map((pay: any, idx: number) => (
-                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
-                    <div className="space-y-1">
-                      <p className="font-bold text-slate-800 dark:text-slate-200">{pay.student}</p>
-                      <p className="text-[10px] text-slate-500">طريقة التحصيل: {pay.method} • {pay.date}</p>
+                {payments.length === 0 ? (
+                  <p className="py-8 text-center text-xs text-slate-500">لا توجد عمليات تحصيل بعد.</p>
+                ) : (
+                  payments.map((pay: any) => (
+                    <div key={pay.id} className="flex justify-between items-center text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
+                      <div className="min-w-0 space-y-1">
+                        <p className="font-bold text-slate-800 dark:text-slate-200 truncate">{pay.description}</p>
+                        <p className="text-[10px] text-slate-500">
+                          {new Date(pay.created_at).toLocaleDateString('ar-EG', { day: 'numeric', month: 'long' })}
+                        </p>
+                      </div>
+                      <span className="text-xs font-black text-emerald-700 dark:text-emerald-400 shrink-0" dir="ltr">
+                        +{Number(pay.amount).toLocaleString('ar-EG')} ج
+                      </span>
                     </div>
-                    <span className="text-xs font-black text-emerald-700 dark:text-emerald-400" dir="ltr">+{pay.amount} ج</span>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
@@ -448,26 +494,39 @@ export const Dashboard: React.FC = () => {
             <div className="rounded-xl border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950/40 p-6 space-y-6">
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4 text-amber-700 dark:text-amber-400" />
-                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">اشتراكات تنتهي قريباً (تجديد)</h3>
+                <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300 flex-1 text-right">مستحقات لم تُحصّل</h3>
               </div>
 
               <div className="space-y-4">
-                {[
-                  { name: 'يوسف شريف عبد الله', teacher: 'مستر أحمد (رياضيات)', daysLeft: 2 },
-                  { name: 'ندى خالد السيسي', teacher: 'مس نورا (كيمياء)', daysLeft: 3 },
-                  { name: 'كريم هاني الجزار', teacher: 'مستر محمود (فيزياء)', daysLeft: 5 },
-                  { name: 'رانيا وائل زاهر', teacher: 'مستر محمد (لغة عربية)', daysLeft: 6 }
-                ].map((sub, idx) => (
-                  <div key={idx} className="flex justify-between items-center text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
-                    <div className="space-y-1">
-                      <p className="font-bold text-slate-800 dark:text-slate-200">{sub.name}</p>
-                      <p className="text-[10px] text-slate-500">{sub.teacher}</p>
-                    </div>
-                    <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40 px-2 py-0.5 rounded-full">
-                      باقي {sub.daysLeft} أيام
-                    </span>
-                  </div>
-                ))}
+                {dueInvoices.length === 0 ? (
+                  <p className="py-8 text-center text-xs text-slate-500">لا توجد مستحقات معلقة 🎉</p>
+                ) : (
+                  dueInvoices.map((inv: any) => {
+                    const days = Math.ceil(
+                      (new Date(inv.due_date).getTime() - Date.now()) / 86400000
+                    )
+                    const overdue = days < 0
+                    return (
+                      <div key={inv.id} className="flex justify-between items-center gap-3 text-xs border-b border-slate-200 dark:border-slate-900 pb-3 last:border-b-0 last:pb-0 text-right">
+                        <div className="min-w-0 space-y-1">
+                          <p className="font-bold text-slate-800 dark:text-slate-200 truncate">
+                            {inv.student_profile?.user?.name || inv.invoice_number}
+                          </p>
+                          <p className="text-[10px] text-slate-500" dir="ltr">
+                            {Number(inv.grand_total).toLocaleString('ar-EG')} ج
+                          </p>
+                        </div>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                          overdue
+                            ? 'text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-950/30 border-red-200 dark:border-red-900/40'
+                            : 'text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/40'
+                        }`}>
+                          {overdue ? `متأخر ${Math.abs(days)} يوم` : `باقي ${days} يوم`}
+                        </span>
+                      </div>
+                    )
+                  })
+                )}
               </div>
             </div>
           </div>
