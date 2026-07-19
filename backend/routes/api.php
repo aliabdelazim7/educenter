@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\InvitationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\SubjectController;
 use App\Http\Controllers\Api\PortalController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\GradeController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,10 @@ Route::prefix('v1')->group(function () {
             // User activation controls
             Route::get('users', [UserController::class, 'index']);
             Route::patch('users/{user}/status', [UserController::class, 'updateStatus']);
+
+            // Role access management (Owner/Admin only — enforced in controller)
+            Route::get('roles', [RoleController::class, 'index']);
+            Route::patch('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
 
             // Shared lookups: any signed-in member needs these to render pickers.
             Route::get('subjects', [SubjectController::class, 'index']);

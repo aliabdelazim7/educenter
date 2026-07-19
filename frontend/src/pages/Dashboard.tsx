@@ -22,7 +22,8 @@ import {
   Clock,
   Activity,
   Plus,
-  CheckSquare
+  CheckSquare,
+  UserPlus
 } from 'lucide-react'
 
 export const Dashboard: React.FC = () => {
@@ -109,6 +110,7 @@ export const Dashboard: React.FC = () => {
     { name: 'المحتوى التعليمي', icon: BookOpen, path: '/content', show: true },
     { name: 'الامتحانات والدرجات', icon: CheckSquare, path: '/exams', show: true },
     { name: 'التقارير المالية', icon: DollarSign, path: '/reports', show: hasPermission('view financial') },
+    { name: 'المستخدمون والصلاحيات', icon: UserPlus, path: '/users', show: hasPermission('manage settings') },
     { name: 'إعدادات الأكاديمية', icon: Settings, path: '/settings', show: hasPermission('manage settings') },
   ]
 
